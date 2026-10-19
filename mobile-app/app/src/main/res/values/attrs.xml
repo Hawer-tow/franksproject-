@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTheme">
+        <attr name="recyclerbackgroundcolor" format="color"/>
+        <attr name="toobar_backgroundcolor" format="color"/>
+        <attr name="Primarycolor" format="color"/>
+        <attr name="textcolor" format="color"/>
+        <attr name="background_when_in_Primarycolor" format="color"/>
+        <attr name="FloatingActionButton_backgroundcolor" format="color"/>
+        <attr name="app_description_backgroundcolor" format="color"/>
+        <attr name="bottombtnsoptionsbackgroundcolor" format="color"/>
+        <attr name="app_description_color" format="color"/>
+        <attr name="deletebtncolor" format="color"/>
+        <attr name="editbtncolor" format="color"/>
+        <attr name="rowbackground" format="color"/>
+        <attr name="rowborder" format="color"/>
+        <attr name="background_menus" format="color"/>
+        <attr name="customersrecyclerbackground" format="color"/>
+        <attr name="customersheaderbackground" format="color"/>
+
+        <attr name="summary_salesColor" format="color"/>
+        <attr name="summary_buysColor" format="color"/>
+        <attr name="summary_expensesColor" format="color"/>
+        <attr name="summary_openingColor" format="color"/>
+        <attr name="summary_expectedColor" format="color"/>
+        <attr name="summary_recordedColor" format="color"/>
+
+        <!-- If you want to override windowActionBar/NoTitle, use correct format -->
+        <attr name="windowActionBar" format="boolean"/>
+        <attr name="windowNoTitle" format="boolean"/>
+    </declare-styleable>
+
+
+        <style name="FullScreenDialog" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+            <item name="android:windowIsFloating">true</item>
+            <item name="android:windowBackground">@android:color/transparent</item>
+            <item name="android:windowMinWidthMajor">100%</item>
+            <item name="android:windowMinWidthMinor">100%</item>
+        </style>
+
+
+</resources>

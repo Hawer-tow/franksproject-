@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/equity_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:padding="16dp"
+>
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/equityTabs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorColor="@color/equity_transaction_main_color"
+        app:tabSelectedTextColor="@color/equity_transaction_main_color"
+        app:tabTextColor="@android:color/darker_gray"
+        app:tabGravity="center"
+        app:tabMode="fixed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/equityPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/equityTabs"
+        app:layout_constraintBottom_toTopOf="@id/equityBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/equityWave"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        android:src="@drawable/bg_wave"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/equityBackground"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/equityBackground"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:src="@drawable/equitybank_image"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

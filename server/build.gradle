@@ -1,0 +1,65 @@
+plugins {
+    id 'org.springframework.boot' version '3.2.4'   // valid version
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'java'
+}
+
+group = 'com.example'
+version = '0.0.1-SNAPSHOT'
+description = 'Demo project for Spring Boot'
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+
+ 	runtimeOnly 'com.mysql:mysql-connector-j:8.3.0'
+ 
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+ implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'org.json:json:20231013'
+
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'com.h2database:h2' // or your DB driver
+
+        // BouncyCastle provider for RSA/PKCS1 encryption
+    implementation 'org.bouncycastle:bcprov-jdk15on:1.70'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // Optional: if you use BouncyCastle for PKIX or certificate handling
+    implementation 'org.bouncycastle:bcpkix-jdk15on:1.70'
+
+    // Spring Boot + Jackson + Web already included
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    
+    implementation 'org.springframework.security:spring-security-crypto'
+    
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << "-parameters"
+}
+
+springBoot {
+    mainClass = 'com.example.MobileDb.MobileDbApplication'
+}

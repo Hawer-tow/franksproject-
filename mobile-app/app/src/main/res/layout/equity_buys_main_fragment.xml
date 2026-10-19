@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/equityBuysMainLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
+
+    <!-- Tab layout for switching between cards -->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/equityBuysTabs"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorSurface"
+        app:tabIndicatorColor="@color/equity_transaction_main_color"
+        app:tabSelectedTextColor="@color/equity_transaction_main_color"
+        app:tabTextColor="?attr/colorOnSurface"
+        android:elevation="4dp"/>
+
+    <!-- Pager to host the two card fragments -->
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/equityBuysPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

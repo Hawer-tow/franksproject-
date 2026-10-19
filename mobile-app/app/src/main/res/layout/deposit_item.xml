@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/item_border">
+
+        <Button
+            android:id="@+id/depositEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:text="Edt"
+            android:background="?attr/editbtncolor"/>
+
+        <EditText
+            android:id="@+id/depositTid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:textColor="?attr/textcolor"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/depositDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositMagent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="2dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositMpersonal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="3dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositAagent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositApersonal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositEU"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositEUrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositEA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositEArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositJA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositJArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositMU"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositMUrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositMA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositMArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositAO"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositAOrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositAA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositAArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositTZ"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositTZrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositRwanda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/depositRR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:inputType="numberDecimal"
+            android:textColor="?attr/textcolor" />
+
+        <Button
+            android:id="@+id/depositDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del"
+            android:background="?attr/deletebtncolor"/>
+
+    </LinearLayout>
+
+</HorizontalScrollView>

@@ -1,0 +1,28 @@
+<resources>
+    <string name="app_name">MobileDbClient</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Hawer DB</string>
+    <string name="nav_header_subtitle">\u00A9 Winter Hawer 2026</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="helpcenter">Help Center</string>
+    <string name="customercenter">Customers Center</string>
+
+    <string name="menu_home">Kisenyi</string>
+    <string name="menu_gallery">Town Branch</string>
+    <string name="menu_slideshow">Settings</string>
+    <string name="menu_theme">Theme</string>
+    <string name="menu_share">Share</string>
+    <string name="menu_send">Send</string>
+    <string name="summary">summary</string>
+    <string name="database">database</string>
+    <string name="add_row">add_row</string>
+    <string name="more">more</string>
+    <string name="header_container">Contentents</string>
+    <string name="logout">logout</string>
+
+
+
+
+    <string name="mobile_user">Tenet</string>
+</resources>

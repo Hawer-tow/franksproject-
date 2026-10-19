@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:scrollbars="horizontal"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:background="@drawable/item_border2"
+        android:padding="2dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="Date"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:text="Amount"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="Rate"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:text="Country"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:text="Phone_No"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="9"
+            android:text="Recipient"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="10"
+            android:text="Description"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <!-- Bank-specific headers -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="12"
+            android:text="Sender Account"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="12"
+            android:text="Receiver Account"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <!-- M-PESA-specific header -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="15"
+            android:text="Transaction ID"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="8"
+            android:text="Status"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:textColor="?attr/textcolor"/>
+    </LinearLayout>
+</HorizontalScrollView>

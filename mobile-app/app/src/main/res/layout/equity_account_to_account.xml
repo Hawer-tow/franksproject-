@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/equity_card_account"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="18dp"
+    app:cardElevation="8dp"
+    app:cardUseCompatPadding="true"
+    android:foreground="?attr/selectableItemBackground">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/nested_scroll_account"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="18dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Title -->
+            <TextView
+                android:id="@+id/title_account"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Account To Account"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textStyle="bold"
+                android:textColor="@color/equity_transaction_main_color"
+                android:gravity="center"/>
+
+            <!-- Sender account dropdown -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilSender"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxStrokeColor="@color/equity_transactions_textinput_stroke"
+                app:boxStrokeWidth="2dp"
+                app:hintTextColor="@color/equity_transactions_textinput_stroke">
+
+                <AutoCompleteTextView
+                    android:id="@+id/edtSender"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Select Sender Account"
+                    android:inputType="none"
+                    android:padding="12dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Receiver account input -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilReceiver"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxStrokeColor="@color/equity_transactions_textinput_stroke"
+                app:boxStrokeWidth="2dp"
+                app:hintTextColor="@color/equity_transactions_textinput_stroke">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtReceiver"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Receiver account number or name"
+                    android:inputType="text"
+                    android:padding="12dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Amount -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilAmount"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxStrokeColor="@color/equity_transactions_textinput_stroke"
+                app:boxStrokeWidth="2dp"
+                app:hintTextColor="@color/equity_transactions_textinput_stroke">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Amount"
+                    android:inputType="numberDecimal"
+                    android:imeOptions="actionNext"
+                    android:padding="12dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Rate -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/tilRate"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                app:boxStrokeColor="@color/equity_transactions_textinput_stroke"
+                app:boxStrokeWidth="2dp"
+                app:hintTextColor="@color/equity_transactions_textinput_stroke">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edtRate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Rate"
+                    android:inputType="numberDecimal"
+                    android:padding="12dp"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Helper Text -->
+            <TextView
+                android:id="@+id/helper_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="All fields required. Amount and Rate must be numeric."
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:layout_marginTop="12dp"
+                android:textColor="@android:color/darker_gray"/>
+
+            <!-- Send Button -->
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btnSendMoney"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:text="Send Money"
+                android:textAllCaps="false"
+                app:cornerRadius="10dp"
+                android:backgroundTint="@color/dark_recycler_backgroundcolor"
+                android:textColor="@android:color/white"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+</com.google.android.material.card.MaterialCardView>

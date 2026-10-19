@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+    >
+
+        <item android:title="Record Openings and Closings">
+                <menu>
+                        <item
+                            android:id="@+id/OpenCloseCash"
+                            android:title="Open/closing Cash"
+                            android:icon="@drawable/opencash"
+
+                            />
+
+                </menu>
+</item>
+
+        <item android:title="Main Transactions Databases">
+                <menu>
+
+                        <item
+                            android:id="@+id/Sales_sls"
+                            android:title="Sales"
+                            android:icon="@drawable/sale"
+                            />
+
+                        <item
+                            android:id="@+id/Buys_bys"
+                            android:title="Buys"
+                            android:icon="@drawable/buys"
+                            />
+                </menu>
+</item>
+
+
+        <item android:title="Major Database for Expenses" >
+        <menu>
+                <item
+                    android:id="@+id/Expense_exps"
+                    android:title="Expenses"
+                    android:icon="@drawable/expense"
+                    />
+
+        </menu>
+</item>
+
+
+
+
+
+</menu>

@@ -1,0 +1,241 @@
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --card-bg: #f4f4f4;
+  --card-border: #000000;
+}
+
+body.light {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  --card-bg: #f4f4f4;
+  --card-border: #000000;
+}
+
+body.dark {
+  --bg-color: #121212;
+  --text-color: #f0f0f0;
+  --card-bg: #1e1e1e;   /* darker card background */
+  --card-border: #f0f0f0; /* lighter border for contrast */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+header, footer {
+  background: var(--bg-color);
+  color: var(--text-color);
+  text-align: center;
+  padding: 1rem;
+}
+
+a {
+  color: green;
+  text-decoration: underline;
+  transition: color 0.3s;
+}
+
+a:visited {
+  color: lawngreen;
+}
+
+a:hover {
+  color: goldenrod;
+}
+
+a:active {
+  color: darkorange;
+}
+
+main {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 1rem;
+}
+
+h1,h2,h3,h4,h5 {
+  text-align: center;
+  font-weight: bold;
+}
+
+p {
+  text-align: center;
+}
+
+.image-text {
+  display: flex;
+  align-items: center;
+  margin: 1rem 0;
+}
+
+.image-text img {
+  max-width: 200px;
+  height: auto;
+  margin-right: 1rem;
+  border-radius: 6px;
+}
+
+.image-text p {
+  flex: 1;
+  font-size: 1rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .image-text {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .image-text img {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+    max-width: 100%;
+  }
+}
+
+/* Cards now use dynamic variables */
+.common,
+.townindividual,
+.kisenyiindividual,
+.settingsindividual,
+.kisenyitables {
+  flex: 1 1 300px;
+  margin: 1rem;
+  padding: 1rem;
+  background: var(--card-bg);
+  border-radius: 8px;
+  border: 2px solid var(--card-border);
+  margin-top: 30px;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+  header, footer {
+    font-size: 0.9rem;
+  }
+  .card {
+    flex: 1 1 100%;
+  }
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  margin: 1rem 0;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 300px;
+}
+
+caption {
+  font-family: cursive;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  text-align: left;
+  color: var(--text-color);
+}
+
+thead {
+  background-color: var(--card-bg);
+}
+
+th, td {
+  border: 1px solid var(--card-border);
+  padding: 0.75rem;
+  text-align: left;
+  color: var(--text-color);
+}
+
+tr:nth-child(even) {
+  background-color: var(--bg-color);
+}
+
+tr:hover {
+  background-color: rgba(0,0,0,0.05);
+}
+
+/* Responsive adjustments for tables */
+@media (max-width: 600px) {
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  thead {
+    display: none; /* hide header row */
+  }
+
+  tr {
+    margin-bottom: 1rem;
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 0.5rem;
+    background: var(--card-bg);
+  }
+
+  td {
+    border: none;
+    position: relative;
+    padding-left: 50%;
+    margin-bottom: 0.5rem;
+  }
+
+  td::before {
+    position: absolute;
+    left: 0.5rem;
+    top: 0;
+    white-space: nowrap;
+    font-weight: bold;
+    color: var(--text-color);
+    content: attr(data-label);
+  }
+}
+
+#backToTop {
+  display: none;
+  position: fixed;
+  bottom: 50px;
+  right: 5px;
+  z-index: 99;
+  font-size: 18px;
+  border: none;
+  outline: none;
+  background-color: var(--card-border);
+  color: var(--bg-color);
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 30%;
+  transition: background-color 0.3s;
+}
+
+#backToTop:hover {
+  background-color: #555;
+}
+
+#themeBtn {
+  position: fixed;
+  top: 3px;
+  right: 5px;
+  z-index: 100;
+  padding: 10px 15px;
+  border: 2px solid var(--card-border);
+  border-radius: 6px;
+  background: var(--bg-color);
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+#themeBtn:hover {
+  background-color: #555;
+}

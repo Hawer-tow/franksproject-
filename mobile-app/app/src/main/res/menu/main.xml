@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/customer_www"
+        android:orderInCategory="100"
+        android:title="@string/customercenter"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/Helpcenter_www"
+        android:orderInCategory="100"
+        android:title="@string/helpcenter"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/Logoutoption"
+        android:orderInCategory="100"
+        android:title="@string/logout"
+        app:showAsAction="never" />
+</menu>

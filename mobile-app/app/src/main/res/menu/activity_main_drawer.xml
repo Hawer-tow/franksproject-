@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <item android:title="Your Branches">
+        <menu>
+            <item
+                android:id="@+id/nav_home"
+                android:icon="@drawable/home"
+                android:title="Kisenyi" />
+        <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/partof"
+            android:title="Town Branch"
+            />
+            </menu>
+    </item>
+
+
+
+
+    <item android:title="Transactionals">
+        <menu>
+        <item
+            android:id="@+id/nav_operation"
+            android:icon="@drawable/rates_variations"
+            android:title="Set Rates" />
+            <item
+                android:id="@+id/nav_ShopMajorTransactions"
+                android:icon="@drawable/cashtransfer"
+                android:title="Do a Transaction Here" />
+
+
+        </menu>
+    </item>
+
+
+    <item android:title="Customers">
+        <menu>
+
+            <item
+                android:id="@+id/nav_customers"
+                android:icon="@drawable/customer_logo"
+                android:title="Customers" />
+
+        </menu>
+    </item>
+
+
+    <item android:title="Settings">
+                <menu>
+        <item
+            android:id="@+id/nav_slideshow"
+            android:icon="@drawable/settings"
+            android:title="Settings" />
+
+
+                </menu>
+            </item>
+
+</menu>
+

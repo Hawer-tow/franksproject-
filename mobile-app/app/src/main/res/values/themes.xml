@@ -1,0 +1,101 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Base application theme -->
+    <style name="Theme.MobileDbClient" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Primary brand color -->
+        <!-- Add any global attributes here -->
+    </style>
+
+    <!-- Light theme -->
+    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/light_Purple_persistentcolor</item>
+        <item name="Primarycolor">@color/light_Primarycolor</item>
+        <item name="background_when_in_Primarycolor">@color/light_Primary_background</item>
+        <item name="background_menus">@color/light_background_menus</item>
+        <item name="toobar_backgroundcolor">@color/light_toobar_backgroundcolor</item>
+        <item name="textcolor">@color/light_textcolor</item>
+        <item name="recyclerbackgroundcolor">@color/light_recycler_backgroundcolor</item>
+        <item name="FloatingActionButton_backgroundcolor">@color/light_FloatingActionButton_backgroundcolor</item>
+        <item name="app_description_backgroundcolor">@color/light_app_description_backgroundcolor</item>
+        <item name="app_description_color">@color/light_app_description_color</item>
+        <item name="bottombtnsoptionsbackgroundcolor">@color/light_bottombtnsoptionsbackgroundcolor</item>
+        <item name="deletebtncolor">@color/light_Deletebutton</item>
+        <item name="editbtncolor">@color/light_editbtncolor</item>
+        <item name="rowbackground">@color/light_rowbackground</item>
+        <item name="rowborder">@color/light_rowborder</item>
+        <item name="customersrecyclerbackground">@color/light_customersrecyclerbackground</item>
+        <item name="customersheaderbackground">@color/light_customersheaderbackground</item>
+
+        <!-- Summary colors -->
+        <item name="summary_salesColor">@color/light_kisenyi_summary_salesColor</item>
+        <item name="summary_buysColor">@color/light_kisenyi_summary_buysColor</item>
+        <item name="summary_expensesColor">@color/light_kisenyi_summary_expensesColor</item>
+        <item name="summary_openingColor">@color/light_kisenyi_summary_openingColor</item>
+        <item name="summary_expectedColor">@color/light_kisenyi_summary_expectedColor</item>
+        <item name="summary_recordedColor">@color/light_kisenyi_summary_recordedColor</item>
+
+        <!-- System bars -->
+        <item name="android:statusBarColor">@color/status_bar_light</item>
+        <item name="android:navigationBarColor">@color/navigation_bar_light</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightNavigationBar">true</item>
+    </style>
+
+    <!-- Dark theme -->
+    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/dark_Purple_persistentcolor</item>
+        <item name="Primarycolor">@color/dark_Primarycolor</item>
+        <item name="background_when_in_Primarycolor">@color/dark_Primary_background</item>
+        <item name="background_menus">@color/dark_background_menus</item>
+        <item name="toobar_backgroundcolor">@color/dark_toobar_backgroundcolor</item>
+        <item name="textcolor">@color/dark_textcolor</item>
+        <item name="recyclerbackgroundcolor">@color/dark_recycler_backgroundcolor</item>
+        <item name="FloatingActionButton_backgroundcolor">@color/dark_FloatingActionButton_backgroundcolor</item>
+        <item name="app_description_backgroundcolor">@color/dark_app_description_backgroundcolor</item>
+        <item name="app_description_color">@color/dark_app_description_color</item>
+        <item name="bottombtnsoptionsbackgroundcolor">@color/dark_bottombtnsoptionsbackgroundcolor</item>
+        <item name="deletebtncolor">@color/dark_Deletebutton</item>
+        <item name="editbtncolor">@color/dark_editbtncolor</item>
+        <item name="rowbackground">@color/dark_rowbackground</item>
+        <item name="rowborder">@color/dark_rowborder</item>
+        <item name="customersrecyclerbackground">@color/dark_customersrecyclerbackground</item>
+        <item name="customersheaderbackground">@color/dark_customersheaderbackground</item>
+
+        <!-- Summary colors -->
+        <item name="summary_salesColor">@color/dark_kisenyi_summary_salesColor</item>
+        <item name="summary_buysColor">@color/dark_kisenyi_summary_buysColor</item>
+        <item name="summary_expensesColor">@color/dark_kisenyi_summary_expensesColor</item>
+        <item name="summary_openingColor">@color/dark_kisenyi_summary_openingColor</item>
+        <item name="summary_expectedColor">@color/dark_kisenyi_summary_expectedColor</item>
+        <item name="summary_recordedColor">@color/dark_kisenyi_summary_recordedColor</item>
+
+        <!-- System bars -->
+        <item name="android:statusBarColor">@color/status_bar_dark</item>
+        <item name="android:navigationBarColor">@color/navigation_bar_dark</item>
+        <item name="android:windowLightStatusBar">false</item>
+        <item name="android:windowLightNavigationBar">false</item>
+    </style>
+
+
+    <!-- Popup overlay -->
+    <style name="Theme.MobileDbClient.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
+        <item name="actionMenuTextColor">?attr/Primarycolor</item>
+        <item name="android:textColor">?attr/Primarycolor</item>
+    </style>
+
+    <!-- NoActionBar helper -->
+    <style name="Theme.MobileDbClient.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!-- AppBar overlay -->
+    <style name="Theme.MobileDbClient.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="ShapeAppearanceOverlay.App.RoundedImage" parent="">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">16dp</item> <!-- adjust radius -->
+    </style>
+
+
+</resources>

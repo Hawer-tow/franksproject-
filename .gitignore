@@ -1,0 +1,25 @@
+# ---- Secrets: never commit ----
+.env
+!.env.example
+**/keys/*private*.pem
+server/certs/password.txt
+
+# ---- Dependencies & build output ----
+node_modules/
+build/
+dist/
+out/
+.gradle/
+.kotlin/
+.cxx/
+.externalNativeBuild/
+captures/
+
+# ---- IDE / OS ----
+.idea/
+*.iml
+.vs/
+local.properties
+.DS_Store
+Thumbs.db
+*.log

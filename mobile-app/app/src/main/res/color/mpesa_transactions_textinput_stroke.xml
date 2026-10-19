@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Focused state uses theme's primary color -->
+    <item android:color="@color/light_Purple_persistentcolor" android:state_focused="true"/>
+    <!-- Default/unfocused state -->
+    <item android:color="?attr/Primarycolor"/>
+</selector>

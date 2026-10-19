@@ -1,0 +1,128 @@
+{
+	// Frank M-Pesa: one workspace for the server, mobile app, customer portal and website.
+	// Run things from Terminal > Run Task... (or Ctrl+Shift+P > "Tasks: Run Task").
+	"folders": [
+		{ "name": "franksproject", "path": "." },
+		{ "name": "Main Server (Spring Boot)", "path": "server" },
+		{ "name": "Mobile App (Android)", "path": "mobile-app" },
+		{ "name": "Customer Portal (Node + React)", "path": "customer-portal" },
+		{ "name": "Website (Help Center)", "path": "website" },
+		{ "name": "Database (MySQL)", "path": "database" }
+	],
+	"settings": {
+		// The sub-projects have their own entries above, so hide them under the root entry.
+		"files.exclude": {
+			"server": true,
+			"mobile-app": true,
+			"customer-portal": true,
+			"website": true,
+			"database": true
+		},
+		"search.exclude": {
+			"**/node_modules": true,
+			"**/build": true,
+			"**/.gradle": true,
+			"**/dist": true
+		},
+		// Android is built in Android Studio; keep the Java extension to the Spring Boot server.
+		"java.import.exclusions": [
+			"**/node_modules/**",
+			"**/.metadata/**",
+			"**/archetype-resources/**",
+			"**/META-INF/maven/**",
+			"**/mobile-app/**"
+		]
+	},
+	"extensions": {
+		"recommendations": [
+			"vscjava.vscode-java-pack",
+			"vmware.vscode-boot-dev-pack",
+			"dbaeumer.vscode-eslint"
+		]
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"options": {
+			"shell": {
+				"executable": "powershell.exe",
+				"args": ["-NoProfile", "-ExecutionPolicy", "Bypass", "-Command"]
+			}
+		},
+		"tasks": [
+			{
+				"label": "Start everything",
+				"dependsOn": [
+					"Main server: Spring Boot (port 8080)",
+					"Customer portal: backend (port 3000)",
+					"Customer portal: React frontend (Vite)"
+				],
+				"problemMatcher": []
+			},
+			{
+				"label": "MySQL: start service (asks for admin)",
+				"type": "shell",
+				"command": "Start-Process powershell -Verb RunAs -Wait -ArgumentList '-NoProfile','-Command','Start-Service MySQL80'; Get-Service MySQL80",
+				"problemMatcher": []
+			},
+			{
+				"label": "Main server: Spring Boot (port 8080)",
+				"type": "shell",
+				"command": ".\\gradlew.bat bootRun",
+				"options": {
+					"cwd": "${workspaceFolder:franksproject}/server",
+					"env": { "JAVA_HOME": "C:\\Program Files\\Java\\jdk-17" }
+				},
+				"presentation": { "panel": "dedicated", "group": "servers" },
+				"problemMatcher": []
+			},
+			{
+				"label": "Main server: build only",
+				"type": "shell",
+				"command": ".\\gradlew.bat build -x test",
+				"options": {
+					"cwd": "${workspaceFolder:franksproject}/server",
+					"env": { "JAVA_HOME": "C:\\Program Files\\Java\\jdk-17" }
+				},
+				"group": "build",
+				"problemMatcher": []
+			},
+			{
+				"label": "Customer portal: install packages",
+				"type": "shell",
+				"command": "Push-Location backend; npm install; Pop-Location; Push-Location frontend; npm install; Pop-Location",
+				"options": { "cwd": "${workspaceFolder:franksproject}/customer-portal" },
+				"problemMatcher": []
+			},
+			{
+				"label": "Customer portal: backend (port 3000)",
+				"type": "shell",
+				"command": "node server.js",
+				"options": { "cwd": "${workspaceFolder:franksproject}/customer-portal/backend" },
+				"presentation": { "panel": "dedicated", "group": "servers" },
+				"problemMatcher": []
+			},
+			{
+				"label": "Customer portal: React frontend (Vite)",
+				"type": "shell",
+				"command": "npm run dev",
+				"options": { "cwd": "${workspaceFolder:franksproject}/customer-portal/frontend" },
+				"presentation": { "panel": "dedicated", "group": "servers" },
+				"problemMatcher": []
+			},
+			{
+				"label": "Mobile app: open in Android Studio",
+				"type": "shell",
+				"command": "Start-Process 'C:\\Program Files\\Android\\Android Studio\\bin\\studio64.exe' -ArgumentList ('\"' + (Resolve-Path .) + '\"')",
+				"options": { "cwd": "${workspaceFolder:franksproject}/mobile-app" },
+				"problemMatcher": []
+			},
+			{
+				"label": "Website: open Help Center in browser",
+				"type": "shell",
+				"command": "Start-Process .\\helpcenter.html",
+				"options": { "cwd": "${workspaceFolder:franksproject}/website/owner-help" },
+				"problemMatcher": []
+			}
+		]
+	}
+}

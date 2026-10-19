@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="selector_background">#FFFAFAFA</color> <!-- or #FFFFFFFF for white -->
+    <color name="primary">#1E88E5</color>
+    <color name="gray_600">#757575</color>
+    <color name="white">#FFFFFF</color>
+    <color name="secondary_background">#FFCDD2</color>
+    <color name="Safaricom_shade">#008000</color> <!-- Safaricom_shade -->
+    <color name="Equitel_shade">#E60C45</color> <!-- Equitel_shade -->
+
+
+    <color name="usercolor1">#E3F2FD</color> <!-- Light Blue -->
+    <color name="usercolor2">#FCE4EC</color> <!-- Light Pink -->
+    <color name="usercolor3">#E8F5E9</color> <!-- Light Green -->
+    <color name="usercolor4">#FFF3E0</color> <!-- Light Orange -->
+    <color name="usercolor5">#F3E5F5</color> <!-- Light Purple -->
+    <color name="usercolor6">#F9FBE7</color> <!-- Light Lime -->
+
+
+
+
+
+
+
+    <color name="light_Purple_persistentcolor">#0CBC11</color>
+    <color name="light_accent">#F9FBE7</color>
+    <color name="dark_accent">#E3F2FD</color>curl -X GET \
+
+    <color name="gray">#A5ADB3</color>
+    <color name="equity_transaction_main_color">#7E19E0</color>
+
+    <color name="light_Primarycolor">#FF000000</color>
+    <color name="light_Primary_background">#FFFFFFFF</color>
+    <color name="light_toobar_backgroundcolor">#1C2A42</color>
+    <color name="light_textcolor">#FF000000</color>
+    <color name="light_recycler_backgroundcolor">#EFF0F6</color>
+    <color name="light_FloatingActionButton_backgroundcolor">#121769BC</color>
+    <color name="status_bar_light">#FFFFFF</color>
+    <color name="navigation_bar_light">#FFFFFF</color>
+    <color name="light_app_description_backgroundcolor">#1C2A42</color>
+    <color name="light_app_description_color">#FFFFFFFF</color>
+    <color name="light_bottombtnsoptionsbackgroundcolor">#1C2A42</color>
+    <color name="light_Deletebutton">#E60C45</color>
+    <color name="light_editbtncolor">#9556D3</color>
+    <color name="light_rowbackground">#FFFFFFFF</color>
+    <color name="light_rowborder">#FF000000</color>
+    <color name="light_background_menus">#FFFFFFFF</color>
+    <color name="light_customersrecyclerbackground">#E08F19</color>
+    <color name="light_customersheaderbackground">#3A0404</color>
+    <!-- res/values/colors.xml -->
+    <color name="light_kisenyi_summary_salesColor">#4CAF50</color>
+    <color name="light_kisenyi_summary_buysColor">#FFC107</color>
+    <color name="light_kisenyi_summary_expensesColor">#F44336</color>
+    <color name="light_kisenyi_summary_openingColor">#2196F3</color>
+    <color name="light_kisenyi_summary_expectedColor">#9C27B0</color>
+    <color name="light_kisenyi_summary_recordedColor">#1C2A42</color>
+
+
+
+
+    <color name="dark_Purple_persistentcolor">#4D5FC1</color>
+
+    <color name="dark_Primarycolor">#FFFFFFFF</color>
+    <color name="dark_Primary_background">#373D43</color>
+    <color name="dark_toobar_backgroundcolor">#FF000000</color>
+    <color name="dark_textcolor">#FFFFFFFF</color>
+    <color name="dark_recycler_backgroundcolor">#FF000000</color>
+    <color name="dark_FloatingActionButton_backgroundcolor">#FFFFFFFF</color>
+    <color name="status_bar_dark">#121212</color>
+    <color name="navigation_bar_dark">#121212</color>
+    <color name="dark_app_description_backgroundcolor">#0E141A</color>
+    <color name="dark_app_description_color">#FFFFFFFF</color>
+    <color name="dark_bottombtnsoptionsbackgroundcolor">#FF000000</color>
+    <color name="dark_Deletebutton">#E60C45</color>
+    <color name="dark_editbtncolor">#9556D3</color>
+    <color name="dark_rowbackground">#373D43</color>
+    <color name="dark_rowborder">#FFFFFFFF</color>
+    <color name="dark_background_menus">#1B1B1B</color>
+    <color name="dark_customersrecyclerbackground">#E08F19</color>
+    <color name="dark_customersheaderbackground">#3A0404</color>
+    <!-- res/values-night/colors.xml  A12B2B35-->
+    <color name="dark_kisenyi_summary_salesColor">#81C784</color>
+    <color name="dark_kisenyi_summary_buysColor">#FFD54F</color>
+    <color name="dark_kisenyi_summary_expensesColor">#E57373</color>
+    <color name="dark_kisenyi_summary_openingColor">#64B5F6</color>
+    <color name="dark_kisenyi_summary_expectedColor">#BA68C8</color>
+    <color name="dark_kisenyi_summary_recordedColor">#1C2A42</color>
+
+
+    <!-- lightslategrey -->
+
+
+
+    <color name="popup_colorSurface">#FFFFFFFF</color>
+    <color name="popup_colorOnSurface">#FF000000</color>
+
+
+
+
+
+
+</resources>
+    <!-- res/values/colors.xml -->
+
+
+
+

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<HorizontalScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:scrollbars="horizontal">
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="8dp"
+        android:gravity="center_vertical"
+        android:background="@drawable/item_border">
+
+        <Button
+            android:id="@+id/withdrawEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:padding="4dp"
+            android:text="Edt" />
+
+        <EditText
+            android:id="@+id/withdrawTid"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:textColor="?attr/textcolor"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/withdrawDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/withdrawMagent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="2dp"
+            android:textColor="?attr/textcolor" />
+
+        <EditText
+            android:id="@+id/withdrawMpersonal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="3dp"
+            android:textColor="?attr/textcolor" />
+        <EditText
+            android:id="@+id/withdrawAagent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="4"
+            android:padding="4dp"
+            android:textColor="?attr/textcolor" />
+        <EditText
+            android:id="@+id/withdrawApersonal"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="4dp"
+            android:textColor="?attr/textcolor" />
+        <EditText
+            android:id="@+id/withdrawEU"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:padding="4dp"
+            android:textColor="?attr/textcolor" />
+        <EditText
+            android:id="@+id/withdrawEUrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawEA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawEArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawJA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawJArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawMU"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawMUrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawMA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawMArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawAO"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawAOrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawAA"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawAArate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/sellDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawTZ"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawTZrate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+        <EditText
+            android:id="@+id/withdrawRwanda"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+
+        <EditText
+            android:id="@+id/withdrawRR"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+
+        <Button
+            android:id="@+id/withdrawDelete"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:padding="4dp"
+            android:text="Del" />
+
+
+    </LinearLayout>
+
+</HorizontalScrollView>
+
+

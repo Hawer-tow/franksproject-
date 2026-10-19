@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_home">
+
+
+
+    <fragment
+        android:id="@+id/nav_home"
+        android:name="com.example.mobiledbclient.ui.Kisenyi.KisenyiFragment"
+        android:label="@string/menu_home"
+        tools:layout="@layout/fragment_kisenyi" />
+
+    <fragment
+        android:id="@+id/nav_gallery"
+        android:name="com.example.mobiledbclient.ui.TownBranch.TownBranchFragment"
+        android:label="@string/menu_gallery"
+        tools:layout="@layout/fragment_townbranch" />
+
+    <fragment
+        android:id="@+id/nav_slideshow"
+        android:name="com.example.mobiledbclient.ui.Settings.SettingsFragment"
+        android:label="@string/menu_slideshow"
+        tools:layout="@layout/fragment_settings" />
+    <fragment
+        android:id="@+id/nav_operation"
+        android:name="com.example.mobiledbclient.ui.OperationRates.OperationRates"
+        android:label="Rate's Update"
+        tools:layout="@layout/operation_rates_fragment" />
+
+    <fragment
+        android:id="@+id/nav_customers"
+        android:name="com.example.mobiledbclient.ui.Customers.Customers_Main"
+        android:label="Customers"
+        tools:layout="@layout/customers_fragment" />
+
+    <fragment
+        android:id="@+id/nav_ShopMajorTransactions"
+        android:name="com.example.mobiledbclient.ui.MajorTransactions.Transactions"
+        android:label="Major Transactions"
+        tools:layout="@layout/shoptransactions_fragment" />
+
+
+    <fragment
+        android:id="@+id/nav_kenya_rate_details"
+        android:name="com.example.mobiledbclient.ui.OperationRates.kenya.KenyaRatesFragment"
+        android:label="Kenya and Uganda Rates"
+        tools:layout="@layout/kenya_rate_detail" />
+
+    <fragment
+        android:id="@+id/nav_congo_rate_details"
+        android:name="com.example.mobiledbclient.ui.OperationRates.congo.CongoRatesFragment"
+        android:label="Congo and Uganda Rates"
+        tools:layout="@layout/congo_rate_detail" />
+    <fragment
+        android:id="@+id/nav_tanzania_rate_details"
+        android:name="com.example.mobiledbclient.ui.OperationRates.tanzania.TanzaniaRatesFragment"
+        android:label="Tanzania and Uganda Rates"
+        tools:layout="@layout/tanzania_rate_detail" />
+    <fragment
+        android:id="@+id/nav_rwanda_rate_details"
+        android:name="com.example.mobiledbclient.ui.OperationRates.rwanda.RwandaRatesFragment"
+        android:label="Rwanda and Uganda Rates"
+        tools:layout="@layout/rwanda_rate_detail" />
+
+    <fragment
+        android:id="@+id/nav_all_customers"
+        android:name="com.example.mobiledbclient.ui.Customers.allcustomers.allcustomersFragment"
+        android:label="All Customers"
+        tools:layout="@layout/all_customers_detail" />
+    <fragment
+        android:id="@+id/nav_top_customers"
+        android:name="com.example.mobiledbclient.ui.Customers.topcustomers.topcustomersFragment"
+        android:label="Top Customers"
+        tools:layout="@layout/top_customers_detail" />
+
+    <fragment
+        android:id="@+id/equityTransactions"
+        android:name="com.example.mobiledbclient.ui.MajorTransactions.EquitySales.equityMainFragment"
+        android:label="Equity send money Transactions"
+        tools:layout="@layout/all_equity_transactions" />
+    <fragment
+        android:id="@+id/mpesaTransactions"
+        android:name="com.example.mobiledbclient.ui.MajorTransactions.MpesaSales.mpesaMainFragment"
+        android:label="Mpesa send money transactions"
+        tools:layout="@layout/all_mpesa_transactions" >
+<!--        <action-->
+<!--            android:id="@+id/action_mpesaTransactions_self"-->
+<!--            app:destination="@id/mpesaTransactions" />-->
+    </fragment>
+
+    <fragment
+        android:id="@+id/equityBuysTransactions"
+        android:name="com.example.mobiledbclient.ui.MajorTransactions.EquityBuys.EquityBuysMainFragment"
+        android:label="Equity Prompt customer"
+        tools:layout="@layout/equity_buys_main_fragment" />
+    <fragment
+        android:id="@+id/mpesaBuysTransactions"
+        android:name="com.example.mobiledbclient.ui.MajorTransactions.MpesaBuys.MpesaBuysMainFragment"
+        android:label="Mpesa Prompt customer"
+        tools:layout="@layout/mpesa_buys_main_fragment" >
+<!--        <action-->
+<!--            android:id="@+id/action_mpesaTransactions_self"-->
+<!--            app:destination="@id/mpesaTransactions" />-->
+    </fragment>
+
+</navigation>

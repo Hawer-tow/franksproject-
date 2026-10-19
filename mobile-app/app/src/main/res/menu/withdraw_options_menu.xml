@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+
+
+    >
+
+    <item
+        android:id="@+id/withdrawoption"
+        android:title="Withdraw's"
+        android:icon="@drawable/withdraw"
+        />
+    <item
+        android:id="@+id/depositoption"
+        android:title="Deposits"
+        android:icon="@drawable/deposit"
+        />
+    <item
+        android:id="@+id/commissionoption"
+        android:title="Commission"
+        android:icon="@drawable/commission"
+        />
+
+
+</menu>

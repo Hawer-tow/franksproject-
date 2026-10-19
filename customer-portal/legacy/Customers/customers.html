@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer</title>
+  <link rel="stylesheet" href="customercss.css"> 
+</head>
+
+<body class="light">
+
+<header>
+  <h1>Welcome To Frank Mpesa</h1>
+  <br>
+  <div class="header-buttons">
+    <button id="themeBtn">Switch to Dark Mode</button>
+    <button id="openFormBtn">Register Customer</button>
+    <button onclick="window.location.href='/loginhtmlformhtml.html'">Login</button>
+
+
+  </div>
+</header>
+
+
+<nav>
+  <a href="#tanzaniasection">Visit Tanzania</a>
+  <a href="#congosection">Visit Congo</a>
+  <a href="#rwandasection">Visit Rwanda</a>
+</nav>
+
+<main>
+  <!-- Kenya -->
+  <section class="Kenya">
+    <center><h2>Kenya Transactions</h2></center>
+    <hr><br>
+    <div class="table-container">
+      <table id="kenya2ugxTable">
+        <caption>Kenya → Uganda Rates</caption>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="table-container">
+      <table id="ugx2kenyaTable">
+        <center><caption>Uganda → Kenya Rates</caption></center>
+         <hr><br>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Tanzania -->
+  <section class="Tanzania" id="tanzaniasection">
+   <center><h2>Tanzania Transactions</h2></center> 
+    <hr><br>
+    <div class="table-container">
+      <table id="ugx2tanzaniaTable">
+        <caption>Uganda → Tanzania Rates</caption>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="table-container">
+      <table id="tanzania2ugxTable">
+        <center><caption>Tanzania → Uganda Rates</caption></center>
+        <hr><br>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Congo -->
+  <section class="Congo" id="congosection">
+    <center><h2>Congo Transactions</h2></center>
+    <div class="table-container">
+      <table id="ugx2congoTable">
+       <center> <caption>Uganda → Congo Rates</caption></center>
+       <hr><br>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="table-container">
+      <table id="congo2ugxTable">
+       <center> <caption>Congo → Uganda Rates</caption></center>
+        <hr><br>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Rwanda -->
+  <section class="Rwanda" id="rwandasection">
+    <center><h2>Rwanda Transactions</h2></center>
+     <hr><br>
+    <div class="table-container">
+      <table id="ugx2rwandaTable">
+        <caption>Uganda → Rwanda Rates</caption>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="table-container">
+      <table id="rwanda2ugxTable">
+        <center><caption>Rwanda → Uganda Rates</caption></center>
+         <hr><br>
+        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>&copy; Winter Hawer 2026</p>
+</footer>
+
+<button id="backToTop" title="Go to top">↑</button>
+<script src="customerjs.js"></script>
+
+<!-- Modal Registration Form -->
+<div id="registrationModal" class="modal">
+  <div class="modal-content">
+    <!-- Header row with title and close button -->
+    <div class="modal-header">
+      <h2>Customer Registration</h2>
+      <span id="closeFormBtn" class="close">&times;</span>
+    </div>
+
+    <!-- Scrollable form area -->
+    <div class="form-body">
+      <form id="registrationForm">
+        <label for="customer_name">Full Name:</label>
+        <input type="text" id="customer_name" name="customer_name" required>
+
+        <label for="customer_email">Email:</label>
+        <input type="email" id="customer_email" name="customer_email" >
+
+        <label for="phone_No">Phone:</label>
+        <input type="tel" id="phone_No" name="phone_No"  required>
+
+        <label for="primary_country">Home Country:</label>
+        <select name="primary_country" id="primary_country" required>
+          <option>Uganda</option>
+          <option>Kenya</option>
+          <option>Congo</option>
+          <option>Tanzania</option>
+          <option>Rwanda</option>
+        </select>
+
+        <label for="secondary_country">Secondary Country:</label>
+        <select name="secondary_country" id="secondary_country">
+          <option>Uganda</option>
+          <option>Kenya</option>
+          <option>Congo</option>
+          <option>Tanzania</option>
+          <option>Rwanda</option>
+        </select>
+      </form>
+    </div>
+
+    <!-- Fixed footer with centered large button -->
+    <div class="form-footer">
+      <button type="submit" form="registrationForm">Register</button>
+      <br><br>
+          <a href='/loginhtmlformhtml.html'>I have an account</a>
+ 
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,6 @@
+#  cd /mnt/c/Users/PC/OneDrive/Documents/MobileDb/transaction-server/backend node server.js
+#  cd /mnt/c/Users/PC/OneDrive/Documents/MobileDb/transaction-server/customer-frontend npm run dev
+#  cd /mnt/c/Users/PC/git/MobileDbClient_SERVER_frank/MobileDb  gradlew bootrun
+
+
+/mnt/c/Users/PC/OneDrive/Documents/MobileDb/frank web,server,desktop application.code-workspace

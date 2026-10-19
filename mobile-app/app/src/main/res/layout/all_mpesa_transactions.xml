@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/mpesa_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipToPadding="false"
+    android:clipChildren="false"
+    android:padding="16dp"
+
+
+    >
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/transactionTabs"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorColor="@color/light_Purple_persistentcolor"
+        app:tabSelectedTextColor="@color/light_Purple_persistentcolor"
+        app:tabTextColor="@android:color/darker_gray"
+        app:tabGravity="center"
+        app:tabMode="fixed"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/transactionPager"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        app:layout_constraintTop_toBottomOf="@id/transactionTabs"
+        app:layout_constraintBottom_toTopOf="@id/backgroundImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/waveDivider"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:visibility="gone"
+        android:src="@drawable/bg_wave"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/backgroundImage"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageView
+        android:id="@+id/backgroundImage"
+        android:layout_width="0dp"
+        android:layout_height="200dp"
+        android:src="@drawable/mpesa_image"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

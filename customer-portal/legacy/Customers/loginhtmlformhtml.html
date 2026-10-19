@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Customer Login</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .login-box {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    .login-box h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .login-box input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    .login-box button {
+      width: 100%;
+      padding: 10px;
+      background: #0078d7;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .login-box button:hover {
+      background: #005a9e;
+    }
+    .error {
+      color: red;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .forgot {
+      text-align: center;
+      margin-top: 15px;
+    }
+    .forgot a {
+      color: #0078d7;
+      text-decoration: none;
+    }
+    .forgot a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Customer Login</h2>
+    <form id="loginForm">
+      <input type="text" id="phone_No" placeholder="Phone Number" required>
+      <input type="text" id="passwordID" placeholder="Password ID" required>
+      <button type="submit">Login</button>
+    </form>
+    <div id="errorMsg" class="error"></div>
+    <div class="forgot">
+      <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const errorMsg = document.getElementById('errorMsg');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const loginData = {
+        customer_Phone_No: document.getElementById('phone_No').value,
+        customer_passwordID: document.getElementById('passwordID').value
+      };
+
+      try {
+        const res = await fetch('/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(loginData)
+        });
+
+        const data = await res.json();
+
+        if (data.error) {
+          errorMsg.textContent = data.error;
+        } else {
+          // Redirect to customer dashboard or another page
+         // After successful login
+window.location.replace('/registeredcustomerhtml.html');
+
+        }
+      } catch (err) {
+        console.error('Login error:', err);
+        errorMsg.textContent = 'Login failed. Please try again.';
+      }
+    });
+
+    const forgotLink = document.getElementById('forgotPasswordLink');
+forgotLink.addEventListener('click', async (e) => {
+  e.preventDefault();
+  const email = prompt("Enter your registered email:");
+  if (!email) return;
+
+  try {
+    const res = await fetch('/api/reset-password', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ customer_email: email })
+    });
+
+    // Get raw response text
+    const text = await res.text();
+    console.log("Raw response:", text);
+
+    let data;
+    try {
+      data = JSON.parse(text); // Try to parse JSON
+    } catch (err) {
+      alert("Server did not return JSON. Raw response:\n" + text);
+      return;
+    }
+
+    if (!res.ok) {
+      alert("Error: " + (data.error || "Unknown error"));
+    } else {
+      alert(data.message || "Your new password has been sent to your email.");
+    }
+  } catch (err) {
+    console.error('Reset password error:', err);
+    alert('Network or server error: ' + err.message);
+  }
+});
+
+
+window.addEventListener('pageshow', () => {
+  const form = document.getElementById('loginForm');
+  if (form) form.reset();
+});
+
+
+
+
+  </script>
+</body>
+</html>
