@@ -3,385 +3,263 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Help</title>
-  <link rel="stylesheet" href="helpcentercss.css"> 
+  <title>FrankMpesa Help Center</title>
+  <meta name="description" content="How to use the FrankMpesa app: branches, records, transactions, rates, customers and settings.">
+  <meta name="theme-color" content="#0B7A43">
+  <link rel="stylesheet" href="helpcentercss.css">
 </head>
 
 <body class="light">
 
-<header>
-
-    <h1>Frank Mobile Application Help Center</h1>
-      <center>
-    <button id="themeBtn">Switch to Dark Mode</button>
-  </center>
+<header class="topbar">
+  <div class="container">
+    <a class="brand" href="#top">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
+      </span>
+      <span>FrankMpesa <span class="muted">Help Center</span></span>
+    </a>
+    <button id="themeBtn" class="icon-btn" type="button" aria-label="Switch to dark mode">
+      <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8C12.92 3.04 12.46 3 12 3z"/></svg>
+      <svg class="icon-sun" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 13h2a1 1 0 0 0 0-2H2a1 1 0 0 0 0 2zm18 0h2a1 1 0 0 0 0-2h-2a1 1 0 0 0 0 2zM11 2v2a1 1 0 0 0 2 0V2a1 1 0 0 0-2 0zm0 18v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zM5.99 4.58a1 1 0 1 0-1.41 1.41l1.06 1.06a1 1 0 1 0 1.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 1 0-1.41 1.41l1.06 1.06a1 1 0 1 0 1.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06z"/></svg>
+    </button>
+  </div>
 </header>
 
-<center>
-<a href="#townsection">Visit Town shop details</a><br>
-<a href="#kisenyisection">Visit Kisenyi shop details</a><br>
-<a href="#settingssection">Visit Settings details</a><br>
-<a href="#kisenyitablessection">Visit Kisenyi Table descriptions</a><br>
-</center>
+<section class="hero" id="top">
+  <div class="container">
+    <h1>How can we help?</h1>
+    <p>Everything staff need to run the Kisenyi and Town Branch shops with the FrankMpesa app.</p>
+    <label class="search">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input id="search" type="search" placeholder="Search the help center, e.g. refund, rate, offline" aria-label="Search the help center">
+    </label>
+    <p id="noResults" class="no-results" hidden>No topics match your search.</p>
+  </div>
+</section>
 
-<center> <p>This is the Frank mobile App Help center.</p> </center>
-<p>The Mobile Application requires Internet to complete most of its operations since it requires to connect to a server.</p>
+<div class="container layout">
+  <nav class="toc" aria-label="Topics">
+    <p class="toc-title">Topics</p>
+    <a href="#start">Getting started</a>
+    <a href="#kisenyi">Kisenyi branch</a>
+    <a href="#town">Town Branch</a>
+    <a href="#transactions">New transaction</a>
+    <a href="#rates">Exchange rates</a>
+    <a href="#customers">Customers</a>
+    <a href="#settings">Settings</a>
+    <a href="#sync">Staying up to date</a>
+    <a href="#faq">Common questions</a>
+  </nav>
 
-<main>
-  <div class="common">
-    <h2>Common Features</h2>
-    <p>These are the features that are mostly used in the App.</p>
-    <div class="image-text">
-      <img src="images/main option light.png"
-           data-light="images/main option light.png"
-           data-dark="images/main option dark.png"
-           alt="Main option">
-      <p>This is how major shops layout are presented to the user.</p>
+  <main>
+    <!-- Quick links -->
+    <div class="cards" data-topic>
+      <a class="card" href="#kisenyi"><strong>Record a sale or buy</strong><span>Kisenyi tables, editing and deleting rows</span></a>
+      <a class="card" href="#transactions"><strong>Send or request money</strong><span>M-Pesa and Equity Bank, and what each status means</span></a>
+      <a class="card" href="#rates"><strong>Set today's rates</strong><span>Rates and limits customers see on the website</span></a>
+      <a class="card" href="#sync"><strong>See other staff's changes</strong><span>Pull down to refresh, working offline</span></a>
     </div>
 
-
-    <div class="image-text">
-      <img src="images/toolbar.png"
-           data-light="images/toolbar.png"
-           data-dark="images/toolbar dark.png"
-           alt="Toolbar">
-      <p>This is the <b>toolbar</b> with navigation options.</p>
-    </div>
-
-  <div class="image-text">
-      <img src="images/shops navigation.png"
-           data-light="images/shops navigation.png"
-           data-dark="images/shops navigation dark.png"
-           alt="Shops navigation">
-      <p>This button navigates between shops.</p>
-    </div>
-
-
-  <div class="image-text">
-      <img src="images/helpcenter_light.png"
-           data-light="images/helpcenter_light.png"
-           data-dark="images/helpcenter_dark.png"
-           alt="Shops navigation">
-      <p>This Is the selection that Navigates one to the Website help center.</p>
-    </div>
-
-      <div class="image-text">
-      <img src="images/helpcenter_access_light.png"
-           data-light="images/helpcenter_access_light.png"
-           data-dark="images/helpcenter_access_dark.png"
-           alt="Shops navigation">
-      <p>In order to access the Help center one has to use this Structure in the App.</p>
-    </div>
-
-    <div class="image-text">
-      <img src="images/recycler_light.png"
-           data-light="images/recycler_light.png"
-           data-dark="images/recycler_dark.png"
-           alt="Shops navigation">
-      <p>This is where data is displayed there are two division here The top smaller region and the larger lower part.</p>
-      <ol type="a">
-        <li>Field description. (Offers a description of the row items).</li>
-        <li>Row/Data display. (Actual data is displayed here).</li>
+    <!-- Getting started -->
+    <section class="topic" id="start" data-topic>
+      <h2>Getting started</h2>
+      <h3>Signing in</h3>
+      <ol class="steps">
+        <li>Open <b>FrankMpesa</b> and tap your profile on <b>Who's working today?</b> The profile you used last is outlined in green.</li>
+        <li>Enter your password and tap <b>Log in</b>. After your first login the app offers to set up your fingerprint; once it is set up you can tap <b>Use fingerprint</b> instead.</li>
+        <li>New staff profiles appear after an administrator adds them. Pull the profile list down, or tap <b>Reload profiles from server</b>, to fetch new ones.</li>
       </ol>
-    </div>
-  
-  </div>
+      <h3>Finding your way around</h3>
+      <p>Tap <span class="kbd">☰</span> at the top left to open the side menu. It has four groups:</p>
+      <ul class="pills">
+        <li><b>Branches</b> Kisenyi and Town Branch records</li>
+        <li><b>Operations</b> New transaction and Exchange rates</li>
+        <li><b>People</b> Customers</li>
+        <li><b>App</b> Settings</li>
+      </ul>
+      <p>The <span class="kbd">⋮</span> menu at the top right has the Help Center and <b>Log out</b>.</p>
+    </section>
 
+    <!-- Kisenyi -->
+    <section class="topic" id="kisenyi" data-topic>
+      <h2>Kisenyi branch</h2>
+      <div class="with-shot">
+        <div>
+          <p>Kisenyi keeps four tables. The screen opens on <b>Opening &amp; closing cash</b>; tap <b>Records</b> in the bottom bar to switch to <b>Sales</b>, <b>Buys</b> or <b>Expenses</b>.</p>
+          <h3>Working with rows</h3>
+          <ul class="checks">
+            <li><b>Open a row:</b> tap it to show every field underneath.</li>
+            <li><b>Change a row:</b> tap <b>Edit</b>, update the fields, then tap <b>Save</b> and confirm.</li>
+            <li><b>Delete a row:</b> tap <b>Delete</b> and confirm. This cannot be undone.</li>
+            <li><b>Add a row:</b> tap the green <span class="kbd">+</span> button.</li>
+          </ul>
+          <h3>Bottom bar</h3>
+          <ul class="checks">
+            <li><b>Summary:</b> pick a date to see that day's totals and whether the cash balances.</li>
+            <li><b>Records:</b> switch between the four tables.</li>
+            <li><b>More → Sync changes:</b> send records saved on this phone to the server straight away.</li>
+          </ul>
+        </div>
+        <figure class="shot">
+          <img src="images/app/kisenyi.png" alt="Kisenyi screen with the records card and the Summary, Records and More buttons" loading="lazy">
+          <figcaption>Kisenyi branch</figcaption>
+        </figure>
+      </div>
 
+      <h3>What each table holds</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Table</th><th>Columns</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Table">Opening &amp; closing cash</td><td data-label="Columns">Date, Uganda and Kenya opening, cash in and closing, description</td></tr>
+            <tr><td data-label="Table">Sales</td><td data-label="Columns">Date, amount, rate, country, recipient name and phone, sender and receiver account, transaction ID, status, description</td></tr>
+            <tr><td data-label="Table">Buys</td><td data-label="Columns">Date, amount, rate, country, name, description</td></tr>
+            <tr><td data-label="Table">Expenses</td><td data-label="Columns">Date, amount, description</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
-  <div class="townindividual" id="townsection">
-    <h2>Town features</h2>
-    <div class="image-text">
-      <img src="images/town_light entry.png"
-           data-light="images/town_light entry.png"
-           data-dark="images/town entry.png"
-           alt="Town entry">
-      <p>Light mode presentation for Town Branch.</p>
-    </div>
+    <!-- Town -->
+    <section class="topic" id="town" data-topic>
+      <h2>Town Branch</h2>
+      <p>Town Branch keeps <b>Withdrawals</b>, <b>Deposits</b> and <b>Commission</b>. Tap <b>Records</b> to switch table; <b>Commission</b> in the bottom bar opens the commission table directly. Each record is a card: tap <b>Edit</b> to change its values, then <b>Save</b>.</p>
+      <h3>Fields on withdrawal and deposit cards</h3>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Section</th><th>Field</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Section">Mobile money</td><td data-label="Field">MTN agent / MTN personal</td><td data-label="Meaning">MTN Mobile Money, agent and personal lines</td></tr>
+            <tr><td data-label="Section">Mobile money</td><td data-label="Field">Airtel agent / Airtel personal</td><td data-label="Meaning">Airtel Money, agent and personal lines</td></tr>
+            <tr><td data-label="Section">Accounts</td><td data-label="Field">Equity (Uncle), Equity (Aunt)</td><td data-label="Meaning">Equity Bank accounts: amount and its rate</td></tr>
+            <tr><td data-label="Section">Accounts</td><td data-label="Field">Joint account</td><td data-label="Meaning">Joint account: amount and rate</td></tr>
+            <tr><td data-label="Section">Accounts</td><td data-label="Field">M-Pesa (Uncle), M-Pesa (Aunt)</td><td data-label="Meaning">M-Pesa lines: amount and rate</td></tr>
+            <tr><td data-label="Section">Accounts</td><td data-label="Field">Agent order, Agent Airtel</td><td data-label="Meaning">Agent float: amount and rate</td></tr>
+            <tr><td data-label="Section">Accounts</td><td data-label="Field">Tanzania, Rwanda</td><td data-label="Meaning">Cross-border amounts and their rates</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">Commission cards hold the date, <b>commission in</b> and <b>commission out</b>.</p>
+    </section>
 
-    <div class="image-text">
-      <img src="images/databases.png"
-           data-light="images/databases.png"
-           data-dark="images/databases dark.png"
-           alt="Databases">
-      <p>Option button to access shop databases.</p>
-    </div>
+    <!-- Transactions -->
+    <section class="topic" id="transactions" data-topic>
+      <h2>New transaction</h2>
+      <div class="with-shot">
+        <div>
+          <p>Open <b>Operations → New transaction</b> and choose:</p>
+          <ul class="checks">
+            <li><b>Send money to a customer:</b> from the shop's Equity account or M-Pesa paybill to the customer's phone or account.</li>
+            <li><b>Request payment from a customer:</b> the customer gets a prompt on their phone and enters their PIN to pay the shop.</li>
+          </ul>
+          <p>Phone numbers can be typed as <span class="kbd">0712 345 678</span> or <span class="kbd">254712345678</span>. Amounts are in shillings; M-Pesa only accepts whole shillings.</p>
+          <h3>What the status means</h3>
+          <dl class="statuses">
+            <div><dt class="s-pending">Pending</dt><dd>Sent. Waiting for the customer or the bank to answer.</dd></div>
+            <div><dt class="s-success">Success</dt><dd>The money moved. For a payment request, the buy is recorded only now.</dd></div>
+            <div><dt class="s-failed">Failed</dt><dd>Refused, e.g. wrong PIN or not enough balance. Nothing was paid.</dd></div>
+            <div><dt class="s-cancelled">Cancelled</dt><dd>The customer declined the prompt.</dd></div>
+            <div><dt class="s-timeout">Timeout</dt><dd>No answer in time. Ask the customer and try again.</dd></div>
+          </dl>
+        </div>
+        <figure class="shot">
+          <img src="images/app/new-transaction.png" alt="New transaction screen listing Equity Bank and M-Pesa send money and request payment options" loading="lazy">
+          <figcaption>New transaction</figcaption>
+        </figure>
+      </div>
+    </section>
 
-    <div class="image-text">
-      <img src="images/commission.png"
-           data-light="images/commission.png"
-           data-dark="images/commission dark.png"
-           alt="Commission">
-           <p>This is a button that is used to calculate the overall operation of the shop and calculate the total commssion earned from the shop operations</p>
-    </div>
+    <!-- Rates -->
+    <section class="topic" id="rates" data-topic>
+      <h2>Exchange rates</h2>
+      <ol class="steps">
+        <li>Open <b>Operations → Exchange rates</b> and pick <b>Kenya</b>, <b>Congo</b>, <b>Tanzania</b> or <b>Rwanda</b>.</li>
+        <li>Each country has two cards, one per direction (e.g. Uganda → Kenya and Kenya → Uganda).</li>
+        <li>Enter the <b>rate</b> and the <b>minimum</b> and <b>maximum</b> amounts, then tap <b>Save</b>.</li>
+      </ol>
+      <p class="note">Rates are saved on the phone first and sent to the server when there is a connection. Customers see today's rates on the FrankMpesa website.</p>
+    </section>
 
-    <div class="image-text">
-      <img src="images/add row.png"
-           data-light="images/add row.png"
-           data-dark="images/add row dark.png"
-           alt="Add row">
-           <p>This button is reactive and connects to the server. It allows one to add information (A Row) to the database and through that row one is able to edit or add individual data.</p>
-    </div>
+    <!-- Customers -->
+    <section class="topic" id="customers" data-topic>
+      <h2>Customers</h2>
+      <ul class="checks">
+        <li><b>All customers:</b> name and phone for everyone registered. Tap a customer to see their email, countries and notes.</li>
+        <li><b>Edit customers:</b> tap the button at the bottom to change details, then <b>Save changes</b>. In edit mode each customer also shows <b>Delete</b>.</li>
+        <li><b>Top customers:</b> will list the most active customers once there is enough history.</li>
+      </ul>
+      <p class="note">Customers register themselves on the website and log in with their phone number and password ID.</p>
+    </section>
 
-    <div class="image-text">
-      <img src="images/town option light.png"
-           data-light="images/town option light.png"
-           data-dark="images/town option dark.png"
-           alt="Town option">
-           <p>This is the feature that allows on eto navigate through the town shop various databases in order to store data in the respective areas it is supposed to be.</p>
-    </div>
-  </div>
+    <!-- Settings -->
+    <section class="topic" id="settings" data-topic>
+      <h2>Settings</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Setting</th><th>What it does</th></tr></thead>
+          <tbody>
+            <tr><td data-label="Setting">Dark mode</td><td data-label="What it does">Switches the app between light and dark colours for your profile.</td></tr>
+            <tr><td data-label="Setting">History to load</td><td data-label="What it does">How far back records are fetched: last 3 days, last 7 days, this month or everything.</td></tr>
+            <tr><td data-label="Setting">Change password</td><td data-label="What it does">Sets a new password for your profile.</td></tr>
+            <tr><td data-label="Setting">Clear local data</td><td data-label="What it does">Removes records saved on this phone. Anything not yet synced is lost.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
 
+    <!-- Sync -->
+    <section class="topic" id="sync" data-topic>
+      <h2>Staying up to date</h2>
+      <div class="with-shot">
+        <div>
+          <h3>Pull down to refresh</h3>
+          <p>On Kisenyi, Town Branch, All customers and the profile list, <b>pull the list down</b> to reload it. The app first sends your own unsynced changes, then fetches what other staff changed.</p>
+          <h3>Working offline</h3>
+          <p>Without a connection a small <b>Offline · showing saved data</b> label appears under the top bar. You can keep working: records are saved on the phone and sent to the server when the connection returns. The label disappears when you are back online, and nothing shows in your notifications.</p>
+        </div>
+        <figure class="shot">
+          <img src="images/app/pull-to-refresh.png" alt="Kisenyi records card reloading after pulling down" loading="lazy">
+          <figcaption>Reloading after a pull-down</figcaption>
+        </figure>
+      </div>
+    </section>
 
-
-  <div class="kisenyiindividual" id="kisenyisection">
-    <h2>Kisenyi features</h2>
-    <div class="image-text">
-      <img src="images/kisenyi_light entry.png"
-           data-light="images/kisenyi_light entry.png"
-           data-dark="images/kisenyi entry.png"
-           alt="Kisenyi entry">
-           <p>This is just a demonstration of how the kisenyi shop looks in the application.IT allows one to see the common features and also the specifics of the kisenyi shop.</p>
-    </div>
-
-    <div class="image-text">
-      <img src="images/databases.png"
-           data-light="images/databases.png"
-           data-dark="images/databases dark.png"
-           alt="Databases Kisenyi">
-      <p>Option button to access Kisenyi databases.</p>
-    </div>
-
-    <div class="image-text">
-      <img src="images/summary.png"
-           data-light="images/summary.png"
-           data-dark="images/summary dark.png"
-           alt="Summary" id="summarybtn">
-           <p>This is the Button that is used to summarize the shops operation with it having being a child of the main Town shop it only has a summary of its operations which are used to depict balance in its trade.</p>
-    </div>
-
-    <div class="image-text">
-      <img src="images/add row.png"
-           data-light="images/add row.png"
-           data-dark="images/add row dark.png"
-           alt="Add row Kisenyi">
-             <p>This button is reactive and connects to the server. It allows one to add information (A Row) to the database and through that row one is able to edit or add individual data.</p>
-    </div>
-
-    <div class="image-text">
-      <img src="images/kisenyi option light.png"
-           data-light="images/kisenyi option light.png"
-           data-dark="images/kisenyi option dark.png"
-           alt="Kisenyi option">
-           <p>This is used to show the various databases that exist in the Kisenyi shop.</p>
-    </div>
-  </div>
-
-  <div class="settingsindividual" id="settingssection">
-    <h2>Settings features</h2>
-    <div class="image-text">
-      <img src="images/settings_light entry.png"
-           data-light="images/settings_light entry.png"
-           data-dark="images/settings entry.png"
-           alt="Settings entry">
-
-           <p>This is used to depict the overall look and feel of the shop settings in it the various features like security, data clearance, themes and data ranges are selected here.</p>
-
-          <ol type="1">
-            <li>Color themes</li>
-            <ol type="a">
-              <li>Change between various themes Light or Dark themes</li>
-            </ol>
-
-             <li>Security Settings</li>
-            <ol type="a">
-                <li>Enable Biometric/password security feature for the app</li>
-                <p>By enabling security one has to use Biometrics i.e (Facial recognition,fingerprint option or the password) to access the application</p>
-                <p>By disabling this one can access the application without security.</p>
-            </ol>
-             <li>Data retrival Range</li>
-            <ol type="i">
-                <li>3 Day Range (retrieved from server) </li>
-                  <li>7 Day Range (retrieved from server) </li>
-                    <li>Monthly Range (retrieved from server) </li>
-                      <li>All data (is retrieved)</li>
-            </ol>
-             <li>Local data Clearance</li>
-            <ol type="a">
-                <li>Kisenyi shop Data clearance</li>
-            </ol>
-
-          </ol>
-          </div>
-          <p>Part of the hidden entities of the settings are the Errors management systems.</p>
-          <p>This are part and Essential for providing feedback to the users when some of the operations in the App are done.</p>
-  </div>
-
-
-
-  <div class="kisenyitables" id="kisenyitablessection">
-    <p><b>Kisenyi Databases</b></p>
-    <p>For this Tables there Exists Buttons on the right and left of each individual Row on the left is the <b>Edit Button</b> on the right is the <b>Delete Button</b></p>
-    <p>In This button before commiting the final Action One is Expected to confirm whether to proceed or to undo the changes.</p>
-    <p>In Edit one is asked to confirm changes Actions.</p>
-    <p>In Delete one is asked to confirm delete Actions.</p>
-
-<div class="table-container">
-  <table>
-    <caption>The Opening and Closing Table</caption>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Uganda Opening</th>
-        <th>Kenya Opening</th>
-        <th>Uganda Cash In</th>
-        <th>Kenya Cash In</th>
-        <th>Uganda Closing</th>
-        <th>Kenya Closing</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Uganda Opening">200000</td>
-        <td data-label="Kenya Opening">0</td>
-        <td data-label="Uganda Cash In">1700000</td>
-        <td data-label="Kenya Cash In">0</td>
-        <td data-label="Uganda Closing">882000</td>
-        <td data-label="Kenya Closing">0</td>
-        <td data-label="Description">Balanced</td>
-      </tr>
-    </tbody>
-  </table>
+    <!-- FAQ -->
+    <section class="topic" id="faq" data-topic>
+      <h2>Common questions</h2>
+      <details>
+        <summary>I see "Network error, showing local data"</summary>
+        <p>The phone has internet but could not reach the FrankMpesa server. The screen shows what is saved on the phone. Try again in a moment, or ask the administrator to check that the server is running.</p>
+      </details>
+      <details>
+        <summary>A colleague's changes don't show on my phone</summary>
+        <p>Pull the list down to refresh. If you changed <b>History to load</b> in Settings, older records outside that range are not fetched.</p>
+      </details>
+      <details>
+        <summary>A payment request stays "Pending"</summary>
+        <p>The customer has not answered the prompt yet, or the result is delayed. Results usually arrive within a minute. If it stays pending, ask the customer whether they paid before sending another request.</p>
+      </details>
+      <details>
+        <summary>The customer says they never got the prompt</summary>
+        <p>Check the phone number and the network (Safaricom or Equitel). Prompts only reach phones that are switched on and have network.</p>
+      </details>
+      <details>
+        <summary>I deleted a row by mistake</summary>
+        <p>Deleted rows cannot be restored from the app. Add the row again with the <span class="kbd">+</span> button.</p>
+      </details>
+    </section>
+  </main>
 </div>
-<br>
-<div class="table-container">
-  <table>
-    <caption>The Selling Table</caption>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Rate</th>
-        <th>Country</th>
-        <th>Phone No</th>
-        <th>Recipient</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Amount">250000</td>
-        <td data-label="Rate">27</td>
-        <td data-label="Country">Kenya</td>
-        <td data-label="Phone No">0700687930</td>
-        <td data-label="Recipient">Elizah</td>
-        <td data-label="Description">Complete</td>
-      </tr>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Amount">26000</td>
-        <td data-label="Rate">27</td>
-        <td data-label="Country">Kenya</td>
-        <td data-label="Phone No">0700687931</td>
-        <td data-label="Recipient">Martha</td>
-        <td data-label="Description">Complete</td>
-      </tr>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Amount">226700</td>
-        <td data-label="Rate">27</td>
-        <td data-label="Country">Kenya</td>
-        <td data-label="Phone No">0700687932</td>
-        <td data-label="Recipient">Banny</td>
-        <td data-label="Description">Complete</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<br>
-<div class="table-container">
-  <table>
-    <caption>The Buying Table</caption>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Amount</th>
-        <th>Rate</th>
-        <th>Country</th>
-        <th>Name</th>
-        <th>Description</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Amount">2500</td>
-        <td data-label="Rate">30</td>
-        <td data-label="Country">Kenya</td>
-        <td data-label="Name">Elizah</td>
-        <td data-label="Description">Complete</td>
-      </tr>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Amount">26000</td>
-        <td data-label="Rate">30</td>
-        <td data-label="Country">Kenya</td>
-        <td data-label="Name">Martha</td>
-        <td data-label="Description">Complete</td>
-      </tr>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Amount">22000</td>
-        <td data-label="Rate">30</td>
-        <td data-label="Country">Kenya</td>
-        <td data-label="Name">Banny</td>
-        <td data-label="Description">Complete</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<br>
-<div class="table-container">
-  <table>
-    <caption>The Expense Table</caption>
-    <thead>
-      <tr>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Amount</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td data-label="Date">2026-02-10</td>
-        <td data-label="Description">Milk & Cake</td>
-        <td data-label="Amount">2500</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-<br>
-    <div class="image-text">
-      <img src="images/summarylight.png"
-           data-light="images/summarylight.png"
-           data-dark="images/summarydark.png"
-           alt="Kisenyi Summaries">
-           <p>This is used to show the Summary of the Kisenyi shop tables As Operations and show whether data defined is Balanced or not Balanced.</p>
-           <p>For All the operations in Kisenyi shop when the button <b><a href="#summarybtn">SUMMARY</a></b> is clicked one is supposed to select a day from a calendar and from that the database is Checked and a summary of the days operations is Evaluated.</p>
-           <p>For the Above Tables the Application is able to connect to the Server through the Internet and is able to summarize the above operations.</p>
-    </div>
-  </div>
-</main>
 
 <footer>
-  <p>The app is at copyright: &copy; Winter Hawer 2026</p>
-  <p>&copy; Winter Hawer 2026</p>
+  <div class="container">
+    <span>&copy; Winter Hawer 2026 · FrankMpesa</span>
+    <a href="#top">Back to top</a>
+  </div>
 </footer>
-<button id="backToTop" title="Go to top">↑</button>
-<script src="helpcenterjs.js"></script>
 
+<button id="backToTop" type="button" aria-label="Back to top">↑</button>
+<script src="helpcenterjs.js"></script>
 </body>
 </html>

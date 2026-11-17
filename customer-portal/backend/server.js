@@ -32,6 +32,15 @@ app.use((req, res, next) => {
   next();
 });
 
+// Customer area needs a logged-in session. Registered before the static files so the
+// static handler cannot serve this page to visitors who are not logged in.
+app.get('/registeredcustomerhtml.html', requireLogin, (req, res) => {
+  res.sendFile(path.join(__dirname, '../legacy/Customers', 'registeredcustomerhtml.html'));
+});
+
+// Home page at the site root
+app.get('/', (req, res) => res.redirect('/customers.html'));
+
 // Serve static files (HTML, CSS, JS) from the legacy Customers pages
 app.use(express.static(path.join(__dirname, '../legacy/Customers')));
 
@@ -41,10 +50,6 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/rates', require('./routes/rates'));
 app.use('/api/admin', require('./routes/admin'));
 
-// Protect your customer page
-app.get('/registeredcustomerhtml.html', requireLogin, (req, res) => {
-  res.sendFile(path.join(__dirname, '../Customers', 'registeredcustomerhtml.html'));
-});
 
 // Start server
 app.listen(PORT, () => {

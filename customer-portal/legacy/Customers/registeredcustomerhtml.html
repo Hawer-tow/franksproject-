@@ -3,129 +3,77 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Help</title>
-  <link rel="stylesheet" href="registeredcustomercss.css"> 
+  <title>My rates · FrankMpesa</title>
+  <meta name="theme-color" content="#0B7A43">
+  <link rel="stylesheet" href="frankmpesa.css">
 </head>
 <body class="light">
 
-<header>
-  <h1>Welcome To Frank Mpesa</h1>
-  <h1>Personal Rates</h1>
-  <br>
-  <div class="header-buttons">  
-    <!-- Customer profile icon -->
-  <div id="customerProfile" class="customer-icon">
-  <span id="customerInitials">CU</span>
-  <div class="customer-info">
-    <p id="customerName">Customer Name</p>
-    <p id="customerPhone">+254700000000</p>
-  </div>
-  <!-- Dropdown menu -->
-  <div id="profileMenu" class="profile-menu">
-    <button id="logoutBtn">Logout</button>
-  </div>
-</div>
+<header class="topbar">
+  <div class="container">
+    <a class="brand" href="#top" aria-label="FrankMpesa">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
+      </span>
+      <span class="brand-name">FrankMpesa</span>
+    </a>
+    <div class="actions">
+      <button id="themeBtn" class="icon-btn" type="button" aria-label="Switch to dark mode">
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.39 5.39 0 0 1-4.4 2.26 5.4 5.4 0 0 1-3.14-9.8C12.92 3.04 12.46 3 12 3z"/></svg>
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zM2 13h2a1 1 0 0 0 0-2H2a1 1 0 0 0 0 2zm18 0h2a1 1 0 0 0 0-2h-2a1 1 0 0 0 0 2zM11 2v2a1 1 0 0 0 2 0V2a1 1 0 0 0-2 0zm0 18v2a1 1 0 0 0 2 0v-2a1 1 0 0 0-2 0zM5.99 4.58a1 1 0 1 0-1.41 1.41l1.06 1.06a1 1 0 1 0 1.41-1.41L5.99 4.58zm12.37 12.37a1 1 0 1 0-1.41 1.41l1.06 1.06a1 1 0 1 0 1.41-1.41l-1.06-1.06zm1.06-10.96a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06zM7.05 18.36a1 1 0 1 0-1.41-1.41l-1.06 1.06a1 1 0 1 0 1.41 1.41l1.06-1.06z"/></svg>
+      </button>
 
-      <button id="themeBtn">Switch to Dark Mode</button>
+      <div class="profile">
+        <div id="customerProfile" class="customer-icon" role="button" tabindex="0" aria-haspopup="true" aria-expanded="false">
+          <span id="customerInitials">··</span>
+          <div class="customer-info">
+            <p id="customerName">Loading…</p>
+            <p id="customerPhone"></p>
+          </div>
+        </div>
+        <div id="profileMenu" class="profile-menu" role="menu">
+          <button type="button" data-theme-choice="light" role="menuitem">Light theme</button>
+          <button type="button" data-theme-choice="dark" role="menuitem">Dark theme</button>
+          <button type="button" data-theme-choice="personalized" id="personalThemeOption" role="menuitem" hidden>My colour</button>
+          <button type="button" id="logoutBtn" class="danger" role="menuitem">Log out</button>
+        </div>
+      </div>
+    </div>
   </div>
 </header>
 
-
-<nav>
-  <a href="#tanzaniasection">Visit Tanzania</a>
-  <a href="#congosection">Visit Congo</a>
-  <a href="#rwandasection">Visit Rwanda</a>
-</nav>
-
-<main>
-  <!-- Kenya -->
-  <section class="Kenya">
-    <center><h2>Kenya Transactions</h2></center>
-    <hr><br>
-    <div class="table-container">
-      <table id="kenya2ugxTable">
-        <caption>Kenya → Uganda Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="table-container">
-      <table id="ugx2kenyaTable">
-        <caption>Uganda → Kenya Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
+<main id="top">
+  <section class="welcome">
+    <div class="container">
+      <h1 id="greeting">Welcome back</h1>
+      <p>Today's rates for every country we serve. Rates are set daily by the shop.</p>
     </div>
   </section>
 
-  <!-- Tanzania -->
-  <section class="Tanzania" id="tanzaniasection">
-   <center><h2>Tanzania Transactions</h2></center> 
-    <hr><br>
-    <div class="table-container">
-      <table id="ugx2tanzaniaTable">
-        <caption>Uganda → Tanzania Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="table-container">
-      <table id="tanzania2ugxTable">
-        <caption>Tanzania → Uganda Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Congo -->
-  <section class="Congo" id="congosection">
-    <center><h2>Congo Transactions</h2></center>
-    <div class="table-container">
-      <table id="ugx2congoTable">
-        <caption>Uganda → Congo Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="table-container">
-      <table id="congo2ugxTable">
-        <caption>Congo → Uganda Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-  </section>
-
-  <!-- Rwanda -->
-  <section class="Rwanda" id="rwandasection">
-    <center><h2>Rwanda Transactions</h2></center>
-     <hr><br>
-    <div class="table-container">
-      <table id="ugx2rwandaTable">
-        <caption>Uganda → Rwanda Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
-    </div>
-    <div class="table-container">
-      <table id="rwanda2ugxTable">
-        <caption>Rwanda → Uganda Rates</caption>
-        <thead><tr><th>Date</th><th>Rate</th><th>Min Transaction</th><th>Max Transaction</th></tr></thead>
-        <tbody></tbody>
-      </table>
+  <section class="section" id="rates">
+    <div class="container">
+      <div class="section-head">
+        <div>
+          <h2>Today's rates</h2>
+          <p>Amounts outside the minimum and maximum are handled in person at the shop.</p>
+        </div>
+        <div class="chips" id="countryChips" aria-label="Jump to a country"></div>
+      </div>
+      <div class="rates-grid" id="ratesGrid"></div>
     </div>
   </section>
 </main>
 
 <footer>
-  <p>&copy; Winter Hawer 2026</p>
+  <div class="container">
+    <span>&copy; Winter Hawer 2026 · FrankMpesa</span>
+    <span>Questions? Visit the Kisenyi or Town Branch shop.</span>
+  </div>
 </footer>
 
-<button id="backToTop" title="Go to top">↑</button>
+<button id="backToTop" type="button" aria-label="Back to top">↑</button>
+
+<script src="common.js"></script>
 <script src="registeredcustomerjs.js"></script>
-
-
-
 </body>
 </html>

@@ -1,160 +1,167 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Customer Login</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    .login-box {
-      background: white;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-      width: 300px;
-    }
-    .login-box h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .login-box input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    .login-box button {
-      width: 100%;
-      padding: 10px;
-      background: #0078d7;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    .login-box button:hover {
-      background: #005a9e;
-    }
-    .error {
-      color: red;
-      text-align: center;
-      margin-top: 10px;
-    }
-    .forgot {
-      text-align: center;
-      margin-top: 15px;
-    }
-    .forgot a {
-      color: #0078d7;
-      text-decoration: none;
-    }
-    .forgot a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <title>Log in · FrankMpesa</title>
+  <meta name="theme-color" content="#0B7A43">
+  <link rel="stylesheet" href="frankmpesa.css">
 </head>
-<body>
-  <div class="login-box">
-    <h2>Customer Login</h2>
-    <form id="loginForm">
-      <input type="text" id="phone_No" placeholder="Phone Number" required>
-      <input type="text" id="passwordID" placeholder="Password ID" required>
-      <button type="submit">Login</button>
-    </form>
-    <div id="errorMsg" class="error"></div>
-    <div class="forgot">
-      <a href="#" id="forgotPasswordLink">Forgot Password?</a>
+<body class="light">
+
+<div class="auth">
+  <!-- Brand panel -->
+  <section class="auth-brand">
+    <a class="brand" href="/customers.html">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="#fff"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z"/></svg>
+      </span>
+      <span class="brand-name">FrankMpesa</span>
+    </a>
+    <div>
+      <h1>Your rates, in one place</h1>
+      <p>Log in to see today's rates for your countries and keep your details up to date.</p>
+      <ul>
+        <li>Rates for Kenya, Tanzania, Rwanda and Congo</li>
+        <li>M-Pesa and Equity Bank transfers</li>
+        <li>Your own colour theme</li>
+      </ul>
     </div>
-  </div>
+    <small>&copy; Winter Hawer 2026</small>
+  </section>
 
-  <script>
-    const form = document.getElementById('loginForm');
-    const errorMsg = document.getElementById('errorMsg');
+  <!-- Login -->
+  <main class="auth-main">
+    <div class="auth-card">
+      <h2>Welcome back</h2>
+      <p class="sub">Log in with the phone number you registered and your password ID.</p>
 
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
+      <div id="errorMsg" class="alert alert-error" role="alert"></div>
 
-      const loginData = {
-        customer_Phone_No: document.getElementById('phone_No').value,
-        customer_passwordID: document.getElementById('passwordID').value
-      };
+      <form id="loginForm" novalidate>
+        <div class="field">
+          <label for="phone_No">Phone number</label>
+          <input type="tel" id="phone_No" autocomplete="tel" placeholder="07XX XXX XXX" required>
+        </div>
+        <div class="field">
+          <label for="passwordID">Password ID</label>
+          <div class="password-wrap">
+            <input type="password" id="passwordID" autocomplete="current-password" placeholder="Fm/…" required>
+            <button type="button" id="togglePassword" aria-label="Show password">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-8a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/></svg>
+            </button>
+          </div>
+        </div>
+        <button class="btn btn-primary btn-block" type="submit" id="loginBtn">Log in</button>
+      </form>
 
-      try {
-        const res = await fetch('/api/login', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(loginData)
-        });
+      <div class="auth-links">
+        <a href="#" id="forgotPasswordLink">Forgot your password ID?</a>
+        <a href="/customers.html#register">Register</a>
+      </div>
 
-        const data = await res.json();
+      <!-- Reset by email -->
+      <div class="reset-panel" id="resetPanel">
+        <div id="resetMsg" class="alert" role="status"></div>
+        <form id="resetForm" novalidate>
+          <div class="field">
+            <label for="resetEmail">Email you registered with</label>
+            <input type="email" id="resetEmail" autocomplete="email" required>
+            <span class="hint">We'll email you a new password ID.</span>
+          </div>
+          <button class="btn btn-outline btn-block" type="submit">Send new password ID</button>
+        </form>
+      </div>
+    </div>
+  </main>
+</div>
 
-        if (data.error) {
-          errorMsg.textContent = data.error;
-        } else {
-          // Redirect to customer dashboard or another page
-         // After successful login
-window.location.replace('/registeredcustomerhtml.html');
+<script src="common.js"></script>
+<script>
+  // Keep the page in the theme the visitor picked on the home page
+  (() => {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') document.body.classList.replace('light', 'dark');
+  })();
 
-        }
-      } catch (err) {
-        console.error('Login error:', err);
-        errorMsg.textContent = 'Login failed. Please try again.';
-      }
-    });
+  const form = document.getElementById('loginForm');
+  const errorMsg = document.getElementById('errorMsg');
+  const loginBtn = document.getElementById('loginBtn');
 
-    const forgotLink = document.getElementById('forgotPasswordLink');
-forgotLink.addEventListener('click', async (e) => {
-  e.preventDefault();
-  const email = prompt("Enter your registered email:");
-  if (!email) return;
+  document.getElementById('togglePassword').addEventListener('click', e => {
+    const input = document.getElementById('passwordID');
+    const show = input.type === 'password';
+    input.type = show ? 'text' : 'password';
+    e.currentTarget.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+  });
 
-  try {
-    const res = await fetch('/api/reset-password', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ customer_email: email })
-    });
-
-    // Get raw response text
-    const text = await res.text();
-    console.log("Raw response:", text);
-
-    let data;
-    try {
-      data = JSON.parse(text); // Try to parse JSON
-    } catch (err) {
-      alert("Server did not return JSON. Raw response:\n" + text);
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    errorMsg.textContent = '';
+    const phone = document.getElementById('phone_No').value.trim();
+    const passwordId = document.getElementById('passwordID').value.trim();
+    if (!phone || !passwordId) {
+      errorMsg.textContent = 'Enter your phone number and password ID.';
       return;
     }
-
-    if (!res.ok) {
-      alert("Error: " + (data.error || "Unknown error"));
-    } else {
-      alert(data.message || "Your new password has been sent to your email.");
+    loginBtn.disabled = true;
+    loginBtn.textContent = 'Logging in…';
+    try {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customer_Phone_No: phone, customer_passwordID: passwordId })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.error) {
+        errorMsg.textContent = data.error || 'Login failed. Please try again.';
+        return;
+      }
+      window.location.replace('/registeredcustomerhtml.html');
+    } catch (err) {
+      console.error('Login error:', err);
+      errorMsg.textContent = 'We could not reach the server. Check your connection and try again.';
+    } finally {
+      loginBtn.disabled = false;
+      loginBtn.textContent = 'Log in';
     }
-  } catch (err) {
-    console.error('Reset password error:', err);
-    alert('Network or server error: ' + err.message);
-  }
-});
+  });
 
+  document.getElementById('forgotPasswordLink').addEventListener('click', e => {
+    e.preventDefault();
+    const panel = document.getElementById('resetPanel');
+    panel.classList.toggle('open');
+    if (panel.classList.contains('open')) document.getElementById('resetEmail').focus();
+  });
 
-window.addEventListener('pageshow', () => {
-  const form = document.getElementById('loginForm');
-  if (form) form.reset();
-});
+  document.getElementById('resetForm').addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = document.getElementById('resetMsg');
+    const email = document.getElementById('resetEmail').value.trim();
+    msg.className = 'alert alert-error';
+    if (!email) {
+      msg.textContent = 'Enter the email you registered with.';
+      return;
+    }
+    try {
+      const res = await fetch('/api/auth/reset-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customer_email: email })
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || data.error) {
+        msg.textContent = data.error || 'We could not reset your password ID.';
+      } else {
+        msg.className = 'alert alert-success';
+        msg.textContent = data.message || 'A new password ID has been sent to your email.';
+      }
+    } catch (err) {
+      msg.textContent = 'We could not reach the server. Try again shortly.';
+    }
+  });
 
-
-
-
-  </script>
+  window.addEventListener('pageshow', () => form.reset());
+</script>
 </body>
 </html>
