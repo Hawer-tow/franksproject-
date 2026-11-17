@@ -12,9 +12,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.security.KeyFactory;
-import java.security.PublicKey;
-import java.security.spec.X509EncodedKeySpec;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
@@ -68,31 +65,15 @@ public class UserController {
         if (userOpt.isPresent()) {
             User user = userOpt.get();
 
-            // Logging incoming request values
+            // Logging incoming request values (never the password, hash or biometric token)
             logger.info("Login attempt for username: {}", loginRequest.getUsername());
-            logger.debug("Raw password received: {}", loginRequest.getPassword());
-            logger.debug("Stored password hash: {}", user.getPasswordHash());
             logger.debug("Biometric flag: {}", loginRequest.isBiometricLogin());
             logger.debug("DeviceId received: {}", loginRequest.getDeviceId());
-            logger.debug("BiometricToken received: {}", loginRequest.getBiometricToken());
             logger.debug("BiometricKeyAlias received: {}", loginRequest.getBiometricKeyAlias());
-            logger.info("Raw LoginRequest object: {}", loginRequest);
-       
 
-            // Admin bypass
-            if (Boolean.TRUE.equals(user.getIsAdmin())) {
-                user.setLastLogin(LocalDateTime.now());
-                userRepository.save(user);
-                logger.info("Admin login successful for user: {}", user.getUsername());
-                return ResponseEntity.ok(Map.of(
-                        "status", "true",
-                        "code", "200",
-                        "message", "Admin login successful"
-                ));
-            }
-
-            // Enforce access_status
-            if (user.getAccessStatus() == null || user.getAccessStatus() != 1) {
+            // Enforce access_status (admins are always active, but still need a valid password or biometric)
+            boolean isAdmin = Boolean.TRUE.equals(user.getIsAdmin());
+            if (!isAdmin && (user.getAccessStatus() == null || user.getAccessStatus() != 1)) {
                 logger.warn("Access denied for inactive user: {}", user.getUsername());
                 return ResponseEntity.status(403).body(Map.of(
                         "status", "false",
@@ -101,59 +82,39 @@ public class UserController {
                 ));
             }
 
-            // Biometric login flow
+            // Fingerprint login: the phone signs a time-stamped message with its fingerprint-locked key
             if (loginRequest.isBiometricLogin()) {
-                logger.info("Biometric login requested for user: {}", user.getUsername());
+                logger.info("Fingerprint login requested for user: {}", user.getUsername());
 
-                boolean valid = biometricService.validateToken(
-                    loginRequest.getUsername(),
-                    loginRequest.getBiometricToken(),
-                    loginRequest.getBiometricKeyAlias()
-                );
-
-                logger.debug("Biometric validation result for {}: {}", user.getUsername(), valid);
-
-                if (!Boolean.TRUE.equals(user.getBiometricEnabled())) {
-                    if (encoder.matches(loginRequest.getPassword(), user.getPasswordHash())) {
-                        user.setLastLogin(LocalDateTime.now());
-                        userRepository.save(user);
-                        logger.info("Password fallback login successful for user: {}", user.getUsername());
-                        return ResponseEntity.ok(Map.of(
-                                "status", "true",
-                                "code", "200",
-                                "message", "Password login fallback successful"
-                        ));
-                    }
-                    logger.warn("Biometric login failed: biometrics not enrolled for {}", user.getUsername());
+                if (!Boolean.TRUE.equals(user.getBiometricEnabled()) || user.getBiometricPublicKey() == null) {
                     return ResponseEntity.status(403).body(Map.of(
                             "status", "false",
                             "code", "40302",
-                            "message", "Biometrics not enrolled for this user"
+                            "message", "Fingerprint login is not set up for this profile"
                     ));
                 }
 
                 if (user.getDeviceId() == null || !user.getDeviceId().equals(loginRequest.getDeviceId())) {
-                    logger.warn("Device mismatch for user: {}", user.getUsername());
+                    logger.warn("Fingerprint login from another device for user: {}", user.getUsername());
                     return ResponseEntity.status(403).body(Map.of(
                             "status", "false",
                             "code", "40303",
-                            "message", "Device mismatch: biometrics only allowed on registered device"
+                            "message", "Fingerprint login only works on the phone where it was set up"
                     ));
                 }
 
-                if (loginRequest.getBiometricToken() == null || loginRequest.getBiometricKeyAlias() == null
-                        || !valid) {
-                    logger.error("Invalid biometric credentials for user: {}", user.getUsername());
+                if (!biometricService.verifyLogin(user, loginRequest.getDeviceId(),
+                        loginRequest.getBiometricTimestamp(), loginRequest.getBiometricToken())) {
                     return ResponseEntity.status(401).body(Map.of(
                             "status", "false",
                             "code", "401",
-                            "message", "Invalid biometric credentials"
+                            "message", "Fingerprint could not be verified"
                     ));
                 }
 
                 user.setLastLogin(LocalDateTime.now());
                 userRepository.save(user);
-                logger.info("Biometric login successful for user: {}", user.getUsername());
+                logger.info("Fingerprint login successful for user: {}", user.getUsername());
                 return ResponseEntity.ok(Map.of(
                         "status", "true",
                         "code", "200",
@@ -183,58 +144,90 @@ public class UserController {
         ));
     }
 
-    // Enable biometrics with public key
+    // Set up fingerprint login: store the phone's public key after checking the user's password
     @PostMapping("/{id}/enable-biometrics")
     public ResponseEntity<?> enableBiometrics(
             @PathVariable Integer id,
             @RequestBody Map<String, String> payload) {
 
-        User user = userRepository.findById(id).orElseThrow();
+        Optional<User> found = userRepository.findById(id);
+        if (found.isEmpty()) {
+            return ResponseEntity.status(404).body(Map.of("status", "false", "code", "404", "message", "User not found"));
+        }
+        User user = found.get();
 
         String deviceId = payload.get("deviceId");
         String biometricKeyAlias = payload.get("biometricKeyAlias");
         String publicKeyBase64 = payload.get("publicKey");
+        String password = payload.get("password");
 
         if (deviceId == null || biometricKeyAlias == null || publicKeyBase64 == null) {
-            logger.warn("Enable biometrics failed: missing parameters for user {}", user.getUsername());
             return ResponseEntity.badRequest().body(Map.of(
                     "status", "false",
                     "code", "400",
-                    "message", "Missing deviceId, biometricKeyAlias, or publicKey"
+                    "message", "Missing deviceId, biometricKeyAlias or publicKey"
+            ));
+        }
+
+        // Only the profile owner may attach a fingerprint key to it
+        if (password == null || !encoder.matches(password, user.getPasswordHash())) {
+            logger.warn("Fingerprint setup refused for {}: wrong password", user.getUsername());
+            return ResponseEntity.status(401).body(Map.of(
+                    "status", "false",
+                    "code", "401",
+                    "message", "Password is incorrect"
             ));
         }
 
         try {
-            byte[] keyBytes = Base64.getDecoder().decode(publicKeyBase64);
-            X509EncodedKeySpec spec = new X509EncodedKeySpec(keyBytes);
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            PublicKey publicKey = kf.generatePublic(spec);
-
-            biometricService.registerKey(user.getUsername(), biometricKeyAlias, publicKey);
-
-            user.setBiometricEnabled(true);
-            user.setDeviceId(deviceId);
-            user.setBiometricKeyAlias(biometricKeyAlias);
-            user.setUpdatedAt(LocalDateTime.now());
-
-            userRepository.save(user);
-
-            logger.info("Biometrics enabled for user: {}", user.getUsername());
-            return ResponseEntity.ok(Map.of(
-                    "status", "true",
-                    "code", "200",
-                    "message", "Biometrics enabled for user",
-                    "deviceId", deviceId,
-                    "biometricKeyAlias", biometricKeyAlias
-            ));
-        } catch (Exception e) {
-            logger.error("Failed to parse public key for user {}: {}", user.getUsername(), e.getMessage());
-            return ResponseEntity.status(500).body(Map.of(
+            user.setBiometricPublicKey(biometricService.normalisePublicKey(publicKeyBase64));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of(
                     "status", "false",
-                    "code", "500",
-                    "message", "Failed to parse public key"
+                    "code", "400",
+                    "message", "The phone sent an invalid fingerprint key"
             ));
         }
+        user.setBiometricEnabled(true);
+        user.setDeviceId(deviceId);
+        user.setBiometricKeyAlias(biometricKeyAlias);
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(user);
+
+        logger.info("Fingerprint login set up for user: {}", user.getUsername());
+        return ResponseEntity.ok(Map.of(
+                "status", "true",
+                "code", "200",
+                "message", "Fingerprint login is on",
+                "deviceId", deviceId,
+                "biometricKeyAlias", biometricKeyAlias
+        ));
+    }
+
+    // Turn fingerprint login off (body: {"enabled": false}); turning it on goes through enable-biometrics
+    @PutMapping("/{id}/biometric-status")
+    public ResponseEntity<?> updateBiometricStatus(@PathVariable Integer id, @RequestBody Map<String, Boolean> payload) {
+        Optional<User> found = userRepository.findById(id);
+        if (found.isEmpty()) {
+            return ResponseEntity.status(404).body(Map.of("status", "false", "code", "404", "message", "User not found"));
+        }
+        User user = found.get();
+        if (Boolean.TRUE.equals(payload.get("enabled"))) {
+            if (user.getBiometricPublicKey() == null) {
+                return ResponseEntity.status(409).body(Map.of("status", "false", "code", "409",
+                        "message", "Set up fingerprint login on the phone first"));
+            }
+            user.setBiometricEnabled(true);
+        } else {
+            user.setBiometricEnabled(false);
+            user.setBiometricPublicKey(null);
+            user.setBiometricKeyAlias(null);
+        }
+        user.setUpdatedAt(LocalDateTime.now());
+        userRepository.save(user);
+        logger.info("Fingerprint login {} for user: {}", Boolean.TRUE.equals(user.getBiometricEnabled()) ? "on" : "off", user.getUsername());
+        return ResponseEntity.ok(Map.of("status", "true", "code", "200",
+                "message", Boolean.TRUE.equals(user.getBiometricEnabled()) ? "Fingerprint login is on" : "Fingerprint login is off"));
     }
 
 
@@ -254,7 +247,7 @@ public class UserController {
 
             		    User user = userRepository.findById(id).orElseThrow();
 
-            		    logger.info("Resetting password for user {} with new raw password: {}", id, request.getNewPassword());
+            		    logger.info("Resetting password for user {}", id);
 
             		    String hashed = encoder.encode(request.getNewPassword());
             		    user.setPasswordHash(hashed);
@@ -262,7 +255,7 @@ public class UserController {
 
             		    userRepository.saveAndFlush(user);
 
-            		    logger.info("Password successfully updated for user {}. Stored hash: {}", id, hashed);
+            		    logger.info("Password successfully updated for user {}", id);
 
             		    return ResponseEntity.ok(Map.of(
             		        "status", "true",

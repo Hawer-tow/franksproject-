@@ -1,6 +1,7 @@
 package com.example.MobileDb.service;
 
 import com.example.MobileDb.config.DarajaProperties;
+import com.example.MobileDb.payments.PaymentFormat;
 import com.example.MobileDb.security.SecurityUtils;
 import com.example.MobileDb.service.dto.PaymentRequest;
 import com.example.MobileDb.service.dto.PaymentResponse;
@@ -26,17 +27,19 @@ public class MpesaSendmoneyService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final DarajaProperties props;
+    private final DarajaAuthService auth;
 
-    public MpesaSendmoneyService(DarajaProperties props) {
+    public MpesaSendmoneyService(DarajaProperties props, DarajaAuthService auth) {
         this.restTemplate = new RestTemplate();
         this.objectMapper = new ObjectMapper();
         this.props = props;
+        this.auth = auth;
     }
 
     public PaymentResponse sendB2C(PaymentRequest req) {
         validateRequest(req);
 
-        String token = obtainAccessToken();
+        String token = auth.accessToken();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setBearerAuth(token);
@@ -56,25 +59,25 @@ public class MpesaSendmoneyService {
 
         // Build payload
         Map<String, Object> body = new HashMap<>();
-        if (req.getOriginatorConversationID() != null && !req.getOriginatorConversationID().isBlank()) {
-            body.put("OriginatorConversationID", req.getOriginatorConversationID());
-        }
+        // Our own id: Safaricom echoes it in the result callback, which is how the sale is found again
+        body.put("OriginatorConversationID", req.getOriginatorConversationID());
         body.put("InitiatorName", req.getInitiatorName());
         body.put("SecurityCredential", credential);
         body.put("CommandID", req.getCommandID());
         body.put("Amount", req.getAmount().intValue());
         body.put("PartyA", req.getPartyA());
         body.put("PartyB", req.getPartyB());
-        body.put("Remarks", req.getRemarks());
+        body.put("Remarks", PaymentFormat.limit(req.getRemarks(), 100, "Payment"));
         body.put("QueueTimeOutURL", props.getB2cTimeoutUrl()); // use B2C-specific timeout URL
         body.put("ResultURL", props.getB2cResultUrl());        // use B2C-specific result URL
-        body.put("Occasion", req.getOccasion());
+        body.put("Occasion", PaymentFormat.limit(req.getOccasion(), 100, "Payment"));
 
         try {
             String jsonBody = objectMapper.writeValueAsString(body);
             HttpEntity<String> entity = new HttpEntity<>(jsonBody, headers);
 
-            log.info("Outgoing Daraja B2C payload: {}", jsonBody);
+            log.info("Sending Daraja B2C: amount={} to={} ref={}", body.get("Amount"), body.get("PartyB"),
+                    body.get("OriginatorConversationID"));
 
             ResponseEntity<String> response = restTemplate.exchange(props.getB2cUrl(), HttpMethod.POST, entity, String.class);
 
@@ -115,34 +118,8 @@ public class MpesaSendmoneyService {
             throw new IllegalArgumentException("PartyA (shortcode) is required");
         if (req.getPartyB() == null || req.getPartyB().isBlank())
             throw new IllegalArgumentException("PartyB (recipient) is required");
+        if (req.getOriginatorConversationID() == null || req.getOriginatorConversationID().isBlank())
+            throw new IllegalArgumentException("OriginatorConversationID is required");
     }
 
-    private String obtainAccessToken() {
-        try {
-            String creds = props.getConsumerKey() + ":" + props.getConsumerSecret();
-            String encoded = Base64.getEncoder().encodeToString(creds.getBytes(StandardCharsets.UTF_8));
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.set("Authorization", "Basic " + encoded);
-
-            HttpEntity<String> entity = new HttpEntity<>("", headers);
-
-            ResponseEntity<String> response = restTemplate.exchange(props.getTokenUrl(), HttpMethod.GET, entity, String.class);
-
-            if (!response.getStatusCode().is2xxSuccessful()) {
-                log.error("Failed to obtain token, status: {}, body: {}", response.getStatusCodeValue(), response.getBody());
-                throw new RuntimeException("Failed to obtain access token");
-            }
-
-            Map<String, Object> map = objectMapper.readValue(response.getBody(), new TypeReference<>() {});
-            Object tokenObj = map.get("access_token");
-            if (tokenObj == null) throw new RuntimeException("access_token not present in token response");
-
-            log.info("Obtained Daraja access token successfully");
-            return tokenObj.toString();
-        } catch (Exception ex) {
-            log.error("Error obtaining access token: {}", ex.getMessage(), ex);
-            throw new RuntimeException("Error obtaining access token: " + ex.getMessage(), ex);
-        }
-    }
 }

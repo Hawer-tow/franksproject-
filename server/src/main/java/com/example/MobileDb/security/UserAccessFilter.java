@@ -37,8 +37,12 @@ public class UserAccessFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
 
         // ✅ Exclude only truly public endpoints
+        // Payment provider callbacks (Safaricom Daraja, Equity Jenga) arrive as plain JSON with no app headers
         boolean isExcludedEndpoint = path.startsWith("/api/public-key")
-        	    || (path.startsWith("/api/users") && "GET".equalsIgnoreCase(request.getMethod()));
+        	    || (path.startsWith("/api/users") && "GET".equalsIgnoreCase(request.getMethod()))
+        	    || path.startsWith("/mpesa/callback/")
+        	    || path.equals("/equity/sendmoneycallback")
+        	    || path.equals("/equity/stkpushcallback");
 
 
         if (isExcludedEndpoint) {
@@ -53,11 +57,6 @@ public class UserAccessFilter extends OncePerRequestFilter {
         	String encryptedPayload = request.getHeader("X-Encrypted-Payload");
         	String iv = request.getHeader("X-IV");
 
-        	System.out.println("=== Incoming Request Headers ===");
-        	System.out.println("X-Encrypted-Key: " + encryptedKey);
-        	System.out.println("X-Encrypted-Payload: " + encryptedPayload);
-        	System.out.println("X-IV: " + iv);
-
         	if (encryptedKey == null || encryptedPayload == null || iv == null) {
         	    writeJsonError(response, HttpServletResponse.SC_BAD_REQUEST,
         	            900101, "Missing encryption headers");
@@ -66,21 +65,22 @@ public class UserAccessFilter extends OncePerRequestFilter {
 
         	// Step 2: Decrypt AES key
         	SecretKey aesKey = CryptoUtils.decryptAESKey(encryptedKey, serverPrivateKey);
-        	System.out.println("AES key decrypted successfully: " +
-        	        Base64.getEncoder().encodeToString(aesKey.getEncoded()));
 
         	// Step 3: Decrypt payload
         	String decryptedPayload = CryptoUtils.decryptPayload(encryptedPayload, iv, aesKey);
-        	System.out.println("Decrypted payload: " + decryptedPayload);
 
         	// Step 4: Wrap request with decrypted JSON body
         	HttpServletRequest wrappedRequest = new DecryptedHttpServletRequestWrapper(request, decryptedPayload);
 
         	// Step 5: Continue with user access checks
         	String userIdHeader = request.getHeader("X-User-Id");
-        	System.out.println("X-User-Id: " + userIdHeader);
 
         	if (userIdHeader == null) {
+        	    // Logging in is how a user gets an id, so the login request itself may come without one
+        	    if ("/api/users/login".equals(path)) {
+        	        filterChain.doFilter(wrappedRequest, response);
+        	        return;
+        	    }
         	    writeJsonError(response, HttpServletResponse.SC_UNAUTHORIZED,
         	            40101, "Missing user ID");
         	    return;
@@ -89,15 +89,19 @@ public class UserAccessFilter extends OncePerRequestFilter {
         	int userId = Integer.parseInt(userIdHeader);
         	var userOpt = userRepository.findById(userId);
 
-        	if (!Boolean.TRUE.equals(userOpt.get().getIsAdmin())) {
-        	    if (userOpt.isEmpty() || userOpt.get().getAccessStatus() != 1) {
-        	        writeJsonError(response, HttpServletResponse.SC_FORBIDDEN,
-        	                40301, "Access denied: inactive user");
-        	        return;
-        	    }
+        	if (userOpt.isEmpty()) {
+        	    writeJsonError(response, HttpServletResponse.SC_UNAUTHORIZED,
+        	            40102, "Unknown user");
+        	    return;
         	}
 
-        	System.out.println("User access check passed for userId=" + userId);
+        	var user = userOpt.get();
+        	if (!Boolean.TRUE.equals(user.getIsAdmin())
+        	        && (user.getAccessStatus() == null || user.getAccessStatus() != 1)) {
+        	    writeJsonError(response, HttpServletResponse.SC_FORBIDDEN,
+        	            40301, "Access denied: inactive user");
+        	    return;
+        	}
 
         	// ✅ Only ONE call here
         	filterChain.doFilter(wrappedRequest, response);

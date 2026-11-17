@@ -78,16 +78,38 @@ the Jenga API key + consumer secret + private key, the Spring Security password,
 app↔server private key. Moving them to `.env` here stops new leaks but does not undo old ones:
 **change each of them**, then make that repo private or delete it.
 
+## Payments (server)
+
+Every request to Safaricom (Daraja) or Equity (Jenga) is logged in the `provider_transactions` table
+(created automatically on the next server start): reference, provider ids, phone, amount, status
+(`PENDING`, `SUCCESS`, `FAILED`, `CANCELLED`, `TIMEOUT`), result message and receipt.
+
+- **Payment prompts** (`POST /mpesa/stkpush`, `POST /equity/stkpush`): the buy is recorded only when the
+  provider confirms the customer paid. Cancelled or unanswered prompts never become buys.
+- **Send money** (`POST /mpesa/sendMoney`, `POST /equity/sendmoney`, `POST /equity/sendToAccount`): the sale is
+  created as `PENDING` when the provider accepts the request and updated when the result arrives
+  (Equity-to-Equity transfers are final immediately).
+- **Status**: `GET /payments/{reference}`. For an M-Pesa prompt still pending after 30 s it queries Safaricom
+  directly, so a missed callback (tunnel down) does not leave it stuck.
+- Rules from the provider docs are applied before sending: Kenyan numbers as `2547…`, whole shillings for
+  Daraja, `"500.00"` strings for Jenga, length limits on references and descriptions, Jenga signatures in the
+  documented field order. Unit tests: `gradlew test --tests "com.example.MobileDb.payments.*" --tests "com.example.MobileDb.service.PaymentRecorderTest"`.
+- Equity merchant account, name and callback address are in `application.properties` (`jenga.*`).
+
 ## Known issues to fix
 
-- [ ] **Admin login skips the password check.** `UserController.login` returns success for any `is_admin` user.
-- [ ] **M-Pesa callbacks never arrive.** Daraja is given `/callback/...` URLs but the controller listens on `/mpesa/callback/...`, and `UserAccessFilter` rejects callbacks because they carry no encryption headers. Transactions stay `PENDING`.
-- [ ] `UserAccessFilter` calls `userOpt.get()` before checking `isEmpty()`, so an unknown `X-User-Id` gives a 500.
-- [ ] `GET /api/users` is open and returns password hashes. The server also logs raw passwords, AES keys and decrypted payloads.
-- [ ] Biometric public keys are kept in memory (`BiometricService`), so biometric login breaks after every restart.
-- [ ] RSA keys are read from `src/main/resources/...` file paths, which only works with `bootRun`, not from a packaged jar.
-- [ ] The app calls `PUT api/users/{id}/biometric-status`, which the server doesn't have.
-- [ ] Customer portal: the pages call `/api/login`, `/api/logout`, `/api/currentCustomer`, `/api/kenya2ugxrates`, … but `backend/` serves `/api/auth/*`, `/api/customers/currentCustomer`, `/api/rates/*` (only `legacy/serverjs.js` matches). The React app has no Vite proxy to port 3000.
+- [x] ~~Admin login skips the password check.~~ Admins now need a valid password or biometric; they still skip the inactive-user check.
+- [x] ~~M-Pesa callbacks never arrive.~~ Daraja URLs now point at `/mpesa/callback/...`, and `UserAccessFilter` lets Daraja and Jenga callbacks through.
+- [ ] **Callbacks are not authenticated.** Anyone who knows the URL can post a fake "success" result. Add a secret token to the callback URLs (or an IP allowlist).
+- [ ] **There is no real login session.** The server trusts the `X-User-Id` header, and the encryption key is public (`/api/public-key`), so anyone can call the API as any user. Login should return a token that later requests must carry.
+- [x] ~~`UserAccessFilter` calls `userOpt.get()` before checking `isEmpty()`.~~ An unknown `X-User-Id` now gets a 401.
+- [ ] `GET /api/users` is open and returns password hashes. The app uses those hashes for offline login, so fixing this needs an app change too. (The server no longer logs raw passwords, AES keys or decrypted payloads.)
+- [x] ~~Biometric public keys are kept in memory.~~ Fingerprint login now stores the phone's public key in `users.biometric_public_key`; the phone signs a time-stamped login message with a fingerprint-locked Keystore key (EC P-256), and the server verifies it (`BiometricService`, with tests).
+- [x] ~~RSA keys are read from `src/main/resources/...` file paths.~~ They now load from the classpath, so a packaged jar works.
+- [x] ~~The app calls `PUT api/users/{id}/biometric-status`, which the server doesn't have.~~ It now turns fingerprint login off. Turning it on (`enable-biometrics`) requires the profile password.
+- [x] ~~Customer portal pages call the old API paths.~~ The redesigned pages call `/api/auth/*`, `/api/customers/currentCustomer` and `/api/rates/*`, and the customer area is now really behind the login check. The React app (`frontend/`) still has no Vite proxy to port 3000 and still uses the old look.
+- [x] ~~The Settings "Fingerprint login" switch does nothing.~~ It now sets fingerprint login up (after asking for the password) or removes it.
+- [x] ~~Login right after logging out could be refused~~ (the login request had no `X-User-Id`); the filter now lets `/api/users/login` through without one.
 - [ ] Customer passwords are predictable (`Fm/YYMMHHMM/<code>6<code>/<id>`), stored in plain text, and returned by the server's `GET /api/customers`.
 - [ ] Session secret in `customer-portal/backend/server.js` is a placeholder.
 - [ ] `server/build.gradle` has duplicate dependencies, two MySQL drivers and H2.

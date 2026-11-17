@@ -95,7 +95,7 @@ public class JengaSendMoneyService {
         	            + request.getTransfer().getReference().trim()
         	            + request.getSource().getAccountNumber().trim();
 
-            logger.info("SendMoney Signature String: " + data);
+            logger.fine("Jenga send-to-mobile signature string built");
             return SignatureUtil.generateSignature(data, privateKey);
         } catch (Exception e) {
             throw new RuntimeException("Error generating signature", e);

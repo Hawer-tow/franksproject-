@@ -1,233 +1,233 @@
 package com.example.MobileDb.controller.kisenyi;
 
 import com.example.MobileDb.config.DarajaProperties;
-import com.example.MobileDb.entity.kisenyi.Buying;
+import com.example.MobileDb.entity.kisenyi.ProviderTransaction;
 import com.example.MobileDb.entity.kisenyi.Selling;
-import com.example.MobileDb.repository.kisenyi.BuyingRepository;
-import com.example.MobileDb.repository.kisenyi.SellingRepository;
+import com.example.MobileDb.payments.DarajaCallbacks;
+import com.example.MobileDb.payments.PaymentFormat;
+import com.example.MobileDb.payments.PaymentStatus;
+import com.example.MobileDb.payments.ProviderException;
 import com.example.MobileDb.service.MpesaSendmoneyService;
 import com.example.MobileDb.service.MpesaStkpush_Service;
-import com.example.MobileDb.service.dto.*;
+import com.example.MobileDb.service.PaymentRecorder;
+import com.example.MobileDb.service.dto.PaymentRequest;
+import com.example.MobileDb.service.dto.PaymentResponse;
+import com.example.MobileDb.service.dto.mpesa2phoneStkpush_Request;
+import com.example.MobileDb.service.dto.mpesa2phoneStkpush_Response;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Optional;
 
+/**
+ * Safaricom M-Pesa (Daraja).
+ *   POST /mpesa/stkpush     payment prompt on the customer's phone (money in)
+ *   POST /mpesa/sendMoney   B2C payment to the customer's phone (money out)
+ *   POST /mpesa/callback/** results from Safaricom (no app encryption; see UserAccessFilter)
+ */
 @RestController
 @RequestMapping("/mpesa")
 public class MpesaController {
 
     private static final Logger log = LoggerFactory.getLogger(MpesaController.class);
+    private static final Map<String, Object> ACK = Map.of("ResultCode", 0, "ResultDesc", "Accepted");
 
-    private final MpesaSendmoneyService darajaPaymentService;
-    private final MpesaStkpush_Service stkpushService;
-    private final SellingRepository sellingRepo;
-    private final BuyingRepository buyingRepo;
+    private final MpesaSendmoneyService b2cService;
+    private final MpesaStkpush_Service stkService;
+    private final PaymentRecorder recorder;
     private final DarajaProperties props;
+    private final ObjectMapper json;
 
-    public MpesaController(SellingRepository sellingRepo,
-                          BuyingRepository buyingRepo,
-                          MpesaSendmoneyService darajaPaymentService,
-                          MpesaStkpush_Service stkpushService,
-                          DarajaProperties props) {
-        this.sellingRepo = sellingRepo;
-        this.buyingRepo = buyingRepo;
-        this.darajaPaymentService = darajaPaymentService;
-        this.stkpushService = stkpushService;
+    public MpesaController(MpesaSendmoneyService b2cService, MpesaStkpush_Service stkService,
+                           PaymentRecorder recorder, DarajaProperties props, ObjectMapper json) {
+        this.b2cService = b2cService;
+        this.stkService = stkService;
+        this.recorder = recorder;
         this.props = props;
+        this.json = json;
     }
 
-    // ========================================================================
-    // 1. BUSINESS LOGIC ENDPOINTS (Called by Android App)
-    // ========================================================================
+    // ======================================================================
+    // Requests from the app
+    // ======================================================================
 
-
+    /** Payment prompt. The buy is recorded when Safaricom confirms the customer paid. */
     @PostMapping("/stkpush")
-    public ResponseEntity<mpesa2phoneStkpush_Response> initiateStkPush(@RequestBody mpesa2phoneStkpush_Request request) {
-        log.info("Initiating STK Push for: {}", request.getPhoneNumber());
-        
-        // 1. Initial Buying record
-        Buying buying = new Buying();
-        buying.setBuyingDate(LocalDate.now());
-        buying.setBuyingAmount(BigDecimal.valueOf(request.getAmount()));
-        buying.setBuyingRate(BigDecimal.valueOf(request.getRate()));
-        buying.setBuyerName(request.getPhoneNumber());
-        buying.setTransactingCountry("Kenya");
-        buying.setBuyDescription("Mpesa STK Push Transaction");
-        buyingRepo.save(buying);
+    public ResponseEntity<?> initiateStkPush(@RequestBody mpesa2phoneStkpush_Request request) {
+        String msisdn;
+        BigDecimal amount;
+        BigDecimal rate;
+        try {
+            msisdn = PaymentFormat.kenyanMsisdn(request.getPhoneNumber());
+            amount = PaymentFormat.positiveAmount(request.getAmount(), "Amount");
+            rate = request.getRate() > 0 ? BigDecimal.valueOf(request.getRate()) : null;
+        } catch (IllegalArgumentException e) {
+            return badRequest(e.getMessage());
+        }
+        int shillings = PaymentFormat.wholeShillings(amount);
 
-        // 2. Call Service
-        mpesa2phoneStkpush_Response response = stkpushService.initiateStkPush(request);
-
-        // 3. Update with CheckoutRequestID
-        buying.setCheckoutRequestId(response.getCheckoutRequestId());
-        buyingRepo.save(buying);
-
-        return ResponseEntity.ok(response);
+        String reference = recorder.newReference(10);
+        ProviderTransaction txn = recorder.start(ProviderTransaction.MPESA, ProviderTransaction.MPESA_STK_PUSH,
+                reference, msisdn, props.getShortcode(), BigDecimal.valueOf(shillings), rate, "KES");
+        try {
+            mpesa2phoneStkpush_Response response = stkService.initiate(msisdn, shillings, "FM" + reference, "FrankMpesa");
+            recorder.accepted(txn, response.getCheckoutRequestId(), response.getMerchantRequestId(), toJson(response));
+            log.info("M-Pesa prompt sent: ref={} checkout={}", reference, response.getCheckoutRequestId());
+            return ResponseEntity.ok(response);
+        } catch (ProviderException e) {
+            recorder.rejected(txn, e.getMessage(), e.getProviderBody());
+            return providerError(e.getMessage(), reference);
+        }
     }
 
-    /**
-     * B2C SEND MONEY (Send Money to Phone - Selling)
-     * Path: POST /mpesa/sendMoney
-     */
+    /** B2C: send money to the customer's M-Pesa. The sale is created as PENDING once Safaricom accepts. */
     @PostMapping("/sendMoney")
     public ResponseEntity<?> sendMoneyDaraja(@RequestBody Selling selling) {
-        log.info("Received B2C request: phone={} amount={}", selling.getPhoneNo(), selling.getSellingAmount());
-
-        if (selling.getPhoneNo() == null || selling.getPhoneNo().isBlank()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "missing_field", "field", "phoneNo"));
+        String msisdn;
+        BigDecimal amount;
+        try {
+            msisdn = PaymentFormat.kenyanMsisdn(selling.getPhoneNo());
+            amount = PaymentFormat.positiveAmount(selling.getSellingAmount(), "Amount");
+        } catch (IllegalArgumentException e) {
+            return badRequest(e.getMessage());
         }
+        int shillings = PaymentFormat.wholeShillings(amount);
+        BigDecimal rate = selling.getSellingRate() != null && selling.getSellingRate() > 0
+                ? BigDecimal.valueOf(selling.getSellingRate()) : null;
+
+        String reference = "FM" + recorder.newReference(16);
+        ProviderTransaction txn = recorder.start(ProviderTransaction.MPESA, ProviderTransaction.MPESA_B2C,
+                reference, msisdn, props.getB2cShortcode(), BigDecimal.valueOf(shillings), rate, "KES");
 
         PaymentRequest req = new PaymentRequest();
-        String clientOriginatorId = "APP_" + UUID.randomUUID().toString();
-        req.setOriginatorConversationID(clientOriginatorId);
+        req.setOriginatorConversationID(reference);
         req.setInitiatorName(props.getInitiatorName());
         req.setCommandID("BusinessPayment");
-        req.setAmount(selling.getSellingAmount());
-        req.setPartyA(props.getB2cShortcode()); 
-        req.setPartyB(selling.getPhoneNo()); // Using phone from body
-
-        req.setRemarks(selling.getSellDescription() != null ? selling.getSellDescription() : "Payment");
-        req.setQueueTimeOutURL(props.getB2cTimeoutUrl()); 
-        req.setResultURL(props.getB2cResultUrl());        
+        req.setAmount((double) shillings);
+        req.setPartyA(props.getB2cShortcode());
+        req.setPartyB(msisdn);
+        req.setRemarks(selling.getSellDescription() != null ? selling.getSellDescription() : "FrankMpesa payment");
         req.setOccasion("Sale");
 
         try {
-            PaymentResponse resp = darajaPaymentService.sendB2C(req);
-            
-            // Map Response to Entity
-            selling.setProviderHttpStatus(String.valueOf(resp.getStatus()));
-            selling.setProviderResponse(resp.getRaw() != null ? resp.getRaw().toString() : null);
-            selling.setClientOriginatorId(clientOriginatorId);
-            selling.setOriginatorConversationId(resp.getOriginatorConversationID());
-            selling.setConversationId(resp.getConversationID());
-            selling.setStatus("PENDING");
-            selling.setSaleType("MPESA");
-            if (selling.getSellingDate() == null) selling.setSellingDate(new Date());
+            PaymentResponse resp = b2cService.sendB2C(req);
+            if (!"0".equals(resp.getResponseCode())) {
+                String why = resp.getResponseDescription() != null ? resp.getResponseDescription()
+                        : describeRaw(resp.getRaw());
+                recorder.rejected(txn, "Safaricom refused the payment: " + why, toJson(resp.getRaw()));
+                return providerError("Safaricom refused the payment: " + why, reference);
+            }
+            recorder.accepted(txn, resp.getConversationID(), resp.getOriginatorConversationID(), toJson(resp.getRaw()));
+            Selling sale = recorder.recordPendingSale(txn, "MPESA", msisdn, selling.getRecipientName(),
+                    props.getB2cShortcode(), msisdn,
+                    selling.getSellDescription() != null ? selling.getSellDescription() : "M-Pesa payment");
 
-            sellingRepo.save(selling);
-
-            Map<String, Object> responseMap = new HashMap<>();
-            responseMap.put("status", resp.getStatus());
-            responseMap.put("message", resp.getMessage());
-            responseMap.put("transactionId", resp.getTransactionId());
-            responseMap.put("clientOriginatorID", clientOriginatorId);
-
-            return ResponseEntity.ok(responseMap);
-        } catch (Exception ex) {
-            log.error("B2C Error", ex);
-            return ResponseEntity.status(500).body(Map.of("error", "internal_error", "message", ex.getMessage()));
+            Map<String, Object> body = new LinkedHashMap<>();
+            body.put("status", PaymentStatus.PENDING);
+            body.put("message", resp.getResponseDescription());
+            body.put("reference", reference);
+            body.put("conversationId", resp.getConversationID());
+            body.put("sellingId", sale.getSellingId());
+            return ResponseEntity.ok(body);
+        } catch (IllegalArgumentException e) {
+            recorder.rejected(txn, e.getMessage(), null);
+            return badRequest(e.getMessage());
+        } catch (RuntimeException e) {
+            log.error("B2C request {} failed", reference, e);
+            recorder.rejected(txn, e.getMessage(), null);
+            return providerError("Could not send the payment: " + e.getMessage(), reference);
         }
     }
-  
 
-    // ========================================================================
-    // 2. CALLBACK ENDPOINTS (Called by Safaricom Daraja)
-    // ========================================================================
+    // ======================================================================
+    // Callbacks from Safaricom (always acknowledged so Safaricom does not keep retrying)
+    // ======================================================================
 
     @PostMapping("/callback/stkpush/result")
-    public ResponseEntity<String> handleStkPushResult(@RequestBody Map<String, Object> payload) {
-        log.info("STK Push Result Payload: {}", payload);
-
+    public ResponseEntity<Map<String, Object>> handleStkPushResult(@RequestBody Map<String, Object> payload) {
         try {
-            Map<String, Object> body = (Map<String, Object>) payload.get("Body");
-            Map<String, Object> stkCallback = (Map<String, Object>) body.get("stkCallback");
-
-            String checkoutRequestId = (String) stkCallback.get("CheckoutRequestID");
-            Integer resultCode = (Integer) stkCallback.get("ResultCode");
-            String resultDesc = (String) stkCallback.get("ResultDesc");
-
-            Buying buying = buyingRepo.findByCheckoutRequestId(checkoutRequestId);
-            if (buying != null) {
-                buying.setBuyDescription("STK Push Result: " + resultDesc);
-                log.info("Updating Buying record with CheckoutRequestID={} and ResultDesc={}", checkoutRequestId, resultDesc);
-
-                Map<String, Object> callbackMetadata = (Map<String, Object>) stkCallback.get("CallbackMetadata");
-                if (callbackMetadata != null) {
-                    var items = (Iterable<Map<String, Object>>) callbackMetadata.get("Item");
-                    for (Map<String, Object> item : items) {
-                        String name = (String) item.get("Name");
-                        Object value = item.get("Value");
-                        if ("Amount".equals(name)) {
-                            buying.setBuyingAmount(new BigDecimal(value.toString()));
-                        } else if ("PhoneNumber".equals(name)) {
-                            buying.setBuyerName(value.toString());
-                        }
-                    }
-                }
-                log.info("Before save, BuyDescription={}", buying.getBuyDescription());
-
-                buyingRepo.save(buying);
+            DarajaCallbacks.StkResult r = DarajaCallbacks.parseStk(payload);
+            Optional<ProviderTransaction> txn = recorder.byProviderRequestId(r.checkoutRequestId());
+            if (txn.isPresent()) {
+                ProviderTransaction t = recorder.applyStkResult(txn.get(), r, toJson(payload));
+                log.info("M-Pesa prompt {} -> {} ({})", t.getReference(), t.getStatus(), r.resultDesc());
+            } else {
+                log.warn("STK callback for unknown CheckoutRequestID {}: {}", r.checkoutRequestId(), r.resultDesc());
             }
-
-            return ResponseEntity.ok("STK Push callback processed successfully");
-        } catch (Exception e) {
-            log.error("Error processing STK Push callback", e);
-            return ResponseEntity.status(500).body("Error processing STK Push callback");
+        } catch (RuntimeException e) {
+            log.error("Could not process STK callback: {}", payload, e);
         }
+        return ResponseEntity.ok(ACK);
     }
-    
+
     @PostMapping("/callback/stkpush/timeout")
-    public ResponseEntity<String> handleStkPushTimeout(@RequestBody Map<String, Object> payload) {
-        log.info("STK Push Timeout Payload: {}", payload);
-        return ResponseEntity.ok("STK Push timeout callback received");
+    public ResponseEntity<Map<String, Object>> handleStkPushTimeout(@RequestBody(required = false) Map<String, Object> payload) {
+        log.info("STK push timeout notification: {}", payload);
+        return ResponseEntity.ok(ACK);
     }
 
     @PostMapping("/callback/b2c/result")
-    public ResponseEntity<Map<String, Object>> handleB2CResult(
-            @RequestBody(required = false) Map<String, Object> payload) {
-
-        log.info("Daraja B2C result callback received: {}", payload);
-
-        if (payload == null || payload.isEmpty()) {
-            return ResponseEntity.badRequest().body(Map.of("error", "empty_payload"));
+    public ResponseEntity<Map<String, Object>> handleB2CResult(@RequestBody(required = false) Map<String, Object> payload) {
+        try {
+            DarajaCallbacks.B2cResult r = DarajaCallbacks.parseB2c(payload);
+            Optional<ProviderTransaction> txn = findB2c(r.originatorConversationId(), r.conversationId());
+            if (txn.isPresent()) {
+                ProviderTransaction t = recorder.applyB2cResult(txn.get(), r, toJson(payload));
+                log.info("M-Pesa B2C {} -> {} ({})", t.getReference(), t.getStatus(), r.resultDesc());
+            } else {
+                log.warn("B2C result for unknown request {} / {}", r.originatorConversationId(), r.conversationId());
+            }
+        } catch (RuntimeException e) {
+            log.error("Could not process B2C result: {}", payload, e);
         }
-
-        Map<String, Object> resultMap = (Map<String, Object>) payload.get("Result");
-        String originatorId = Objects.toString(resultMap.get("OriginatorConversationID"), null);
-        String txnId = Objects.toString(resultMap.get("TransactionID"), null);
-        String resultCode = Objects.toString(resultMap.get("ResultCode"), null);
-        String resultDesc = Objects.toString(resultMap.get("ResultDesc"), null);
-
-        if (originatorId == null) {
-            return ResponseEntity.badRequest().body(Map.of(
-                    "error", "originator_id_missing",
-                    "ResultCode", resultCode != null ? resultCode : "UNKNOWN",
-                    "ResultDesc", resultDesc != null ? resultDesc : "UNKNOWN"
-            ));
-        }
-
-        Optional<Selling> maybeSelling = sellingRepo.findByOriginatorConversationId(originatorId);
-        if (maybeSelling.isPresent()) {
-            Selling s = maybeSelling.get();
-            s.setTransactionId(txnId);
-            s.setStatus("0".equals(resultCode) ? "SUCCESS" : "FAILED");
-            s.setSaleType("MPESA");
-            s.setSellDescription(resultDesc);
-            s.setProviderHttpStatus(resultCode);
-            s.setProviderResponse(payload.toString());
-            sellingRepo.save(s);
-        } else {
-            log.warn("No Selling entity found with OriginatorConversationID {}", originatorId);
-        }
-
-        Map<String, Object> ack = Map.of(
-                "ResultCode", resultCode != null ? resultCode : "UNKNOWN",
-                "ResultDesc", resultDesc != null ? resultDesc : "UNKNOWN",
-                "TransactionID", txnId
-        );
-
-        return ResponseEntity.ok(ack);
+        return ResponseEntity.ok(ACK);
     }
 
     @PostMapping("/callback/timeout")
-    public ResponseEntity<Map<String, Object>> handleB2CTimeout(
-            @RequestBody(required = false) Map<String, Object> payload) {
-        log.info("Daraja B2C timeout callback received: {}", payload);
-        return ResponseEntity.ok(Map.of("ResultCode", 0, "ResultDesc", "Accepted"));
+    public ResponseEntity<Map<String, Object>> handleB2CTimeout(@RequestBody(required = false) Map<String, Object> payload) {
+        try {
+            DarajaCallbacks.B2cResult r = DarajaCallbacks.parseB2c(payload);
+            findB2c(r.originatorConversationId(), r.conversationId())
+                    .ifPresent(t -> recorder.applyB2cTimeout(t, toJson(payload)));
+        } catch (RuntimeException e) {
+            log.warn("B2C timeout notification without a recognisable request: {}", payload);
+        }
+        return ResponseEntity.ok(ACK);
+    }
+
+    // ======================================================================
+
+    private Optional<ProviderTransaction> findB2c(String originatorConversationId, String conversationId) {
+        Optional<ProviderTransaction> byOurId = originatorConversationId == null
+                ? Optional.empty() : recorder.byReference(originatorConversationId);
+        return byOurId.isPresent() ? byOurId : recorder.byProviderRequestId(conversationId);
+    }
+
+    private String toJson(Object o) {
+        try {
+            return o == null ? null : json.writeValueAsString(o);
+        } catch (Exception e) {
+            return String.valueOf(o);
+        }
+    }
+
+    private static String describeRaw(Map<String, Object> raw) {
+        if (raw == null) return "no details";
+        Object m = raw.getOrDefault("errorMessage", raw.get("ResponseDescription"));
+        return m != null ? m.toString() : raw.toString();
+    }
+
+    static ResponseEntity<Map<String, Object>> badRequest(String message) {
+        return ResponseEntity.badRequest().body(Map.of("error", "invalid_request", "message", message));
+    }
+
+    static ResponseEntity<Map<String, Object>> providerError(String message, String reference) {
+        return ResponseEntity.status(502).body(Map.of("error", "provider_error", "message", message, "reference", reference));
     }
 }

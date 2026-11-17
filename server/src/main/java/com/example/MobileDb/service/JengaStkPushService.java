@@ -109,7 +109,7 @@ public class JengaStkPushService {
 	            sb.append(request.getPayment().getCurrency().trim());
 
 	            String data = sb.toString();
-	            logger.info("Final Clean Signature String: " + data);
+	            logger.fine("Jenga STK signature string built");
 	            
 	            return SignatureUtil.generateSignature(data, privateKey);
 	        } catch (Exception e) {
@@ -130,7 +130,7 @@ public class JengaStkPushService {
 	        String signature = generateSignature(request);
 	        headers.set("Signature", signature);
 
-	        logger.info("Sending Request to Jenga with Headers: " + headers);
+	        logger.info("Sending Jenga STK/USSD push, ref " + request.getPayment().getRef());
 
 	        HttpEntity<EquityStkPushRequest> entity = new HttpEntity<>(request, headers);
 	        // Ensure you are using the UAT URL correctly
@@ -140,8 +140,7 @@ public class JengaStkPushService {
 	            ResponseEntity<String> response = restTemplate.exchange(url, HttpMethod.POST, entity, String.class);
 	            return response.getBody();
 	        } catch (HttpClientErrorException e) {
-	            logger.severe("401 Check - Is Token Valid? Headers: " + e.getResponseHeaders());
-	            logger.severe("401 Check - Body content: " + e.getResponseBodyAsString());
+	            logger.severe("Jenga STK push refused: " + e.getStatusCode() + " " + e.getResponseBodyAsString());
 	            throw e;
 	        }
 	    }

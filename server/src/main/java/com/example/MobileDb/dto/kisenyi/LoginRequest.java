@@ -7,6 +7,7 @@ public class LoginRequest {
     private String biometricToken;    // ✅ optional signed token from client
     private String deviceId;    
     private String biometricKeyAlias;// ✅ device binding for normal users
+    private Long biometricTimestamp; // fingerprint login: time (ms) included in the signed message
 
     // Default constructor
     public LoginRequest() {}
@@ -68,4 +69,7 @@ public class LoginRequest {
     public void setBiometricKeyAlias(String biometricKeyAlias) { 
     	this.biometricKeyAlias = biometricKeyAlias; 
     	} // ✅ new setter
+
+    public Long getBiometricTimestamp() { return biometricTimestamp; }
+    public void setBiometricTimestamp(Long biometricTimestamp) { this.biometricTimestamp = biometricTimestamp; }
 }

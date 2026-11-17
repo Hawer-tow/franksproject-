@@ -97,7 +97,7 @@ public class EquityAccountSendMoneyService {
                     + request.getTransfer().getCurrencyCode().trim()
                     + request.getTransfer().getReference().trim();
 
-            logger.info("Bank Transfer Signature String: " + data);
+            logger.fine("Jenga internal transfer signature string built");
             return SignatureUtil.generateSignature(data, privateKey);
         } catch (Exception e) {
             throw new RuntimeException("Error generating signature", e);

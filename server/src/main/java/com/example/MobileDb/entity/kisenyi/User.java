@@ -1,5 +1,6 @@
 package com.example.MobileDb.entity.kisenyi;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -78,6 +79,20 @@ public class User {
 
     public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
+    }
+
+    // Fingerprint login: public key (Base64 X.509) of the phone's fingerprint-locked key pair.
+    // Never sent to clients.
+    @JsonIgnore
+    @Column(name = "biometric_public_key", columnDefinition = "TEXT")
+    private String biometricPublicKey;
+
+    public String getBiometricPublicKey() {
+        return biometricPublicKey;
+    }
+
+    public void setBiometricPublicKey(String biometricPublicKey) {
+        this.biometricPublicKey = biometricPublicKey;
     }
 
     // ✅ Access status flag: 1 = allowed, 0 = denied

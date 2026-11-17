@@ -5,12 +5,13 @@ import com.example.MobileDb.security.UserAccessFilter;
 import com.example.MobileDb.security.CryptoUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
@@ -26,11 +27,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // ✅ Load keys from PEM files (adjust paths to your actual key files)
-       
-        
-        byte[] privateKeyBytes = Files.readAllBytes(Paths.get("src/main/resources/keys/mobile2serverencryption_decription_private_key.pem"));
-        byte[] publicKeyBytes = Files.readAllBytes(Paths.get("src/main/resources/keys/mobile2serverencryption_decription_public_key.pem"));
+        // ✅ Load keys from the classpath so this works from bootRun and from a packaged jar
+        byte[] privateKeyBytes = readClasspath("keys/mobile2serverencryption_decription_private_key.pem");
+        byte[] publicKeyBytes = readClasspath("keys/mobile2serverencryption_decription_public_key.pem");
 
 
         PrivateKey serverPrivateKey = CryptoUtils.loadPrivateKey(privateKeyBytes);
@@ -46,5 +45,11 @@ public class SecurityConfig {
 
 
         return http.build();
+    }
+
+    private static byte[] readClasspath(String path) throws IOException {
+        try (InputStream is = new ClassPathResource(path).getInputStream()) {
+            return is.readAllBytes();
+        }
     }
 }
