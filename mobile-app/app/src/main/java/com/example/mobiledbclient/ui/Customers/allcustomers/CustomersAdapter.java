@@ -113,6 +113,8 @@ public class CustomersAdapter extends RecyclerView.Adapter<CustomersAdapter.Cust
         holder.compactContainer.setVisibility(expanded ? View.GONE : View.VISIBLE);
 
         // Expand chevron click
+        // Tapping anywhere on the collapsed row opens it, like the arrow
+        holder.compactContainer.setOnClickListener(v -> holder.expandChevron.performClick());
         holder.expandChevron.setOnClickListener(v -> {
             expandedPositions.add(position);
             notifyItemChanged(position);

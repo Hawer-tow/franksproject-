@@ -22,7 +22,7 @@ import com.example.mobiledbclient.R;
 
 import com.example.mobiledbclient.Login.SessionManager;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.android.material.materialswitch.MaterialSwitch;
 
 import java.util.concurrent.Executors;
 
@@ -44,14 +44,19 @@ import com.example.mobiledbclient.Login.PasswordResetRequest;
 import com.example.mobiledbclient.ApiClient;
 import com.example.mobiledbclient.ApiService;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import com.example.mobiledbclient.Login.BiometricUtils;
+import com.example.mobiledbclient.Login.FingerprintSetup;
+import android.text.InputType;
+import android.widget.FrameLayout;
 
 import retrofit2.Call;
 
 
 public class SettingsFragment extends Fragment {
 
-    private SwitchMaterial themeSwitch;
-    private SwitchMaterial securitySwitch;
+    private MaterialSwitch themeSwitch;
+    private MaterialSwitch securitySwitch;
     private MaterialButton clearLocalDataBtn;
     private MaterialButton resetPasswordBtn;
     private RadioGroup dataRangeGroup;
@@ -89,10 +94,8 @@ public class SettingsFragment extends Fragment {
         String themeName = prefs.getString(themeKey, "AppTheme_Light");
         themeSwitch.setChecked("AppTheme_Dark".equals(themeName));
 
-        // --- PER-USER SECURITY INITIALIZATION ---
-        String securityKey = "securityEnabled_" + activeUserId;
-        boolean securityEnabled = prefs.getBoolean(securityKey, true);
-        securitySwitch.setChecked(securityEnabled);
+        // --- FINGERPRINT LOGIN: on only when this profile's key is on this phone ---
+        securitySwitch.setChecked(FingerprintSetup.isOn(requireContext(), activeUserId));
 
         // --- DATA RANGE INITIALIZATION ---
         String range = prefs.getString("data_range", "all");
@@ -119,21 +122,21 @@ public class SettingsFragment extends Fragment {
         });
 
 
-        // --- SECURITY SWITCH HANDLER ---
+        // --- FINGERPRINT LOGIN SWITCH ---
         securitySwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (ignoreFingerprintSwitch) return;
             if (isChecked) {
-                prefs.edit().putBoolean(securityKey, true).apply();
+                turnOnFingerprint(activeUserId);
             } else {
                 new AlertDialog.Builder(requireContext())
-                        .setTitle("Disable Security")
-                        .setMessage("Are you sure you want to disable security for your profile? This will turn off BOTH password and biometric login.")
-                        .setPositiveButton("Yes", (dialog, which) -> {
-                            prefs.edit().putBoolean(securityKey, false).apply();
+                        .setTitle("Turn off fingerprint login?")
+                        .setMessage("You will log in to this profile with your password only.")
+                        .setPositiveButton("Turn off", (dialog, which) -> {
+                            FingerprintSetup.disable(requireContext(), activeUserId);
+                            Toast.makeText(requireContext(), "Fingerprint login is off", Toast.LENGTH_SHORT).show();
                         })
-                        .setNegativeButton("No", (dialog, which) -> {
-                            dialog.dismiss();
-                            securitySwitch.setChecked(true);
-                        })
+                        .setNegativeButton("Cancel", (dialog, which) -> setFingerprintSwitch(true))
+                        .setOnCancelListener(dialog -> setFingerprintSwitch(true))
                         .show();
             }
         });
@@ -254,4 +257,58 @@ public class SettingsFragment extends Fragment {
     public void setBuyingAdapter(BuyingAdapter adapter) { this.buyingAdapter = adapter; }
     public void setSellingAdapter(BuyingAdapter adapter) { this.sellingAdapter = adapter; }
     public void setOpenAndCloseAdapter(BuyingAdapter adapter) { this.openAndCloseAdapter = adapter; }
+
+    // ------------------------------------------------------------------ fingerprint login
+
+    private boolean ignoreFingerprintSwitch;
+
+    /** Changes the switch without running its listener. */
+    private void setFingerprintSwitch(boolean checked) {
+        ignoreFingerprintSwitch = true;
+        securitySwitch.setChecked(checked);
+        ignoreFingerprintSwitch = false;
+    }
+
+    /** Asks for the profile password (the server requires it) and registers the fingerprint key. */
+    private void turnOnFingerprint(int userId) {
+        Context context = requireContext();
+        if (!BiometricUtils.canUseFingerprint(context)) {
+            Toast.makeText(context, "Add a fingerprint in your phone's settings first", Toast.LENGTH_LONG).show();
+            setFingerprintSwitch(false);
+            return;
+        }
+
+        TextInputLayout layout = new TextInputLayout(context);
+        layout.setHint("Password");
+        layout.setEndIconMode(TextInputLayout.END_ICON_PASSWORD_TOGGLE);
+        TextInputEditText input = new TextInputEditText(layout.getContext());
+        input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        layout.addView(input);
+        int pad = Math.round(20 * context.getResources().getDisplayMetrics().density);
+        FrameLayout box = new FrameLayout(context);
+        box.setPadding(pad, pad / 2, pad, 0);
+        box.addView(layout);
+
+        new AlertDialog.Builder(context)
+                .setTitle("Turn on fingerprint login")
+                .setMessage("Enter your password to confirm it is you.")
+                .setView(box)
+                .setPositiveButton("Turn on", (dialog, which) -> {
+                    String password = input.getText() != null ? input.getText().toString() : "";
+                    if (password.isEmpty()) {
+                        Toast.makeText(context, "Password is required", Toast.LENGTH_SHORT).show();
+                        setFingerprintSwitch(false);
+                        return;
+                    }
+                    FingerprintSetup.enable(context, userId, password, (ok, message) -> {
+                        if (isAdded()) {
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                            setFingerprintSwitch(ok);
+                        }
+                    });
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> setFingerprintSwitch(false))
+                .setOnCancelListener(dialog -> setFingerprintSwitch(false))
+                .show();
+    }
 }

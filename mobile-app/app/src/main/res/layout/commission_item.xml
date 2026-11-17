@@ -1,69 +1,144 @@
 <?xml version="1.0" encoding="utf-8"?>
-<HorizontalScrollView
+<!-- Commission: one record per card, every value labelled -->
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:scrollbars="horizontal">
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="6dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/item_border">
-
-        <Button
-            android:id="@+id/commissionEdit"
-            android:layout_width="0dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+        <!-- Record number, date and actions -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="4dp"
-            android:text="Edt" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/commissionCid"
-            android:layout_width="0dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="#"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle"
+                android:textColor="?attr/colorPrimary" />
+
+            <EditText
+                android:id="@+id/commissionCid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:enabled="false"
+                android:importantForAutofill="no"
+                android:inputType="none"
+                android:minWidth="24dp"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle"
+                android:textColor="?attr/colorPrimary" />
+
+            <EditText
+                android:id="@+id/commissionDate"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:background="@null"
+                android:enabled="false"
+                android:importantForAutofill="no"
+                android:inputType="none"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.Caption"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+
+            <Button
+                android:id="@+id/commissionDelete"
+                style="@style/Widget.FrankMpesa.Button.Text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:minWidth="0dp"
+                android:text="Delete"
+                android:textColor="?attr/colorError" />
+
+            <Button
+                android:id="@+id/commissionEdit"
+                style="@style/Widget.FrankMpesa.Button.Tonal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:minWidth="0dp"
+                android:text="Edit" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="8dp"
+            android:background="?attr/colorOutlineVariant" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="3"
-            android:padding="4dp"
-            android:inputType="text"
-            android:enabled="false"
-            android:textStyle="bold" />
+            android:layout_marginTop="12dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:text="Commission in"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+            <EditText
+                android:id="@+id/commissionCI"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.7"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/table_field_bg"
+                android:gravity="end|center_vertical"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:minHeight="40dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.TableCell"
+                android:textColor="?attr/colorOnSurface" />
+        </LinearLayout>
 
-        <EditText
-            android:id="@+id/commissionDate"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:padding="4dp"
-            android:inputType="date"
-            android:enabled="false" />
-
-        <EditText
-            android:id="@+id/commissionCI"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:padding="4dp"
-            android:inputType="numberDecimal" />
-
-        <EditText
-            android:id="@+id/commissionCO"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="4"
-            android:padding="4dp"
-            android:inputType="numberDecimal" />
-
-        <Button
-            android:id="@+id/commissionDelete"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:padding="4dp"
-            android:text="Del" />
-
+            android:layout_marginTop="6dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.3"
+                android:text="Commission out"
+                android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+                android:textColor="?attr/colorOnSurfaceVariant" />
+            <EditText
+                android:id="@+id/commissionCO"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.7"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/table_field_bg"
+                android:gravity="end|center_vertical"
+                android:importantForAutofill="no"
+                android:inputType="numberDecimal"
+                android:minHeight="40dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.TableCell"
+                android:textColor="?attr/colorOnSurface" />
+        </LinearLayout>
     </LinearLayout>
-
-</HorizontalScrollView>
+</com.google.android.material.card.MaterialCardView>

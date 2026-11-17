@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Equity forms: Equity maroon when focused, soft grey otherwise -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Focused state uses theme's primary color -->
-    <item android:color="@color/light_editbtncolor" android:state_focused="true"/>
-    <!-- Default/unfocused state -->
-    <item android:color="?attr/Primarycolor"/>
+    <item android:color="@color/equity_transaction_main_color" android:state_focused="true"/>
+    <item android:color="?attr/colorOutline"/>
 </selector>

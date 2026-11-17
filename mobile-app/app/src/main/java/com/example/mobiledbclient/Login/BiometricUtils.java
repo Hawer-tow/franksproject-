@@ -1,93 +1,87 @@
 package com.example.mobiledbclient.Login;
 
+import android.content.Context;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.security.keystore.KeyProperties;
 import android.util.Base64;
 
+import androidx.biometric.BiometricManager;
+
+import java.nio.charset.StandardCharsets;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.spec.ECGenParameterSpec;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-
+/**
+ * Fingerprint login keys.
+ *
+ * Each profile gets an EC P-256 key pair in the Android Keystore. The private key never leaves the
+ * phone and can only sign after a fingerprint check (BiometricPrompt + CryptoObject); the server
+ * keeps the public key and verifies the signed login message.
+ */
 public class BiometricUtils {
 
     private static final String KEYSTORE_NAME = "AndroidKeyStore";
 
-    /**
-     * Generates a unique AES secret key for the user in the Android Keystore.
-     */
-    public static void generateBiometricKey(int userId) throws Exception {
-        String alias = getAlias(userId);
-        KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
-        keyStore.load(null);
+    /** True when the phone has a strong biometric (fingerprint) set up and ready to use. */
+    public static boolean canUseFingerprint(Context context) {
+        return BiometricManager.from(context).canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+                == BiometricManager.BIOMETRIC_SUCCESS;
+    }
 
-        if (!keyStore.containsAlias(alias)) {
-            KeyGenerator keyGenerator = KeyGenerator.getInstance(
-                    KeyProperties.KEY_ALGORITHM_AES, KEYSTORE_NAME);
-
-            keyGenerator.init(new KeyGenParameterSpec.Builder(alias,
-                    KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
-                    .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
-                    .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                    .setUserAuthenticationRequired(true) // Requires biometrics
-                    .setInvalidatedByBiometricEnrollment(true) // Key invalidated if new biometric added
-                    .build());
-
-            keyGenerator.generateKey();
-        }
+    /** Creates (or replaces) the profile's key pair and returns the public key as Base64 X.509. */
+    public static String createKeyPair(int userId) throws Exception {
+        removeBiometricKey(userId);
+        KeyPairGenerator generator = KeyPairGenerator.getInstance(KeyProperties.KEY_ALGORITHM_EC, KEYSTORE_NAME);
+        generator.initialize(new KeyGenParameterSpec.Builder(getAlias(userId), KeyProperties.PURPOSE_SIGN)
+                .setAlgorithmParameterSpec(new ECGenParameterSpec("secp256r1"))
+                .setDigests(KeyProperties.DIGEST_SHA256)
+                .setUserAuthenticationRequired(true)       // every signature needs a fingerprint
+                .setInvalidatedByBiometricEnrollment(true) // adding a new fingerprint disables the key
+                .build());
+        KeyPair pair = generator.generateKeyPair();
+        return Base64.encodeToString(pair.getPublic().getEncoded(), Base64.NO_WRAP);
     }
 
     /**
-     * Gets a Cipher object for the user's secret key.
-     * Handles KeyPermanentlyInvalidatedException by throwing it for the caller to handle.
+     * Signature object to hand to BiometricPrompt. Throws KeyPermanentlyInvalidatedException (and
+     * deletes the key) when the phone's fingerprints changed since fingerprint login was set up.
      */
-    public static Cipher getCipher(int userId) throws Exception {
-        String alias = getAlias(userId);
-        KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
-        keyStore.load(null);
-
-        SecretKey secretKey = (SecretKey) keyStore.getKey(alias, null);
-        Cipher cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/"
-                + KeyProperties.BLOCK_MODE_CBC + "/"
-                + KeyProperties.ENCRYPTION_PADDING_PKCS7);
-
+    public static Signature getSignature(int userId) throws Exception {
+        PrivateKey key = (PrivateKey) loadKeyStore().getKey(getAlias(userId), null);
+        if (key == null) {
+            throw new IllegalStateException("Fingerprint login is not set up for this profile");
+        }
+        Signature signature = Signature.getInstance("SHA256withECDSA");
         try {
-            cipher.init(Cipher.ENCRYPT_MODE, secretKey);
+            signature.initSign(key);
         } catch (KeyPermanentlyInvalidatedException e) {
-            // If the key is invalidated, remove it so it can be regenerated
             removeBiometricKey(userId);
             throw e;
         }
-        return cipher;
+        return signature;
     }
 
-    /**
-     * Generates a token for enrollment using the user's key.
-     * This encrypts a fixed challenge string to prove key ownership.
-     */
-    public static String generateEnrollmentToken(int userId) throws Exception {
-        Cipher cipher = getCipher(userId);
-        byte[] encrypted = cipher.doFinal("enroll_challenge".getBytes("UTF-8"));
-        return Base64.encodeToString(encrypted, Base64.NO_WRAP);
+    /** The exact text the server verifies (BiometricService.loginMessage). */
+    public static String loginMessage(String username, String deviceId, long timestamp) {
+        return "FrankMpesa-login|" + username + "|" + deviceId + "|" + timestamp;
     }
 
-    /**
-     * Generates a token for login using the cipher returned by BiometricPrompt.
-     * This encrypts a fixed challenge string to prove biometric authentication.
-     */
-    public static String generateToken(Cipher cipher) throws Exception {
-        byte[] encrypted = cipher.doFinal("login_challenge".getBytes("UTF-8"));
-        return Base64.encodeToString(encrypted, Base64.NO_WRAP);
+    /** Signs with a Signature that BiometricPrompt has unlocked; returns Base64. */
+    public static String sign(Signature unlocked, String message) throws Exception {
+        unlocked.update(message.getBytes(StandardCharsets.UTF_8));
+        return Base64.encodeToString(unlocked.sign(), Base64.NO_WRAP);
     }
 
+    /** True when this profile has a fingerprint signing key on this phone. */
     public static boolean isBiometricEnrolled(int userId) {
         try {
-            String alias = getAlias(userId);
-            KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
-            keyStore.load(null);
-            return keyStore.containsAlias(alias);
+            KeyStore.Entry entry = loadKeyStore().getEntry(getAlias(userId), null);
+            return entry instanceof KeyStore.PrivateKeyEntry; // older app versions stored a different key type
         } catch (Exception e) {
             return false;
         }
@@ -95,17 +89,21 @@ public class BiometricUtils {
 
     public static void removeBiometricKey(int userId) {
         try {
+            KeyStore keyStore = loadKeyStore();
             String alias = getAlias(userId);
-            KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
-            keyStore.load(null);
-            if (keyStore.containsAlias(alias)) {
-                keyStore.deleteEntry(alias);
-            }
+            if (keyStore.containsAlias(alias)) keyStore.deleteEntry(alias);
         } catch (Exception ignored) {
+            // nothing to remove
         }
     }
 
     public static String getAlias(int userId) {
         return "biometric_key_user_" + userId;
+    }
+
+    private static KeyStore loadKeyStore() throws Exception {
+        KeyStore keyStore = KeyStore.getInstance(KEYSTORE_NAME);
+        keyStore.load(null);
+        return keyStore;
     }
 }

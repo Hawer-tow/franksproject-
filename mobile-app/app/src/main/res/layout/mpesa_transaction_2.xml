@@ -8,8 +8,7 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
-    app:cardUseCompatPadding="true"
+    app:cardElevation="0dp"
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.core.widget.NestedScrollView
@@ -29,7 +28,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="Shop Paybill → Customer Paybill"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textColor="@color/light_Purple_persistentcolor"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +38,6 @@
             <!-- Sender Paybill (read-only, prefilled) -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_sender_paybill"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -58,7 +56,6 @@
                     android:layout_height="wrap_content"
                     android:hint="Shop Paybill"
                     android:inputType="none"
-                    android:padding="12dp"
                     android:text="600998"
                     android:focusable="false"
                     android:clickable="false"/>
@@ -67,7 +64,6 @@
             <!-- Recipient Paybill -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_recipient_paybill"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -85,14 +81,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Recipient Paybill"
-                    android:inputType="number"
-                    android:padding="12dp"/>
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Optional Recipient Phone -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_phone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -110,14 +104,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Recipient Phone (optional)"
-                    android:inputType="phone"
-                    android:padding="12dp"/>
+                    android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Amount -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_amount"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -135,14 +127,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Amount"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Rate -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_rate"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -160,14 +150,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Enter Rate"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Description -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/til_description"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -185,8 +173,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Short Description"
-                    android:inputType="text"
-                    android:padding="12dp"/>
+                    android:inputType="text"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Button + Progress Indicator -->
@@ -203,9 +190,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Send Money"
-                    android:textAllCaps="false"
-                    app:cornerRadius="10dp"
-                    android:backgroundTint="@color/dark_recycler_backgroundcolor"
+                    android:backgroundTint="@color/Safaricom_shade"
                     android:textColor="@android:color/white"/>
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -214,7 +199,7 @@
                     android:layout_height="32dp"
                     android:visibility="gone"
                     android:layout_gravity="center"
-                    style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+                    style="@style/Widget.Material3.CircularProgressIndicator"
                     app:indicatorSize="32dp"
                     app:trackThickness="4dp"/>
             </FrameLayout>

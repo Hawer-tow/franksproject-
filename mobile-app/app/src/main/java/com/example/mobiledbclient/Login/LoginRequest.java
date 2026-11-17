@@ -21,6 +21,10 @@ public class LoginRequest {
     @SerializedName("biometricKeyAlias")
     private String biometricKeyAlias;
 
+    // Fingerprint login: time (ms) included in the signed message, checked by the server
+    @SerializedName("biometricTimestamp")
+    private Long biometricTimestamp;
+
     public LoginRequest() {
     }
 
@@ -60,4 +64,7 @@ public class LoginRequest {
 
     public String getBiometricKeyAlias() { return biometricKeyAlias; }
     public void setBiometricKeyAlias(String biometricKeyAlias) { this.biometricKeyAlias = biometricKeyAlias; }
+
+    public Long getBiometricTimestamp() { return biometricTimestamp; }
+    public void setBiometricTimestamp(Long biometricTimestamp) { this.biometricTimestamp = biometricTimestamp; }
 }

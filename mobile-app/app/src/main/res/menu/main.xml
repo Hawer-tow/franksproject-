@@ -6,6 +6,7 @@
         android:id="@+id/customer_www"
         android:orderInCategory="100"
         android:title="@string/customercenter"
+        android:visible="false"
         app:showAsAction="never" />
     <item
         android:id="@+id/Helpcenter_www"

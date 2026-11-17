@@ -1,14 +1,50 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Base application theme -->
-    <style name="Theme.MobileDbClient" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color -->
-        <!-- Add any global attributes here -->
-    </style>
+    <!-- ===================================================================
+         FrankMpesa themes (Material 3). MainActivity picks AppTheme.Light or
+         AppTheme.Dark from the user's setting. Colors come from colors.xml,
+         component and text styles from styles.xml.
+         =================================================================== -->
 
     <!-- Light theme -->
-    <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorPrimary">@color/light_Purple_persistentcolor</item>
+    <style name="AppTheme.Light" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Material 3 color scheme -->
+        <item name="colorPrimary">@color/brand_green</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/brand_green_container</item>
+        <item name="colorOnPrimaryContainer">@color/brand_on_green_container</item>
+        <item name="colorPrimaryInverse">@color/dark_brand_green</item>
+        <item name="colorSecondary">@color/brand_navy</item>
+        <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/brand_navy_container</item>
+        <item name="colorOnSecondaryContainer">@color/brand_on_navy_container</item>
+        <item name="colorTertiary">@color/brand_gold</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/brand_gold_container</item>
+        <item name="colorOnTertiaryContainer">@color/brand_on_gold_container</item>
+        <item name="colorError">@color/status_error</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/status_error_container</item>
+        <item name="colorOnErrorContainer">#410002</item>
+        <item name="android:colorBackground">@color/neutral_background</item>
+        <item name="colorOnBackground">@color/neutral_on_surface</item>
+        <item name="colorSurface">@color/neutral_surface</item>
+        <item name="colorOnSurface">@color/neutral_on_surface</item>
+        <item name="colorSurfaceVariant">@color/neutral_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/neutral_on_surface_variant</item>
+        <item name="colorSurfaceInverse">#2B333B</item>
+        <item name="colorOnSurfaceInverse">#EEF2F5</item>
+        <item name="colorOutline">@color/neutral_outline</item>
+        <item name="colorOutlineVariant">@color/neutral_outline_variant</item>
+        <item name="colorSurfaceContainerLowest">#FFFFFF</item>
+        <item name="colorSurfaceContainerLow">#F8FAFB</item>
+        <item name="colorSurfaceContainer">#F1F4F6</item>
+        <item name="colorSurfaceContainerHigh">#EBEFF2</item>
+        <item name="colorSurfaceContainerHighest">#E5EAEE</item>
+        <item name="colorSurfaceBright">#FFFFFF</item>
+        <item name="colorSurfaceDim">#DCE2E7</item>
+
+        <!-- App-specific colors used by the layouts -->
         <item name="Primarycolor">@color/light_Primarycolor</item>
         <item name="background_when_in_Primarycolor">@color/light_Primary_background</item>
         <item name="background_menus">@color/light_background_menus</item>
@@ -25,8 +61,6 @@
         <item name="rowborder">@color/light_rowborder</item>
         <item name="customersrecyclerbackground">@color/light_customersrecyclerbackground</item>
         <item name="customersheaderbackground">@color/light_customersheaderbackground</item>
-
-        <!-- Summary colors -->
         <item name="summary_salesColor">@color/light_kisenyi_summary_salesColor</item>
         <item name="summary_buysColor">@color/light_kisenyi_summary_buysColor</item>
         <item name="summary_expensesColor">@color/light_kisenyi_summary_expensesColor</item>
@@ -34,16 +68,62 @@
         <item name="summary_expectedColor">@color/light_kisenyi_summary_expectedColor</item>
         <item name="summary_recordedColor">@color/light_kisenyi_summary_recordedColor</item>
 
-        <!-- System bars -->
+        <!-- Components -->
+        <!-- Flat, untinted surfaces: cards stay white/grey instead of picking up the brand colour -->
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="textInputStyle">@style/Widget.FrankMpesa.TextInputLayout</item>
+        <item name="materialCardViewStyle">@style/Widget.FrankMpesa.Card</item>
+        <item name="materialButtonStyle">@style/Widget.FrankMpesa.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.FrankMpesa.Button.Outlined</item>
+        <item name="tabStyle">@style/Widget.FrankMpesa.Tabs</item>
+        <item name="navigationViewStyle">@style/Widget.FrankMpesa.NavigationView</item>
+        <item name="floatingActionButtonStyle">@style/Widget.FrankMpesa.Fab</item>
+
+        <!-- Window and system bars: status bar matches the green toolbar -->
+        <item name="android:windowBackground">@color/neutral_background</item>
         <item name="android:statusBarColor">@color/status_bar_light</item>
         <item name="android:navigationBarColor">@color/navigation_bar_light</item>
-        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">true</item>
     </style>
 
     <!-- Dark theme -->
-    <style name="AppTheme.Dark" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/dark_Purple_persistentcolor</item>
+    <style name="AppTheme.Dark" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/dark_brand_green</item>
+        <item name="colorOnPrimary">@color/dark_brand_on_green</item>
+        <item name="colorPrimaryContainer">@color/dark_brand_green_container</item>
+        <item name="colorOnPrimaryContainer">@color/dark_brand_on_green_container</item>
+        <item name="colorPrimaryInverse">@color/brand_green</item>
+        <item name="colorSecondary">@color/dark_brand_navy</item>
+        <item name="colorOnSecondary">@color/dark_brand_on_navy</item>
+        <item name="colorSecondaryContainer">@color/dark_brand_navy_container</item>
+        <item name="colorOnSecondaryContainer">@color/dark_brand_on_navy_container</item>
+        <item name="colorTertiary">@color/dark_brand_gold</item>
+        <item name="colorOnTertiary">#2B1B00</item>
+        <item name="colorTertiaryContainer">@color/dark_brand_gold_container</item>
+        <item name="colorOnTertiaryContainer">@color/dark_brand_on_gold_container</item>
+        <item name="colorError">@color/dark_status_error</item>
+        <item name="colorOnError">#5C0B0B</item>
+        <item name="colorErrorContainer">@color/dark_status_error_container</item>
+        <item name="colorOnErrorContainer">#FFDAD6</item>
+        <item name="android:colorBackground">@color/dark_neutral_background</item>
+        <item name="colorOnBackground">@color/dark_neutral_on_surface</item>
+        <item name="colorSurface">@color/dark_neutral_surface</item>
+        <item name="colorOnSurface">@color/dark_neutral_on_surface</item>
+        <item name="colorSurfaceVariant">@color/dark_neutral_surface_variant</item>
+        <item name="colorOnSurfaceVariant">@color/dark_neutral_on_surface_variant</item>
+        <item name="colorSurfaceInverse">#E3E8EC</item>
+        <item name="colorOnSurfaceInverse">#2B333B</item>
+        <item name="colorOutline">@color/dark_neutral_outline</item>
+        <item name="colorOutlineVariant">@color/dark_neutral_outline_variant</item>
+        <item name="colorSurfaceContainerLowest">#0A0E11</item>
+        <item name="colorSurfaceContainerLow">#12181D</item>
+        <item name="colorSurfaceContainer">#161D23</item>
+        <item name="colorSurfaceContainerHigh">#1E262D</item>
+        <item name="colorSurfaceContainerHighest">#283139</item>
+        <item name="colorSurfaceBright">#333D46</item>
+        <item name="colorSurfaceDim">#0E1317</item>
+
         <item name="Primarycolor">@color/dark_Primarycolor</item>
         <item name="background_when_in_Primarycolor">@color/dark_Primary_background</item>
         <item name="background_menus">@color/dark_background_menus</item>
@@ -60,8 +140,6 @@
         <item name="rowborder">@color/dark_rowborder</item>
         <item name="customersrecyclerbackground">@color/dark_customersrecyclerbackground</item>
         <item name="customersheaderbackground">@color/dark_customersheaderbackground</item>
-
-        <!-- Summary colors -->
         <item name="summary_salesColor">@color/dark_kisenyi_summary_salesColor</item>
         <item name="summary_buysColor">@color/dark_kisenyi_summary_buysColor</item>
         <item name="summary_expensesColor">@color/dark_kisenyi_summary_expensesColor</item>
@@ -69,33 +147,34 @@
         <item name="summary_expectedColor">@color/dark_kisenyi_summary_expectedColor</item>
         <item name="summary_recordedColor">@color/dark_kisenyi_summary_recordedColor</item>
 
-        <!-- System bars -->
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="textInputStyle">@style/Widget.FrankMpesa.TextInputLayout</item>
+        <item name="materialCardViewStyle">@style/Widget.FrankMpesa.Card</item>
+        <item name="materialButtonStyle">@style/Widget.FrankMpesa.Button</item>
+        <item name="materialButtonOutlinedStyle">@style/Widget.FrankMpesa.Button.Outlined</item>
+        <item name="tabStyle">@style/Widget.FrankMpesa.Tabs</item>
+        <item name="navigationViewStyle">@style/Widget.FrankMpesa.NavigationView</item>
+        <item name="floatingActionButtonStyle">@style/Widget.FrankMpesa.Fab</item>
+
+        <item name="android:windowBackground">@color/dark_neutral_background</item>
         <item name="android:statusBarColor">@color/status_bar_dark</item>
         <item name="android:navigationBarColor">@color/navigation_bar_dark</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:windowLightNavigationBar">false</item>
     </style>
 
+    <!-- Activity theme in the manifest (shown before MainActivity applies the user's choice) -->
+    <style name="Theme.MobileDbClient.NoActionBar" parent="AppTheme.Light" />
 
-    <!-- Popup overlay -->
-    <style name="Theme.MobileDbClient.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
-        <item name="actionMenuTextColor">?attr/Primarycolor</item>
-        <item name="android:textColor">?attr/Primarycolor</item>
-    </style>
+    <!-- Toolbar: white title and icons on the green (or dark) bar -->
+    <style name="Theme.MobileDbClient.AppBarOverlay" parent="ThemeOverlay.Material3.Dark.ActionBar" />
 
-    <!-- NoActionBar helper -->
-    <style name="Theme.MobileDbClient.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
-    <!-- AppBar overlay -->
-    <style name="Theme.MobileDbClient.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <!-- Overflow menu follows the app's light/dark theme -->
+    <style name="Theme.MobileDbClient.PopupOverlay" parent="ThemeOverlay.Material3" />
 
     <style name="ShapeAppearanceOverlay.App.RoundedImage" parent="">
         <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">16dp</item> <!-- adjust radius -->
+        <item name="cornerSize">12dp</item>
     </style>
-
 
 </resources>

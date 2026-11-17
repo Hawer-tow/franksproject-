@@ -1,95 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<HorizontalScrollView
+<!-- Column headings above the customer list -->
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:scrollbars="horizontal">
-    <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+    android:layout_height="44dp"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="24dp"
+    android:paddingEnd="52dp">
+
+    <TextView
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="8dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/item_border">
+        android:layout_weight="1.4"
+        android:paddingEnd="8dp"
+        android:text="Name"
+        android:textAppearance="@style/TextAppearance.FrankMpesa.TableHeader" />
 
-
-
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Name"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Phone_No"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="E-mail"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Home Country"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Other Country"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Transactions"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Description"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:text="Delete"
-            android:textStyle="bold"
-            android:gravity="center"
-            android:textColor="?attr/textcolor"/>
-
-
-
-    </LinearLayout>
-
-</HorizontalScrollView>
-
-
+    <TextView
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="end"
+        android:paddingEnd="8dp"
+        android:text="Phone"
+        android:textAppearance="@style/TextAppearance.FrankMpesa.TableHeader" />
+</LinearLayout>

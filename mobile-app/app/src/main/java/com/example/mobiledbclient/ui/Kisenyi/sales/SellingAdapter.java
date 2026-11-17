@@ -69,6 +69,8 @@ public class SellingAdapter extends RecyclerView.Adapter<SellingAdapter.SellingV
         holder.fullScroll.setVisibility(expanded ? View.VISIBLE : View.GONE);
 
         // Expand chevron
+        // Tapping anywhere on the collapsed row opens it, like the arrow
+        holder.compactContainer.setOnClickListener(v -> holder.expandChevron.performClick());
         holder.expandChevron.setOnClickListener(v -> {
             selling.setEditing(true);
             notifyItemChanged(position);

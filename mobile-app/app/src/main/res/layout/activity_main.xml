@@ -38,4 +38,26 @@
         app:defaultNavHost="true"
         android:visibility="visible" />
 
+    <!-- Offline indicator: shown by MainActivity only while the app is open and there is no connection -->
+    <TextView
+        android:id="@+id/offline_banner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|center_horizontal"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/offline_banner_bg"
+        android:drawablePadding="8dp"
+        android:elevation="6dp"
+        android:gravity="center_vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="8dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="8dp"
+        android:text="Offline · showing saved data"
+        android:textAppearance="@style/TextAppearance.Material3.LabelLarge"
+        android:textColor="?attr/colorOnSurfaceInverse"
+        android:visibility="gone"
+        app:drawableStartCompat="@drawable/ic_cloud_off"
+        app:drawableTint="?attr/colorOnSurfaceInverse" />
+
 </FrameLayout>

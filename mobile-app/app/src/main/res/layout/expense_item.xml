@@ -1,144 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Expenses row: aligned columns; tap to open the editor underneath -->
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/expense_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
     app:cardCornerRadius="12dp"
-    app:cardElevation="4dp"
-    app:strokeColor="?attr/colorPrimary"
-    app:strokeWidth="1dp">
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:orientation="vertical">
 
-        <!-- Compact summary -->
+        <!-- Collapsed: one table row -->
         <LinearLayout
             android:id="@+id/compact_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="56dp"
             android:orientation="horizontal"
-            android:gravity="center_vertical">
-
+            android:paddingStart="16dp"
+            android:paddingEnd="4dp">
             <TextView
                 android:id="@+id/txtDate"
-                style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface"/>
-
+                android:paddingEnd="8dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:hint="Date"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.TableCell" />
             <TextView
                 android:id="@+id/txtAmount"
-                style="@style/TextAppearance.MaterialComponents.Body1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:paddingEnd="8dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:hint="Amount"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.Amount"
                 android:textStyle="bold"
-                android:textColor="?attr/colorOnSurface"/>
+                android:gravity="end" />
 
             <ImageView
                 android:id="@+id/expand_chevron"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/chevron_right"
-                android:contentDescription="Expand"
-                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Show details"
+                android:padding="8dp"
+                android:src="@drawable/ic_expand_more"
+                app:tint="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
-        <!-- Expanded row -->
+        <!-- Expanded: editor (kept as a HorizontalScrollView because the adapter expects one) -->
         <HorizontalScrollView
             android:id="@+id/full_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal"
+            android:fillViewport="true"
+            android:scrollbars="none"
             android:visibility="gone">
-        <LinearLayout
+
+            <LinearLayout
             android:id="@+id/full_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-
-            android:paddingTop="8dp">
-
-            <ImageView
-                android:id="@+id/collapse_chevron"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/ic_chevron_left"
-                android:contentDescription="Collapse"
-                android:foreground="?attr/selectableItemBackgroundBorderless"/>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnEditExpanded"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                app:strokeColor="?attr/Primarycolor"
-                android:text="Edit"/>
+                android:background="?attr/colorSurfaceContainerLow"
+                android:orientation="vertical"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp">
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/colorOutlineVariant" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="150dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Date">
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Date">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editDate"
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Amount">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface"
+                        android:inputType="numberDecimal" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Description">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:enabled="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="250dp"
-                android:layout_height="wrap_content"
-                android:hint="Amount">
+                    <ImageView
+                        android:id="@+id/collapse_chevron"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Hide details"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_expand_less"
+                        app:tint="?attr/colorOnSurfaceVariant" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"
-                    android:inputType="numberDecimal"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:hint="Description">
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnDelete"
+                        style="@style/Widget.FrankMpesa.Button.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete"
+                        android:textColor="?attr/colorError"
+                        app:icon="@drawable/ic_delete"
+                        app:iconTint="?attr/colorError"
+                        app:strokeColor="?attr/colorError" />
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editDescription"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:enabled="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnDelete"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Delete"
-                android:layout_marginLeft="5dp"
-                app:strokeColor="?attr/colorError"
-                android:textColor="?attr/colorError"/>
-
-
-        </LinearLayout>
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btnEditExpanded"
+                        style="@style/Widget.FrankMpesa.Button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="Edit" />
+                </LinearLayout>
+            </LinearLayout>
         </HorizontalScrollView>
-
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

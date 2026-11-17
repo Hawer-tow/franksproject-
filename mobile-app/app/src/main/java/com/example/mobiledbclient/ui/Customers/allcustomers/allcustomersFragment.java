@@ -1,6 +1,8 @@
 package com.example.mobiledbclient.ui.Customers.allcustomers;
 
 import android.app.AlertDialog;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.example.mobiledbclient.ui.RefreshHelper;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,12 @@ public class allcustomersFragment extends Fragment {
         adapter = new CustomersAdapter(new ArrayList<>());
         recyclerView.setAdapter(adapter);
 
+        // Pull down to fetch customers added or changed by other users
+        SwipeRefreshLayout refresh = view.findViewById(R.id.customers_refresh);
+        RefreshHelper.setUp(refresh, null, recyclerView, () -> {
+            if (!adapter.isEditMode()) loadCustomersFromServer();
+        });
+
         // Load cached data first
         Executors.newSingleThreadExecutor().execute(() -> {
             List<Customers> cached = customers_db_instance.getInstance(requireContext())
@@ -82,7 +90,7 @@ public class allcustomersFragment extends Fragment {
                 }
 
                 adapter.setEditMode(false);
-                modifyButton.setText("Modify the Customers");
+                modifyButton.setText("Edit customers");
 
                 if (adapter.hasChanges()) {
                     new AlertDialog.Builder(requireContext())
@@ -114,7 +122,7 @@ public class allcustomersFragment extends Fragment {
                 }
             } else {
                 adapter.setEditMode(true);
-                modifyButton.setText("Save Changes");
+                modifyButton.setText("Save changes");
             }
         });
 

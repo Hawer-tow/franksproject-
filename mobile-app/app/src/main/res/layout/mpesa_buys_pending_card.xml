@@ -6,8 +6,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="12dp"
     android:elevation="4dp"
-    app:cardCornerRadius="8dp"
-    app:cardUseCompatPadding="true">
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,6 +34,6 @@
             android:layout_height="wrap_content"
             android:text="This section is reserved for future functionality."
             android:textSize="14sp"
-            android:textColor="@android:color/darker_gray"/>
+            android:textColor="?attr/colorOnSurfaceVariant"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

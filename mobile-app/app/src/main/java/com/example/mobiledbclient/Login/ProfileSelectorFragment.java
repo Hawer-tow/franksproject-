@@ -1,6 +1,8 @@
 package com.example.mobiledbclient.Login;
 
 import android.os.Bundle;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.example.mobiledbclient.ui.RefreshHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +72,10 @@ public class ProfileSelectorFragment extends Fragment {
         userRepository = new UserRepository(requireContext());
 
         reloadBtn.setOnClickListener(v -> fetchProfilesFromServer());
+
+        // Pull down to reload staff profiles from the server
+        SwipeRefreshLayout refresh = root.findViewById(R.id.profiles_refresh);
+        RefreshHelper.setUp(refresh, loadingOverlay, recyclerProfiles, this::fetchProfilesFromServer);
 
         // Initial load
         fetchProfilesFromServer();

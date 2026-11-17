@@ -22,6 +22,7 @@ public class MpesaBuysPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        // Only "Phone Payment" is ready; the second (pending) page stays hidden until it is built
+        return 1;
     }
 }

@@ -134,7 +134,7 @@ public class ApiClient {
                     plaintext = "{}";
                 }
 
-                Log.d("ApiClient", "Encrypting payload: " + plaintext);
+                // (payload not logged: it can contain passwords)
                 byte[] encryptedPayload = CryptoUtils.encryptAES(plaintext, aesKey, iv);
                 builder.header("X-Encrypted-Payload", CryptoUtils.toBase64(encryptedPayload));
 

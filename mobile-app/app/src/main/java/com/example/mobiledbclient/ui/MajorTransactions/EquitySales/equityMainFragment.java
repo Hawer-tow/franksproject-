@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.Fragment;
@@ -68,21 +67,17 @@ public class equityMainFragment extends Fragment {
             tab.setText(position == 0 ? "Account → Account" : "Account → Phone");
         }).attach();
 
-        // WindowInsets listener: add bottom padding to pager equal to IME height
-        View root = view.findViewById(R.id.equity_root);
-        if (root != null && pager != null) {
-            ViewCompat.setOnApplyWindowInsetsListener(root, (v, insets) -> {
-                Insets imeInsets = insets.getInsets(WindowInsetsCompat.Type.ime());
-                int imeHeight = imeInsets.bottom;
-                Log.i(TAG, "IME height=" + imeHeight);
-                pager.setPadding(pager.getPaddingLeft(),
-                        pager.getPaddingTop(),
-                        pager.getPaddingRight(),
-                        imeHeight);
-                return insets;
-            });
-            ViewCompat.requestApplyInsets(root);
-        }
+        // MainActivity already shrinks the screen above the keyboard; hide the decorative
+        // picture while typing so the form gets that space too
+        View backgroundImage = view.findViewById(R.id.equityBackground);
+        view.addOnLayoutChangeListener((v, l, t, r, b, ol, ot, or, ob) -> {
+            WindowInsetsCompat insets = ViewCompat.getRootWindowInsets(v);
+            int visibility = insets != null && insets.isVisible(WindowInsetsCompat.Type.ime())
+                    ? View.GONE : View.VISIBLE;
+            if (backgroundImage.getVisibility() != visibility) {
+                v.post(() -> backgroundImage.setVisibility(visibility));
+            }
+        });
 
         view.post(() -> {
             Log.i(TAG, "tabLayout: w=" + tabLayout.getWidth() + " h=" + tabLayout.getHeight());

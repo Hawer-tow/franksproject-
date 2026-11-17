@@ -1,6 +1,8 @@
 package com.example.mobiledbclient.ui.Kisenyi;
 
 import android.app.AlertDialog;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.example.mobiledbclient.ui.RefreshHelper;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -111,6 +113,11 @@ public class KisenyiFragment extends Fragment {
         loadingMessage = view.findViewById(R.id.loadingMessage);
         loadingOverlay = view.findViewById(R.id.loadingOverlay);
 
+        // Pull down to reload the current table (pushes local edits, then fetches other users' changes)
+        SwipeRefreshLayout refresh = view.findViewById(R.id.kisenyi_refresh);
+        RefreshHelper.setUp(refresh, loadingOverlay, recyclerView,
+                () -> handleMenuSelection(menuIdFor(currentView), view, null));
+
         DrawerLayout drawerLayout = view.findViewById(R.id.drawer_layout_2);
         NavigationView navigationView = view.findViewById(R.id.kisenyi_view_choices);
 
@@ -126,7 +133,7 @@ public class KisenyiFragment extends Fragment {
                 popup.getMenu().add(0, R.id.Expense_exps, 0, "Expenses");
                 popup.getMenu().add(0, R.id.Sales_sls, 1, "Sales");
                 popup.getMenu().add(0, R.id.Buys_bys, 2, "Buys");
-                popup.getMenu().add(0, R.id.OpenCloseCash, 3, "Open/Close");
+                popup.getMenu().add(0, R.id.OpenCloseCash, 3, "Opening & closing cash");
                 popup.setOnMenuItemClickListener(item -> {
                     handleMenuSelection(item.getItemId(), view, null);
                     return true;
@@ -185,7 +192,7 @@ public class KisenyiFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         
         // Initial state
-        status.setText("Opening and Closing Data");
+        status.setText("Opening & closing cash");
 
         // ✅ ONLY fetch if we have a valid logged-in user to prevent 403 loops
         if (SessionManager.getActiveUser(requireContext()) != -1) {
@@ -197,6 +204,15 @@ public class KisenyiFragment extends Fragment {
                     loadingMessage,
                     recyclerView,
                     openAndCloseAdapter);
+        }
+    }
+
+    private static int menuIdFor(DataView view) {
+        switch (view) {
+            case EXPENSES: return R.id.Expense_exps;
+            case SALES: return R.id.Sales_sls;
+            case BUYS: return R.id.Buys_bys;
+            default: return R.id.OpenCloseCash;
         }
     }
 
@@ -231,7 +247,7 @@ public class KisenyiFragment extends Fragment {
         } else if (id == R.id.OpenCloseCash) {
             currentView = DataView.OPEN_CLOSE;
             new OpenAndClose_Functions().fetchOpenAndClose(requireContext(), requireActivity(), loadingOverlay, loadingMessage, recyclerView, openAndCloseAdapter);
-            status.setText("Open/Close Cash");
+            status.setText("Opening & closing cash");
             headerContainer.removeAllViews();
             LayoutInflater.from(requireContext()).inflate(R.layout.openclose_item_header, headerContainer, true);
         }

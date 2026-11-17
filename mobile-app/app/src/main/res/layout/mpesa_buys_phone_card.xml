@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
-    app:cardUseCompatPadding="true"
+    app:cardElevation="0dp"
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.core.widget.NestedScrollView
@@ -26,7 +25,7 @@
                 android:id="@+id/phoneCardTitleMpesa"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prompt Customer Phone.No → Mpesa Paybill"
+                android:text="Request payment from the customer's phone"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:textStyle="bold"
                 android:textColor="@color/light_Purple_persistentcolor"
@@ -36,8 +35,8 @@
 
             <!-- Phone Number -->
             <com.google.android.material.textfield.TextInputLayout
+                app:placeholderText="2547XXXXXXXX"
                 android:id="@+id/tilPhoneMpesa"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -49,15 +48,13 @@
                     android:id="@+id/etPhoneMpesa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Customer Phone (2547XXXXXXXX)"
-                    android:inputType="phone"
-                    android:padding="12dp"/>
+                    android:hint="Customer Phone"
+                    android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Amount -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAmountMpesa"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -70,14 +67,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Amount"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Rate -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilRateMpesa"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -90,8 +85,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Rate"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Button + Progress -->
@@ -107,10 +101,8 @@
                     android:id="@+id/btnInitiateMpesa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Initiate Payment"
-                    android:textAllCaps="false"
-                    app:cornerRadius="10dp"
-                    android:backgroundTint="@color/dark_recycler_backgroundcolor"
+                    android:text="Send payment request"
+                    android:backgroundTint="@color/Safaricom_shade"
                     android:textColor="@android:color/white"/>
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -119,7 +111,7 @@
                     android:layout_height="32dp"
                     android:visibility="gone"
                     android:layout_gravity="center"
-                    style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+                    style="@style/Widget.Material3.CircularProgressIndicator"
                     app:indicatorSize="32dp"
                     app:trackThickness="4dp"
                     android:indeterminate="true"/>

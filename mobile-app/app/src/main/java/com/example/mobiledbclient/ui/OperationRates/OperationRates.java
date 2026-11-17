@@ -33,10 +33,10 @@ public class OperationRates extends Fragment {
 
         // Sample data
         List<RateItems> rates = Arrays.asList(
-                new RateItems(1, R.drawable.kenya_rates, "Kenya Rates"),
-                new RateItems(2, R.drawable.congo_rates, "Congo Rates"),
-                new RateItems(3, R.drawable.tanzania_rates, "Tanzania Rates"),
-                new RateItems(4, R.drawable.rwanda_rates, "Rwanda Rates")
+                new RateItems(1, R.drawable.kenya_rates, "Kenya"),
+                new RateItems(2, R.drawable.congo_rates, "Congo"),
+                new RateItems(3, R.drawable.tanzania_rates, "Tanzania"),
+                new RateItems(4, R.drawable.rwanda_rates, "Rwanda")
         );
 
       RateItemsAdapter adapter = new RateItemsAdapter(rates, item -> {

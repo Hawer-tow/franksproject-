@@ -61,6 +61,8 @@ public class ExpenseAdapter extends RecyclerView.Adapter<ExpenseAdapter.ExpenseV
         holder.fullScroll.setVisibility(expanded ? View.VISIBLE : View.GONE);
 
         // Expand chevron
+        // Tapping anywhere on the collapsed row opens it, like the arrow
+        holder.compactContainer.setOnClickListener(v -> holder.expandChevron.performClick());
         holder.expandChevron.setOnClickListener(v -> {
             expense.setEditing(true);
             TransitionManager.beginDelayedTransition((ViewGroup) holder.itemView);

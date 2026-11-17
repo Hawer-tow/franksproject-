@@ -2,15 +2,9 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:attr/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/congo_rates"
-        android:scaleType="centerCrop"
-        android:alpha="0.18" />
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/rates_root_cg"
@@ -25,34 +19,87 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/rates_header_cg"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Exchange Rates"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:paddingBottom="8dp"/>
+            <!-- Country header -->
 
-            <TextView
-                android:id="@+id/rates_subheader_cg"
+            <LinearLayout
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:text="Manage daily buy/sell rates and transaction limits"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:gravity="center"
-                android:textColor="@color/gray_600"
-                android:paddingBottom="16dp"/>
+
+                android:layout_marginBottom="16dp"
+
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+
+                    android:id="@+id/flagImage_cg"
+
+                    android:layout_width="52dp"
+
+                    android:layout_height="52dp"
+
+                    android:contentDescription="Congo"
+
+                    android:scaleType="centerCrop"
+
+                    android:src="@drawable/congo_rates"
+
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundedImage" />
+
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="14dp"
+
+                    android:layout_weight="1"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+
+                        android:id="@+id/rates_header_cg"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:text="Congo rates"
+
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.ScreenTitle" />
+
+
+                    <TextView
+
+                        android:id="@+id/rates_subheader_cg"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:text="Set today's rate and the amount limits for each direction"
+
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_u2c"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="16dp"
-                app:cardUseCompatPadding="true">
+                app:cardElevation="0dp"
+                android:layout_marginBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -65,13 +112,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Uganda → Congo"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle"
                         android:textStyle="bold"
-                        android:textColor="@color/primary"/>
+                        android:textColor="?attr/colorPrimary"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilU2CDate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -83,13 +129,11 @@
                             android:hint="Date"
                             android:focusable="false"
                             android:clickable="true"
-                            android:inputType="none"
-                            android:padding="12dp"/>
+                            android:inputType="none"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilU2CRate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -99,8 +143,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Rate"
-                            android:inputType="numberDecimal"
-                            android:padding="12dp"/>
+                            android:inputType="numberDecimal"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
@@ -112,7 +155,6 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilU2CMin"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -123,13 +165,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Min amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilU2CMax"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -140,8 +180,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Max amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -150,10 +189,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Set U→C"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:backgroundTint="@color/primary"
+                        android:text="Save Uganda → Congo rate"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:textColor="@android:color/white"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -163,8 +200,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -177,13 +213,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Congo → Uganda"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle"
                         android:textStyle="bold"
-                        android:textColor="@color/primary"/>
+                        android:textColor="?attr/colorPrimary"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilC2UDate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -195,13 +230,11 @@
                             android:hint="Date"
                             android:focusable="false"
                             android:clickable="true"
-                            android:inputType="none"
-                            android:padding="12dp"/>
+                            android:inputType="none"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilC2URate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -211,8 +244,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Rate"
-                            android:inputType="numberDecimal"
-                            android:padding="12dp"/>
+                            android:inputType="numberDecimal"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
@@ -224,7 +256,6 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilC2UMin"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -235,13 +266,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Min amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilC2UMax"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -252,8 +281,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Max amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -262,10 +290,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Set C→U"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:backgroundTint="@color/primary"
+                        android:text="Save Congo → Uganda rate"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:textColor="@android:color/white"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -275,24 +301,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Changes are saved locally and pushed to server when available."
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="@color/gray_600"
                 android:gravity="center"
                 android:layout_marginTop="12dp"
                 android:layout_marginBottom="24dp"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
-
-    <ImageView
-        android:id="@+id/flagImage_cg"
-        android:layout_width="56dp"
-        android:layout_height="36dp"
-        android:layout_margin="12dp"
-        android:contentDescription="Congo"
-        android:src="@drawable/congo_rates"
-        android:scaleType="centerCrop"
-
-        android:padding="2dp"
-        android:elevation="8dp"
-        android:layout_gravity="top|end"/>
 </FrameLayout>

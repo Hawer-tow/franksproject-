@@ -1,307 +1,341 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Settings: grouped cards, one row per setting (icon, title, explanation, control) -->
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/settings_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:background="?attr/background_when_in_Primarycolor"
-    android:clipToPadding="false">
+    android:background="?android:attr/colorBackground"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <!-- Header -->
-        <TextView
-            android:id="@+id/settings_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Settings"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-            android:textColor="?attr/Primarycolor"
-            android:textStyle="bold"
-            android:paddingBottom="8dp"/>
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="32dp">
 
         <TextView
             android:id="@+id/settings_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Customize app behavior and clear local data"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-            android:textColor="@color/gray_600"
-            android:paddingBottom="16dp"/>
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="0dp"
+            android:text="These settings apply to your profile on this phone"
+            android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
 
-        <!-- Theme card -->
+        <!-- ============ Appearance and security ============ -->
+        <TextView
+            android:id="@+id/Settingtext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Appearance &amp; security"
+            android:textAppearance="@style/TextAppearance.FrankMpesa.SectionHeader" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_theme"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="12dp"
-            app:cardUseCompatPadding="true">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
+                android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/Settingtext"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Appearance"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textStyle="bold"
-                    android:textColor="?attr/Primarycolor"/>
-
+                <!-- Dark mode -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingTop="8dp">
+                    android:minHeight="72dp"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/settings_icon_bg"
+                        android:importantForAccessibility="no"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_dark_mode"
+                        app:tint="?attr/colorOnPrimaryContainer" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Dark mode"
+                            android:textAppearance="@style/TextAppearance.FrankMpesa.Body" />
+
+                        <TextView
+                            android:id="@+id/theme_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Easier on the eyes in low light"
+                            android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/Theme_change"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Dark mode"
-                        android:textColor="?attr/Primarycolor"/>
+                        android:contentDescription="Dark mode" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/theme_note"
+                <View
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Toggle to switch between light and dark themes."
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    android:textColor="@color/gray_600"
-                    android:paddingTop="8dp"/>
-            </LinearLayout>
-        </com.google.android.material.card.MaterialCardView>
+                    android:layout_height="1dp"
+                    android:layout_marginStart="72dp"
+                    android:background="?attr/colorOutlineVariant" />
 
-        <!-- Security card -->
-        <com.google.android.material.card.MaterialCardView
-            android:id="@+id/card_security"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="12dp"
-            app:cardUseCompatPadding="true">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
-
-                <TextView
-                    android:id="@+id/securitysettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Security"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textStyle="bold"
-                    android:textColor="?attr/Primarycolor"/>
-
+                <!-- Fingerprint -->
                 <LinearLayout
+                    android:id="@+id/card_security"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
                     android:gravity="center_vertical"
-                    android:paddingTop="8dp">
+                    android:minHeight="72dp"
+                    android:orientation="horizontal"
+                    android:padding="16dp">
 
-                    <com.google.android.material.switchmaterial.SwitchMaterial
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/settings_icon_bg"
+                        android:importantForAccessibility="no"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_lock"
+                        app:tint="?attr/colorOnPrimaryContainer" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/securitysettings"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fingerprint login"
+                            android:textAppearance="@style/TextAppearance.FrankMpesa.Body" />
+
+                        <TextView
+                            android:id="@+id/security_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Log in to this profile with your fingerprint on this phone"
+                            android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
+                    </LinearLayout>
+
+                    <com.google.android.material.materialswitch.MaterialSwitch
                         android:id="@+id/fingerprintsecurity"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Enable fingerprint"
-                        android:textColor="?attr/Primarycolor"/>
+                        android:contentDescription="Fingerprint login" />
                 </LinearLayout>
-
-                <TextView
-                    android:id="@+id/security_note"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="When enabled, the app will require biometric authentication where supported."
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    android:textColor="@color/gray_600"
-                    android:paddingTop="8dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Data range card -->
+        <!-- ============ Data ============ -->
+        <TextView
+            android:id="@+id/databaserangechoices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Data"
+            android:textAppearance="@style/TextAppearance.FrankMpesa.SectionHeader" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_data_range"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            android:layout_marginBottom="12dp"
-            app:cardUseCompatPadding="true">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/databaserangechoices"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Data retrieval range"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textStyle="bold"
-                    android:textColor="?attr/Primarycolor"/>
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/settings_icon_bg"
+                        android:importantForAccessibility="no"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_history"
+                        app:tint="?attr/colorOnPrimaryContainer" />
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="16dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="History to load"
+                            android:textAppearance="@style/TextAppearance.FrankMpesa.Body" />
+
+                        <TextView
+                            android:id="@+id/data_note"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="How far back records are fetched by default"
+                            android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <RadioGroup
                     android:id="@+id/dataRangeGroup"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="8dp">
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical">
 
                     <RadioButton
                         android:id="@+id/range3days"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Last 3 days" />
 
                     <RadioButton
                         android:id="@+id/range7days"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Last 7 days" />
 
                     <RadioButton
                         android:id="@+id/rangeMonthly"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Monthly" />
+                        android:text="This month" />
 
                     <RadioButton
                         android:id="@+id/rangeAll"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="All data" />
+                        android:text="Everything" />
                 </RadioGroup>
-
-                <TextView
-                    android:id="@+id/data_note"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Choose how much historical data the app should fetch by default."
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-                    android:textColor="@color/gray_600"
-                    android:paddingTop="8dp"/>
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Clear local DB + Reset Password card -->
+        <!-- ============ Account and device ============ -->
+        <TextView
+            android:id="@+id/localdbclearsettings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="8dp"
+            android:text="Account &amp; device"
+            android:textAppearance="@style/TextAppearance.FrankMpesa.SectionHeader" />
+
         <com.google.android.material.card.MaterialCardView
             android:id="@+id/card_clear_db"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="12dp"
-            app:cardElevation="4dp"
-            app:cardUseCompatPadding="true"
-            android:layout_margin="12dp">
+            app:cardElevation="0dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="16dp">
 
-                <!-- Clear local data section -->
-                <TextView
-                    android:id="@+id/localdbclearsettings"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Local data"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textStyle="bold"
-                    android:textColor="?attr/Primarycolor"/>
-
-                <TextView
-                    android:id="@+id/localdb_desc"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Remove cached and locally stored records from this device. This action cannot be undone."
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                    android:textColor="@color/gray_600"
-                    android:paddingTop="8dp"/>
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/clearLocalData"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Clear local data"
-                    android:textAllCaps="false"
-                    app:cornerRadius="8dp"
-                    app:iconTint="@color/white"
-                    android:backgroundTint="?attr/colorError"
-                    android:textColor="@android:color/white"/>
-
-                <!-- Divider -->
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"/>
-
-                <!-- Reset password section -->
                 <TextView
                     android:id="@+id/resetPasswordTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Reset Password"
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
-                    android:textStyle="bold"
-                    android:textColor="?attr/Primarycolor"/>
+                    android:text="Password"
+                    android:textAppearance="@style/TextAppearance.FrankMpesa.Body" />
 
                 <TextView
                     android:id="@+id/resetPasswordDesc"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Change your login password. You will use the new password next time you log in."
-                    android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                    android:textColor="@color/gray_600"
-                    android:paddingTop="8dp"/>
+                    android:text="Change the password you use to log in"
+                    android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/resetPasswordBtn"
+                    style="@style/Widget.FrankMpesa.Button.Tonal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:text="Reset password"
-                    android:textAllCaps="false"
-                    app:cornerRadius="8dp"
-                    android:backgroundTint="?attr/colorPrimary"
-                    android:textColor="@android:color/white"/>
+                    android:layout_marginTop="10dp"
+                    android:text="Change password"
+                    app:icon="@drawable/ic_lock"
+                    app:iconTint="?attr/colorOnPrimaryContainer" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:background="?attr/colorOutlineVariant" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Local data"
+                    android:textAppearance="@style/TextAppearance.FrankMpesa.Body" />
+
+                <TextView
+                    android:id="@+id/localdb_desc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Remove records saved on this phone. Anything not yet synced to the server is lost."
+                    android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/clearLocalData"
+                    style="@style/Widget.FrankMpesa.Button.Outlined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Clear local data"
+                    android:textColor="?attr/colorError"
+                    app:icon="@drawable/ic_delete"
+                    app:iconTint="?attr/colorError"
+                    app:strokeColor="?attr/colorError" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 
-        <!-- Footer -->
         <TextView
             android:id="@+id/settings_footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Changes are applied immediately. Some settings may require app restart."
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
-            android:textColor="@color/gray_600"
+            android:layout_marginTop="20dp"
             android:gravity="center"
-            android:paddingTop="12dp"
-            android:paddingBottom="24dp"/>
-
+            android:text="FrankMpesa · changes apply straight away"
+            android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

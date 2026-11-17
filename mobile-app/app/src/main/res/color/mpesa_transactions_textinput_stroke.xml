@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- M-Pesa forms: M-Pesa green when focused, soft grey otherwise -->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Focused state uses theme's primary color -->
-    <item android:color="@color/light_Purple_persistentcolor" android:state_focused="true"/>
-    <!-- Default/unfocused state -->
-    <item android:color="?attr/Primarycolor"/>
+    <item android:color="@color/Safaricom_shade" android:state_focused="true"/>
+    <item android:color="?attr/colorOutline"/>
 </selector>

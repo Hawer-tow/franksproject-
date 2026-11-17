@@ -1,72 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Profile tile on the "choose your profile" screen -->
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="160dp"
-    android:layout_height="200dp"
-    android:layout_margin="12dp"
-    app:cardCornerRadius="30dp"
-    app:cardElevation="6dp"
-    app:strokeColor="@color/light_Primary_background"
-    app:strokeWidth="1dp"
-    android:clipChildren="true"
-    android:clipToPadding="false"
-    app:cardPreventCornerOverlap="true"
-    app:cardUseCompatPadding="true">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="6dp"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="12dp">
+        android:orientation="vertical"
+        android:paddingStart="12dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="12dp"
+        android:paddingBottom="18dp">
 
-        <!-- Circular avatar with border -->
-        <FrameLayout
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:layout_marginBottom="12dp">
+        <!-- Initial in a tinted circle (tint set per profile from code) -->
+        <TextView
+            android:id="@+id/textInitial"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/avatar_initial_bg"
+            android:gravity="center"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:textColor="@color/neutral_on_surface"
+            android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/imageAvatar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:src="@drawable/customer_logo"
-                android:scaleType="centerCrop"
-                android:clipToOutline="true"
-                android:background="@drawable/avatar_circle_background"/>
-
-            <!-- Optional status indicator -->
-            <View
-                android:id="@+id/statusIndicator"
-                android:layout_width="16dp"
-                android:layout_height="13dp"
-                android:layout_gravity="bottom|end"
-                android:background="@drawable/status_circle_online" />
-        </FrameLayout>
-
-        <!-- Username -->
         <TextView
             android:id="@+id/textUsername"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Username"
-            android:textColor="@color/light_Primarycolor"
-            android:textSize="16sp"
-            android:textStyle="bold"
+            android:layout_marginTop="12dp"
             android:ellipsize="end"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:text="Username"
+            android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle" />
 
-        <!-- Extra info -->
         <TextView
             android:id="@+id/textUserInfo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Last login: Today"
-            android:textColor="?attr/colorSecondary"
-            android:textSize="12sp"
+            android:layout_marginTop="2dp"
             android:ellipsize="end"
-            android:maxLines="1"
-            android:layout_marginTop="4dp"/>
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Last login: Today"
+            android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

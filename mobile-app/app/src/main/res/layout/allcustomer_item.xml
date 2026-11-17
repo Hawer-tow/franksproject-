@@ -1,183 +1,271 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Customer row: name and phone; tap to see and edit the full details -->
 <com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/customer_card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp"
-    app:strokeColor="?attr/colorPrimary"
-    app:strokeWidth="1dp">
+    android:layout_marginStart="8dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="8dp"
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="0dp">
 
     <LinearLayout
         android:id="@+id/customer_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
+        android:orientation="vertical">
 
-        <!-- Compact summary -->
         <LinearLayout
             android:id="@+id/compact_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:padding="8dp">
-
+            android:minHeight="56dp"
+            android:orientation="horizontal"
+            android:paddingStart="16dp"
+            android:paddingEnd="4dp">
             <TextView
                 android:id="@+id/customer_summary_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:text="Customer name"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_weight="1.4"
+                android:paddingEnd="8dp"
+                android:maxLines="1"
                 android:ellipsize="end"
-                android:maxLines="1"/>
-
+                android:hint="Customer name"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.TableCell" />
             <TextView
                 android:id="@+id/customer_summary_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="0712 000 000"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:paddingEnd="8dp"
+                android:maxLines="1"
                 android:ellipsize="end"
-                android:maxLines="1"/>
+                android:hint="Phone"
+                android:textAppearance="@style/TextAppearance.FrankMpesa.TableCell"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:gravity="end" />
 
             <ImageView
                 android:id="@+id/customer_expand_chevron"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/chevron_right"
-                android:contentDescription="Expand"
-                android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Show details"
+                android:padding="8dp"
+                android:src="@drawable/ic_expand_more"
+                app:tint="?attr/colorOnSurfaceVariant" />
         </LinearLayout>
 
-        <!-- Expanded row -->
         <HorizontalScrollView
             android:id="@+id/full_scroll"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="horizontal"
+            android:fillViewport="true"
+            android:scrollbars="none"
             android:visibility="gone">
 
             <LinearLayout
                 android:id="@+id/full_container"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:padding="8dp">
+                android:background="?attr/colorSurfaceContainerLow"
+                android:orientation="vertical"
+                android:paddingStart="12dp"
+                android:paddingTop="4dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="12dp">
 
-                <!-- Collapse chevron inside expanded row -->
-                <ImageView
-                    android:id="@+id/customer_collapse_chevron"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginRight="5dp"
-                    android:src="@drawable/ic_chevron_left"
-                    android:contentDescription="Collapse"
-                    android:foreground="?attr/selectableItemBackgroundBorderless"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginBottom="4dp"
+                    android:background="?attr/colorOutlineVariant" />
 
-                <!-- Material Outlined fields -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="200dp"
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="Name">
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Full name">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/customerName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false"/>
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
-
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="150dp"
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="Phone No">
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Phone number">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/customerPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:inputType="phone"/>
+                        android:textColor="?attr/colorOnSurface"
+                        android:inputType="phone" />
                 </com.google.android.material.textfield.TextInputLayout>
-
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="300dp"
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="E-mail">
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Home country">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/customer_primary_country"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Email">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/customerEmail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:enabled="false"
-                        android:inputType="textEmailAddress"/>
+                        android:textColor="?attr/colorOnSurface"
+                        android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
-
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="150dp"
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="Home Country">
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/customer_primary_country"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:enabled="false"/>
-                </com.google.android.material.textfield.TextInputLayout>
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Other country">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Other Country">
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/customer_secondary_country"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false"/>
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
-
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="200dp"
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="Major Transaction">
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Main transactions">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/customer_major_transactions"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false"/>
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
-
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="200dp"
+                    style="@style/Widget.FrankMpesa.TextInputLayout.Dense"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:hint="Description">
+                    android:layout_marginStart="4dp"
+                    android:layout_marginEnd="4dp"
+                    android:hint="Notes">
+
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/customer_description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:enabled="false"/>
+                        android:enabled="false"
+                        android:textColor="?attr/colorOnSurface" />
                 </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/customerDelete"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:text="Delete"
-                    app:strokeColor="?attr/colorError"
-                    android:textColor="?attr/colorError"/>
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/customer_collapse_chevron"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="?attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="Hide details"
+                        android:padding="8dp"
+                        android:src="@drawable/ic_expand_less"
+                        app:tint="?attr/colorOnSurfaceVariant" />
+
+                    <Space
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1" />
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/customerDelete"
+                        style="@style/Widget.FrankMpesa.Button.Outlined"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Delete"
+                        android:textColor="?attr/colorError"
+                        app:icon="@drawable/ic_delete"
+                        app:iconTint="?attr/colorError"
+                        app:strokeColor="?attr/colorError" />
+                </LinearLayout>
             </LinearLayout>
         </HorizontalScrollView>
     </LinearLayout>

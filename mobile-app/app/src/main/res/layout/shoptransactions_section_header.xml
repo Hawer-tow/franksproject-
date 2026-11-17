@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Section label in the New transaction list -->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/section_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="12dp"
-    android:textStyle="bold"
-    android:textSize="16sp"
-    android:textColor="@android:color/black"
-    android:background="@android:color/darker_gray" />
+    android:paddingStart="20dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="6dp"
+    android:textAppearance="@style/TextAppearance.FrankMpesa.SectionHeader"
+    android:textColor="?attr/colorPrimary" />

@@ -67,6 +67,8 @@ public class OpenAndCloseAdapter extends RecyclerView.Adapter<OpenAndCloseAdapte
         holder.fullScroll.setVisibility(expanded ? View.VISIBLE : View.GONE);
 
         // Expand chevron
+        // Tapping anywhere on the collapsed row opens it, like the arrow
+        holder.compactContainer.setOnClickListener(v -> holder.expandChevron.performClick());
         holder.expandChevron.setOnClickListener(v -> {
             entity.setEditing(true);
             TransitionManager.beginDelayedTransition((ViewGroup) holder.itemView);

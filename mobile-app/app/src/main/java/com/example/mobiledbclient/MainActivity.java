@@ -25,6 +25,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.core.view.WindowInsetsControllerCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
@@ -51,12 +55,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
         SharedPreferences prefs = getSharedPreferences("settings", MODE_PRIVATE);
         int activeUserId = SessionManager.getActiveUser(this);
 
-        // Apply theme before inflating layout
+        // Apply theme before super.onCreate so the window and system bars use it too
         String themeKey = "selectedTheme_" + activeUserId;
         String themeName = prefs.getString(themeKey, "AppTheme_Light");
         if ("AppTheme_Dark".equals(themeName)) {
@@ -65,8 +67,11 @@ public class MainActivity extends AppCompatActivity {
             setTheme(R.style.AppTheme_Light);
         }
 
+        super.onCreate(savedInstanceState);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        applyWindowInsets();
 
         setSupportActionBar(binding.appBarMain.toolbar);
 
@@ -83,11 +88,24 @@ public class MainActivity extends AppCompatActivity {
             lockAndHideNavigation();
         }
 
-        initConnectivityMonitoring();
-        checkNotificationPermission();
+        removeLegacyOfflineNotification();
 
         // ✅ Fetch Server Public Key for encryption if missing
         fetchServerPublicKey();
+    }
+
+    // Draw edge-to-edge the same way on every Android version (15+ forces it anyway), then keep
+    // all content clear of the status bar, navigation bar and keyboard by padding the root once.
+    // The insets are consumed here, so no screen below needs its own keyboard/system-bar handling.
+    private void applyWindowInsets() {
+        WindowCompat.setDecorFitsSystemWindows(getWindow(), false);
+        ViewCompat.setOnApplyWindowInsetsListener(binding.getRoot(), (v, insets) -> {
+            Insets bars = insets.getInsets(WindowInsetsCompat.Type.systemBars()
+                    | WindowInsetsCompat.Type.displayCutout()
+                    | WindowInsetsCompat.Type.ime());
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+            return WindowInsetsCompat.CONSUMED;
+        });
     }
 
     private void fetchServerPublicKey() {
@@ -147,73 +165,78 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.auth_nav_host).setVisibility(View.VISIBLE);
     }
 
-    private void checkNotificationPermission() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
-                    != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(this,
-                        new String[]{android.Manifest.permission.POST_NOTIFICATIONS}, 101);
-            }
-        }
-    }
-
     private void setupNavigation() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
     }
 
-    private void initConnectivityMonitoring() {
+    // ---- Offline indicator: a small banner inside the app, only while the app is on screen ----
+
+    private ConnectivityManager.NetworkCallback networkCallback;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkRequest request = new NetworkRequest.Builder()
-                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-                .build();
-
-        cm.registerNetworkCallback(request, new ConnectivityManager.NetworkCallback() {
+        if (cm == null) return;
+        setOfflineBannerVisible(!isOnline(cm));
+        networkCallback = new ConnectivityManager.NetworkCallback() {
             @Override
-            public void onAvailable(Network network) {
-                dismissOfflineNotification();
+            public void onAvailable(@NonNull Network network) {
+                runOnUiThread(() -> setOfflineBannerVisible(false));
             }
 
             @Override
-            public void onLost(Network network) {
-                showOfflineNotification();
+            public void onLost(@NonNull Network network) {
+                runOnUiThread(() -> setOfflineBannerVisible(!isOnline(cm)));
             }
-        });
+        };
+        cm.registerDefaultNetworkCallback(networkCallback);
     }
 
-    private void showOfflineNotification() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
-                ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS)
-                        != PackageManager.PERMISSION_GRANTED) {
-            runOnUiThread(() -> Toast.makeText(this, "Application is Offline", Toast.LENGTH_LONG).show());
-            return;
+    @Override
+    protected void onStop() {
+        // Stop watching the network when the app is not on screen: nothing runs or shows in the background
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm != null && networkCallback != null) {
+            try {
+                cm.unregisterNetworkCallback(networkCallback);
+            } catch (IllegalArgumentException ignored) {
+                // already unregistered
+            }
         }
+        networkCallback = null;
+        super.onStop();
+    }
 
+    private static boolean isOnline(ConnectivityManager cm) {
+        Network active = cm.getActiveNetwork();
+        NetworkCapabilities caps = active != null ? cm.getNetworkCapabilities(active) : null;
+        return caps != null && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET);
+    }
+
+    private void setOfflineBannerVisible(boolean visible) {
+        View banner = findViewById(R.id.offline_banner);
+        if (banner == null) return;
+        if (visible && banner.getVisibility() != View.VISIBLE) {
+            banner.setAlpha(0f);
+            banner.setVisibility(View.VISIBLE);
+            banner.animate().alpha(1f).setDuration(200).start();
+        } else if (!visible && banner.getVisibility() == View.VISIBLE) {
+            banner.animate().alpha(0f).setDuration(200)
+                    .withEndAction(() -> banner.setVisibility(View.GONE)).start();
+        }
+    }
+
+    /** Older versions posted a sticky "offline" notification; clear it and its channel once. */
+    private void removeLegacyOfflineNotification() {
         NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (nm == null) return;
-
+        nm.cancel(1001);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    OFFLINE_CHANNEL_ID,
-                    "Offline Alerts",
-                    NotificationManager.IMPORTANCE_HIGH);
-            nm.createNotificationChannel(channel);
+            nm.deleteNotificationChannel(OFFLINE_CHANNEL_ID);
         }
-
-        Notification notification = new NotificationCompat.Builder(this, OFFLINE_CHANNEL_ID)
-                .setContentTitle("Network Lost")
-                .setContentText("You are offline. Syncing is disabled.")
-                .setSmallIcon(android.R.drawable.stat_notify_error)
-                .setOngoing(true)
-                .build();
-
-        nm.notify(1001, notification);
-    }
-
-    private void dismissOfflineNotification() {
-        NotificationManager nm = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (nm != null) nm.cancel(1001);
     }
 
     private void applySystemBarColors() {
@@ -228,7 +251,8 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setNavigationBarColor(navColor);
         View decorView = getWindow().getDecorView();
         WindowInsetsControllerCompat wic = new WindowInsetsControllerCompat(getWindow(), decorView);
-        wic.setAppearanceLightStatusBars(!dark);
+        // Status bar sits on the green (or dark) toolbar colour, so its icons are always white
+        wic.setAppearanceLightStatusBars(false);
         wic.setAppearanceLightNavigationBars(!dark);
     }
 

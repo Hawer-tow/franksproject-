@@ -1,8 +1,8 @@
 package com.example.mobiledbclient.Login;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.security.keystore.KeyPermanentlyInvalidatedException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,29 +17,30 @@ import androidx.biometric.BiometricPrompt;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
-import com.example.mobiledbclient.MainActivity;
-import com.example.mobiledbclient.R;
 import com.example.mobiledbclient.ApiClient;
 import com.example.mobiledbclient.ApiService;
-import com.example.mobiledbclient.Login.SessionManager;
-import com.example.mobiledbclient.Login.LoginRequest;
-import com.example.mobiledbclient.Login.LoginResponse;
+import com.example.mobiledbclient.MainActivity;
+import com.example.mobiledbclient.R;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textview.MaterialTextView;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.concurrent.Executor;
+import org.json.JSONObject;
 
-import javax.crypto.Cipher;
+import java.security.Signature;
+import java.util.concurrent.Executor;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/** Login for the chosen profile: password, or fingerprint once it has been set up on this phone. */
 public class LoginFragment extends Fragment {
     private int userId;
     private String username;
+
+    /** Password just used to log in; needed once to turn fingerprint login on. Cleared afterwards. */
+    private String lastPassword;
+    private Button biometricBtn;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,28 +60,37 @@ public class LoginFragment extends Fragment {
 
         EditText passwordInput = root.findViewById(R.id.editPassword);
         Button loginBtn = root.findViewById(R.id.btnLogin);
-        Button biometricBtn = root.findViewById(R.id.btnBiometric);
+        biometricBtn = root.findViewById(R.id.btnBiometric);
         MaterialTextView usernameView = root.findViewById(R.id.loginUsername);
 
-        if (username != null && !username.isEmpty()) {
-            usernameView.setText(username);
-        } else {
-            usernameView.setText("User");
-        }
+        usernameView.setText(username != null && !username.isEmpty() ? username : "User");
 
         loginBtn.setOnClickListener(v -> {
             String password = passwordInput.getText().toString().trim();
             if (!password.isEmpty()) {
                 attemptLogin(password);
             } else {
-                Toast.makeText(getContext(), "Please enter password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Please enter your password", Toast.LENGTH_SHORT).show();
             }
         });
 
+        // Fingerprint button only when it is set up for this profile on this phone
+        boolean fingerprintReady = FingerprintSetup.isOn(requireContext(), userId)
+                && BiometricUtils.canUseFingerprint(requireContext());
+        biometricBtn.setVisibility(fingerprintReady ? View.VISIBLE : View.GONE);
         biometricBtn.setOnClickListener(v -> handleBiometricLogin());
+
+        // Open the fingerprint prompt straight away when it is available
+        if (fingerprintReady && savedInstanceState == null) {
+            root.post(() -> {
+                if (isAdded()) handleBiometricLogin();
+            });
+        }
 
         return root;
     }
+
+    // ------------------------------------------------------------------ password
 
     private void attemptLogin(String password) {
         ApiService apiService = ApiClient.getApiService(requireContext());
@@ -93,186 +103,167 @@ public class LoginFragment extends Fragment {
             public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
                 if (!isAdded()) return;
                 if (response.isSuccessful() && response.body() != null) {
+                    lastPassword = password;
                     handleSuccessfulLogin(response.body());
                 } else {
-                    handleErrorResponse(response.code());
+                    showError(response, "Login failed: wrong password");
                 }
             }
 
             @Override
             public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
                 if (!isAdded()) return;
-                Toast.makeText(requireContext(), "Error: Network error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(requireContext(), "Network error: could not reach the server", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void handleSuccessfulLogin(LoginResponse resp) {
-        // Save session
-        SessionManager.setActiveUser(requireContext(), userId);
-
-        // Enforce Biometric Enrollment prompt if not already enrolled
-        checkBiometricEnrollment();
+        Context context = requireContext();
+        SessionManager.setActiveUser(context, userId);
 
         if (resp.isAdmin()) {
-            Toast.makeText(requireContext(), "Welcome Admin " + username, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Welcome Admin " + username, Toast.LENGTH_SHORT).show();
         }
 
-        unlockApp(userId);
+        offerFingerprintLogin();
+        unlockApp();
     }
 
-    private void handleErrorResponse(int code) {
-        String message;
-        switch (code) {
-            case 40301:
-                message = "Access denied: inactive user";
-                break;
-            case 40302:
-                message = "Biometrics not enrolled for this user";
-                break;
-            case 40101:
-                message = "Authentication error: missing user context";
-                break;
-            default:
-                message = "Login failed: Invalid credentials";
-                break;
+    /** After a password login, ask once whether to use the fingerprint next time. */
+    private void offerFingerprintLogin() {
+        Context context = requireActivity();
+        String password = lastPassword;
+        lastPassword = null;
+        if (password == null
+                || !BiometricUtils.canUseFingerprint(context)
+                || FingerprintSetup.isOn(context, userId)
+                || FingerprintSetup.wasOffered(context, userId)) {
+            return;
+        }
+        new MaterialAlertDialogBuilder(context)
+                .setTitle("Use your fingerprint next time?")
+                .setMessage("Log in to " + username + " with your fingerprint on this phone instead of typing your password. You can change this in Settings.")
+                .setPositiveButton("Turn on", (dialog, which) ->
+                        FingerprintSetup.enable(context, userId, password, (ok, message) ->
+                                Toast.makeText(context, message, Toast.LENGTH_SHORT).show()))
+                .setNegativeButton("Not now", (dialog, which) -> FingerprintSetup.markOffered(context, userId))
+                .show();
+    }
+
+    // ------------------------------------------------------------------ fingerprint
+
+    private void handleBiometricLogin() {
+        Context context = requireContext();
+        if (!FingerprintSetup.isOn(context, userId)) {
+            Toast.makeText(context, "Fingerprint login is not set up. Log in with your password, then turn it on in Settings.", Toast.LENGTH_LONG).show();
+            biometricBtn.setVisibility(View.GONE);
+            return;
+        }
+        try {
+            showBiometricPrompt(BiometricUtils.getSignature(userId));
+        } catch (KeyPermanentlyInvalidatedException e) {
+            FingerprintSetup.forgetLocally(context, userId);
+            biometricBtn.setVisibility(View.GONE);
+            new MaterialAlertDialogBuilder(context)
+                    .setTitle("Fingerprints changed")
+                    .setMessage("The fingerprints on this phone changed, so fingerprint login was turned off. Log in with your password and turn it on again in Settings.")
+                    .setPositiveButton("OK", null)
+                    .show();
+        } catch (Exception e) {
+            Toast.makeText(context, "Fingerprint error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void showBiometricPrompt(Signature signature) {
+        Executor executor = ContextCompat.getMainExecutor(requireContext());
+        BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor,
+                new BiometricPrompt.AuthenticationCallback() {
+                    @Override
+                    public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                        if (!isAdded()) return;
+                        try {
+                            long timestamp = System.currentTimeMillis();
+                            String deviceId = SessionManager.getDeviceId(requireContext());
+                            Signature unlocked = result.getCryptoObject().getSignature();
+                            String token = BiometricUtils.sign(unlocked,
+                                    BiometricUtils.loginMessage(username, deviceId, timestamp));
+                            performBiometricApiLogin(token, timestamp, deviceId);
+                        } catch (Exception e) {
+                            Toast.makeText(getContext(), "Fingerprint error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                        if (isAdded() && errorCode != BiometricPrompt.ERROR_USER_CANCELED
+                                && errorCode != BiometricPrompt.ERROR_NEGATIVE_BUTTON
+                                && errorCode != BiometricPrompt.ERROR_CANCELED) {
+                            Toast.makeText(getContext(), errString, Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+        BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
+                .setTitle("Log in to FrankMpesa")
+                .setSubtitle(username)
+                .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
+                .setNegativeButtonText("Use password")
+                .build();
+
+        biometricPrompt.authenticate(promptInfo, new BiometricPrompt.CryptoObject(signature));
+    }
+
+    private void performBiometricApiLogin(String token, long timestamp, String deviceId) {
+        ApiService apiService = ApiClient.getApiService(requireContext());
+        LoginRequest request = new LoginRequest(username, true, token, deviceId, BiometricUtils.getAlias(userId));
+        request.setBiometricTimestamp(timestamp);
+
+        // ✅ Pass request as both @Body and @Tag for the SecurityInterceptor
+        apiService.login(request, request).enqueue(new Callback<LoginResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
+                if (!isAdded()) return;
+                if (response.isSuccessful() && response.body() != null) {
+                    handleSuccessfulLogin(response.body());
+                    return;
+                }
+                if (response.code() == 403) {
+                    // Server no longer has this phone's key: switch fingerprint off here too
+                    FingerprintSetup.forgetLocally(requireContext(), userId);
+                    biometricBtn.setVisibility(View.GONE);
+                }
+                showError(response, "Fingerprint login failed. Use your password.");
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
+                if (isAdded()) Toast.makeText(getContext(), "Network error: could not reach the server", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // ------------------------------------------------------------------ helpers
+
+    /** Shows the server's own message ({"message": "..."}) when there is one. */
+    private void showError(Response<?> response, String fallback) {
+        String message = fallback;
+        try {
+            if (response.errorBody() != null) {
+                String body = response.errorBody().string();
+                String fromServer = new JSONObject(body).optString("message", "");
+                if (!fromServer.isEmpty()) message = fromServer;
+            }
+        } catch (Exception ignored) {
+            // keep the fallback
         }
         Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show();
     }
 
-    private void checkBiometricEnrollment() {
-        if (!BiometricUtils.isBiometricEnrolled(userId)) {
-            new MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Enable Biometric Login")
-                    .setMessage("Would you like to enable fingerprint/face login for this profile on this device?")
-                    .setPositiveButton("Enable", (dialog, which) -> enrollBiometrics())
-                    .setNegativeButton("Later", null)
-                    .show();
+    private void unlockApp() {
+        if (!isAdded()) return;
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).unlockAndShowNavigation();
         }
     }
-
-    private void enrollBiometrics() {
-        try {
-            // 1. Generate hardware key
-            BiometricUtils.generateBiometricKey(userId);
-            String alias = BiometricUtils.getAlias(userId);
-            String deviceId = SessionManager.getDeviceId(requireContext());
-
-            // 2. Generate a token using the key (challenge string)
-            String biometricToken = BiometricUtils.generateEnrollmentToken(userId);
-
-            // 3. Prepare enrollment data
-            Map<String, String> enrollmentData = new HashMap<>();
-            enrollmentData.put("deviceId", deviceId);
-            enrollmentData.put("biometricKeyAlias", alias);
-            enrollmentData.put("biometricToken", biometricToken);
-
-            // 4. Call server to link biometric alias to this device
-            ApiService apiService = ApiClient.getApiService(requireContext());
-            apiService.enableBiometrics(userId, enrollmentData).enqueue(new Callback<Void>() {
-                @Override
-                public void onResponse(@NonNull Call<Void> call, @NonNull Response<Void> response) {
-                    if (!isAdded()) return;
-                    if (response.isSuccessful()) {
-                        SessionManager.setBiometricAlias(requireContext(), userId, alias);
-                        Toast.makeText(getContext(), "Biometrics enabled successfully", Toast.LENGTH_SHORT).show();
-                    } else if (response.code() == 400) {
-                        Toast.makeText(getContext(), "Enrollment failed: Missing deviceId or alias", Toast.LENGTH_LONG).show();
-                    } else if (response.code() == 403) {
-                        Toast.makeText(getContext(), "Access denied", Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(getContext(), "Enrollment failed: Server error " + response.code(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override public void onFailure(@NonNull Call<Void> call, @NonNull Throwable t) {
-                    if (isAdded()) Toast.makeText(getContext(), "Network error during enrollment", Toast.LENGTH_SHORT).show();
-                }
-            });
-        } catch (Exception e) {
-            if (isAdded()) Toast.makeText(getContext(), "Enrollment failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-
-
-
-private void handleBiometricLogin() {
-    if (!BiometricUtils.isBiometricEnrolled(userId)) {
-        Toast.makeText(requireContext(), "Biometrics not enrolled for this user", Toast.LENGTH_SHORT).show();
-        return;
-    }
-
-    try {
-        Cipher cipher = BiometricUtils.getCipher(userId);
-        showBiometricPrompt(cipher);
-    } catch (Exception e) {
-        Toast.makeText(getContext(), "Biometric error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-    }
 }
-
-private void showBiometricPrompt(Cipher cipher) {
-    Executor executor = ContextCompat.getMainExecutor(requireContext());
-    BiometricPrompt biometricPrompt = new BiometricPrompt(this, executor,
-            new BiometricPrompt.AuthenticationCallback() {
-                @Override
-                public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
-                    if (!isAdded()) return;
-                    try {
-                        // Generate a token using the cipher from the authentication result
-                        Cipher authCipher = result.getCryptoObject().getCipher();
-                        String biometricToken = BiometricUtils.generateToken(authCipher);
-                        performBiometricApiLogin(biometricToken);
-                    } catch (Exception e) {
-                        Toast.makeText(getContext(), "Token generation failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
-                    if (isAdded() && errorCode != BiometricPrompt.ERROR_USER_CANCELED) {
-                        Toast.makeText(getContext(), errString, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-
-    BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Login with Biometrics")
-            .setSubtitle("Authenticate to access your account")
-            .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG)
-            .setNegativeButtonText("Use Password")
-            .build();
-
-    biometricPrompt.authenticate(promptInfo, new BiometricPrompt.CryptoObject(cipher));
-}
-
-private void performBiometricApiLogin(String biometricToken) {
-    ApiService apiService = ApiClient.getApiService(requireContext());
-    String deviceId = SessionManager.getDeviceId(requireContext());
-    String alias = BiometricUtils.getAlias(userId);
-
-    LoginRequest request = new LoginRequest(username, true, biometricToken, deviceId, alias);
-    // ✅ Pass request as both @Body and @Tag for the SecurityInterceptor
-    apiService.login(request, request).enqueue(new Callback<LoginResponse>() {
-        @Override
-        public void onResponse(@NonNull Call<LoginResponse> call, @NonNull Response<LoginResponse> response) {
-            if (!isAdded()) return;
-            if (response.isSuccessful() && response.body() != null) {
-                handleSuccessfulLogin(response.body());
-            } else {
-                handleErrorResponse(response.code());
-            }
-        }
-        @Override public void onFailure(@NonNull Call<LoginResponse> call, @NonNull Throwable t) {
-            if (isAdded()) Toast.makeText(getContext(), "Network error", Toast.LENGTH_SHORT).show();
-        }
-    });
-}
-
-private void unlockApp(int userId) {
-    if (!isAdded()) return;
-    if (getActivity() instanceof MainActivity) {
-        ((MainActivity) getActivity()).unlockAndShowNavigation();
-    }
-}
-}
-

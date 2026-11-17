@@ -15,9 +15,6 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        android:background="?attr/background_menus"
-        app:itemTextColor="?attr/Primarycolor"
-        app:itemIconTint="?attr/Primarycolor"
         app:menu="@menu/withdraw_options_menu"
 
 

@@ -1,6 +1,8 @@
 package com.example.mobiledbclient.ui.TownBranch;
 
 import android.os.Bundle;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import com.example.mobiledbclient.ui.RefreshHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,11 +114,22 @@ public class TownBranchFragment extends Fragment {
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
+        // Pull down to reload the current table from the server
+        SwipeRefreshLayout refresh = root.findViewById(R.id.town_refresh);
+        if (refresh != null) RefreshHelper.setUp(refresh, null, recyclerView, this::reloadCurrentView);
+
         // Open drawer when Towndbseekerbtn is clicked
         if (towndbseekerbtn != null && drawerLayout != null) {
             towndbseekerbtn.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
         } else if (towndbseekerbtn == null) {
             Log.w(TAG, "Towndbseekerbtn not found in layout.");
+        }
+
+        // Commission shortcut in the bottom bar: same as picking Commission from the records menu
+        View commissionShortcut = root.findViewById(R.id.Towncommissionbtn);
+        if (commissionShortcut != null && navigationView != null) {
+            commissionShortcut.setOnClickListener(v ->
+                    navigationView.getMenu().performIdentifierAction(R.id.commissionoption, 0));
         }
 
         // Navigation menu selection
@@ -241,6 +254,22 @@ public class TownBranchFragment extends Fragment {
     }
 
     // --- Fetch methods (keeps your existing logic; only called once for withdraw unless you reset the flag) ---
+
+    private void reloadCurrentView() {
+        switch (currentView) {
+            case DEPOSIT:
+                fetchDeposit();
+                if (depositAdapter != null) recyclerView.setAdapter(depositAdapter);
+                break;
+            case COMMISSION:
+                fetchCommission();
+                if (commissionAdapter != null) recyclerView.setAdapter(commissionAdapter);
+                break;
+            default:
+                fetchWithdraw();
+                if (withdrawAdapter != null) recyclerView.setAdapter(withdrawAdapter);
+        }
+    }
 
     private void fetchWithdraw() {
         Withdraw_db_instance db = Withdraw_db_instance.getInstance(requireContext());

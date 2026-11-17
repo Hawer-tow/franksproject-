@@ -32,14 +32,14 @@ public class Transactions extends Fragment {
         // Data with section headers
         List<TransactionsItems> rates = Arrays.asList(
                 // Sales section
-                new TransactionsItems("Sales"),
-                new TransactionsItems(1, R.drawable.equity_bank_logo2, "Equity (Send Money to customer)"),
-                new TransactionsItems(2, R.drawable.mpesa_image2, "M-pesa (Send Money to customer)"),
+                new TransactionsItems("Send money to a customer"),
+                new TransactionsItems(1, R.drawable.equity_bank_logo2, "Equity Bank · Send money"),
+                new TransactionsItems(2, R.drawable.mpesa_image2, "M-Pesa · Send money"),
 
                 // Buys section
-                new TransactionsItems("Buys"),
-                new TransactionsItems(3, R.drawable.equity_bank_logo2, "Equity (Prompt customers)"),
-                new TransactionsItems(4, R.drawable.mpesa_image2, "M-pesa (Prompt customers)")
+                new TransactionsItems("Request payment from a customer"),
+                new TransactionsItems(3, R.drawable.equity_bank_logo2, "Equity Bank · Request payment"),
+                new TransactionsItems(4, R.drawable.mpesa_image2, "M-Pesa · Request payment")
         );
 
         TransactionsItemsAdapter adapter = new TransactionsItemsAdapter(rates, item -> {

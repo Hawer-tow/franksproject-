@@ -1,86 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<!-- Login: brand header with the chosen profile, then the password card.
+     Scrolls so the field and buttons stay reachable when the keyboard is open. -->
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_Primary_background"
-    android:padding="24dp">
+    android:background="?android:attr/colorBackground"
+    android:fillViewport="true">
 
-    <!-- Card container for login form -->
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/loginCard"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="12dp"
-        app:cardElevation="8dp"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        android:orientation="vertical">
 
+        <!-- Brand header -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/brand_header_bg"
+            android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="24dp"
-           >
-            <!-- App title -->
+            android:paddingTop="48dp"
+            android:paddingBottom="64dp">
+
+            <ImageView
+                android:layout_width="72dp"
+                android:layout_height="72dp"
+                android:background="@drawable/nav_header_logo_bg"
+                android:contentDescription="@string/nav_header_desc"
+                android:src="@drawable/ic_launcher_frank_foreground" />
+
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/loginTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Welcome Back"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5"
-                android:textColor="?attr/colorOnSurface"
-                android:layout_gravity="center_horizontal"/>
+                android:layout_marginTop="16dp"
+                android:text="Welcome back"
+                android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
-            <!-- Username greeting -->
             <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/loginUsername"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
                 android:text="User"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-            android:textColor="?attr/colorSecondary"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"/>
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                android:textColor="#E6FFFFFF" />
+        </LinearLayout>
 
-            <!-- Password input -->
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/passwordLayout"
+        <!-- Password card overlaps the header slightly -->
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/loginCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="-36dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="24dp"
+            app:cardCornerRadius="24dp"
+            app:cardElevation="4dp">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:endIconMode="password_toggle"
-                android:layout_marginTop="24dp">
+                android:orientation="vertical"
+                android:padding="24dp">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/editPassword"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sign in"
+                    android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Enter your password or use your fingerprint"
+                    android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/passwordLayout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
                     android:hint="Password"
-                    android:inputType="textPassword"/>
-            </com.google.android.material.textfield.TextInputLayout>
+                    app:endIconMode="password_toggle"
+                    app:startIconDrawable="@drawable/ic_lock">
 
-            <!-- Login button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnLogin"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login with Password"
-                style="?attr/materialButtonStyle"
-                android:layout_marginTop="24dp"/>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/editPassword"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-            <!-- Biometric button -->
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btnBiometric"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Login with Biometrics"
-                style="?attr/materialButtonOutlinedStyle"
-                android:layout_marginTop="16dp"/>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnLogin"
+                    style="@style/Widget.FrankMpesa.Button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:text="Log in" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnBiometric"
+                    style="@style/Widget.FrankMpesa.Button.Outlined"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Use fingerprint" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
+</ScrollView>

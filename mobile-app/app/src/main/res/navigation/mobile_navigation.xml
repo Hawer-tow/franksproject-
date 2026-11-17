@@ -27,7 +27,7 @@
     <fragment
         android:id="@+id/nav_operation"
         android:name="com.example.mobiledbclient.ui.OperationRates.OperationRates"
-        android:label="Rate's Update"
+        android:label="Exchange rates"
         tools:layout="@layout/operation_rates_fragment" />
 
     <fragment
@@ -39,52 +39,52 @@
     <fragment
         android:id="@+id/nav_ShopMajorTransactions"
         android:name="com.example.mobiledbclient.ui.MajorTransactions.Transactions"
-        android:label="Major Transactions"
+        android:label="New transaction"
         tools:layout="@layout/shoptransactions_fragment" />
 
 
     <fragment
         android:id="@+id/nav_kenya_rate_details"
         android:name="com.example.mobiledbclient.ui.OperationRates.kenya.KenyaRatesFragment"
-        android:label="Kenya and Uganda Rates"
+        android:label="Kenya ⇄ Uganda rates"
         tools:layout="@layout/kenya_rate_detail" />
 
     <fragment
         android:id="@+id/nav_congo_rate_details"
         android:name="com.example.mobiledbclient.ui.OperationRates.congo.CongoRatesFragment"
-        android:label="Congo and Uganda Rates"
+        android:label="Congo ⇄ Uganda rates"
         tools:layout="@layout/congo_rate_detail" />
     <fragment
         android:id="@+id/nav_tanzania_rate_details"
         android:name="com.example.mobiledbclient.ui.OperationRates.tanzania.TanzaniaRatesFragment"
-        android:label="Tanzania and Uganda Rates"
+        android:label="Tanzania ⇄ Uganda rates"
         tools:layout="@layout/tanzania_rate_detail" />
     <fragment
         android:id="@+id/nav_rwanda_rate_details"
         android:name="com.example.mobiledbclient.ui.OperationRates.rwanda.RwandaRatesFragment"
-        android:label="Rwanda and Uganda Rates"
+        android:label="Rwanda ⇄ Uganda rates"
         tools:layout="@layout/rwanda_rate_detail" />
 
     <fragment
         android:id="@+id/nav_all_customers"
         android:name="com.example.mobiledbclient.ui.Customers.allcustomers.allcustomersFragment"
-        android:label="All Customers"
+        android:label="All customers"
         tools:layout="@layout/all_customers_detail" />
     <fragment
         android:id="@+id/nav_top_customers"
         android:name="com.example.mobiledbclient.ui.Customers.topcustomers.topcustomersFragment"
-        android:label="Top Customers"
+        android:label="Top customers"
         tools:layout="@layout/top_customers_detail" />
 
     <fragment
         android:id="@+id/equityTransactions"
         android:name="com.example.mobiledbclient.ui.MajorTransactions.EquitySales.equityMainFragment"
-        android:label="Equity send money Transactions"
+        android:label="Equity · Send money"
         tools:layout="@layout/all_equity_transactions" />
     <fragment
         android:id="@+id/mpesaTransactions"
         android:name="com.example.mobiledbclient.ui.MajorTransactions.MpesaSales.mpesaMainFragment"
-        android:label="Mpesa send money transactions"
+        android:label="M-Pesa · Send money"
         tools:layout="@layout/all_mpesa_transactions" >
 <!--        <action-->
 <!--            android:id="@+id/action_mpesaTransactions_self"-->
@@ -94,12 +94,12 @@
     <fragment
         android:id="@+id/equityBuysTransactions"
         android:name="com.example.mobiledbclient.ui.MajorTransactions.EquityBuys.EquityBuysMainFragment"
-        android:label="Equity Prompt customer"
+        android:label="Equity · Request payment"
         tools:layout="@layout/equity_buys_main_fragment" />
     <fragment
         android:id="@+id/mpesaBuysTransactions"
         android:name="com.example.mobiledbclient.ui.MajorTransactions.MpesaBuys.MpesaBuysMainFragment"
-        android:label="Mpesa Prompt customer"
+        android:label="M-Pesa · Request payment"
         tools:layout="@layout/mpesa_buys_main_fragment" >
 <!--        <action-->
 <!--            android:id="@+id/action_mpesaTransactions_self"-->

@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     app:cardCornerRadius="18dp"
-    app:cardElevation="8dp"
-    app:cardUseCompatPadding="true"
+    app:cardElevation="0dp"
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.core.widget.NestedScrollView
@@ -28,8 +27,8 @@
                 android:id="@+id/title_sendmoney"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Send Money"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:text="Equity account → Mobile phone"
+                android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
                 android:textStyle="bold"
                 android:textColor="@color/equity_transaction_main_color"
                 android:gravity="center"/>
@@ -37,7 +36,7 @@
             <!-- Account Number -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAccountSend"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -57,7 +56,7 @@
             <!-- Telco -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilTelcoSend"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -76,8 +75,8 @@
 
             <!-- Recipient Phone -->
             <com.google.android.material.textfield.TextInputLayout
+                app:placeholderText="2547XXXXXXXX"
                 android:id="@+id/tilRecipientPhone"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -89,15 +88,13 @@
                     android:id="@+id/edtRecipientPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Recipient Phone (2547XXXXXXXX)"
-                    android:inputType="phone"
-                    android:padding="12dp"/>
+                    android:hint="Recipient Phone"
+                    android:inputType="phone"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Amount -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAmountSend"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -110,14 +107,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Amount"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Rate -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilRateSend"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -130,8 +125,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Rate"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Helper Text -->
@@ -140,9 +134,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="All fields required. Amount and Rate must be numeric."
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:layout_marginTop="12dp"
-                android:textColor="@android:color/darker_gray"/>
+                android:textColor="?attr/colorOnSurfaceVariant"/>
 
             <!-- Send Button -->
             <com.google.android.material.button.MaterialButton
@@ -151,9 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:text="Send Money"
-                android:textAllCaps="false"
-                app:cornerRadius="10dp"
-                android:backgroundTint="@color/dark_recycler_backgroundcolor"
+                android:backgroundTint="@color/equity_transaction_main_color"
                 android:textColor="@android:color/white"/>
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

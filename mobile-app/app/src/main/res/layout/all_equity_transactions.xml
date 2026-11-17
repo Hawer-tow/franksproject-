@@ -17,7 +17,7 @@
         app:tabIndicatorHeight="3dp"
         app:tabIndicatorColor="@color/equity_transaction_main_color"
         app:tabSelectedTextColor="@color/equity_transaction_main_color"
-        app:tabTextColor="@android:color/darker_gray"
+        app:tabTextColor="?attr/colorOnSurfaceVariant"
         app:tabGravity="center"
         app:tabMode="fixed"
         app:layout_constraintTop_toTopOf="parent"
@@ -48,7 +48,7 @@
     <ImageView
         android:id="@+id/equityBackground"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="140dp"
         android:src="@drawable/equitybank_image"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"

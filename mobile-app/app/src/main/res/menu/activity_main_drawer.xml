@@ -1,64 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Side menu. Item ids match the destinations in mobile_navigation.xml. -->
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <item android:title="Your Branches">
+    <item android:title="Branches">
         <menu>
-            <item
-                android:id="@+id/nav_home"
-                android:icon="@drawable/home"
-                android:title="Kisenyi" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/partof"
-            android:title="Town Branch"
-            />
-            </menu>
-    </item>
-
-
-
-
-    <item android:title="Transactionals">
-        <menu>
-        <item
-            android:id="@+id/nav_operation"
-            android:icon="@drawable/rates_variations"
-            android:title="Set Rates" />
-            <item
-                android:id="@+id/nav_ShopMajorTransactions"
-                android:icon="@drawable/cashtransfer"
-                android:title="Do a Transaction Here" />
-
-
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_home"
+                    android:icon="@drawable/home"
+                    android:title="Kisenyi" />
+                <item
+                    android:id="@+id/nav_gallery"
+                    android:icon="@drawable/partof"
+                    android:title="Town Branch" />
+            </group>
         </menu>
     </item>
 
-
-    <item android:title="Customers">
+    <item android:title="Operations">
         <menu>
-
-            <item
-                android:id="@+id/nav_customers"
-                android:icon="@drawable/customer_logo"
-                android:title="Customers" />
-
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_ShopMajorTransactions"
+                    android:icon="@drawable/cashtransfer"
+                    android:title="New transaction" />
+                <item
+                    android:id="@+id/nav_operation"
+                    android:icon="@drawable/rates_variations"
+                    android:title="Exchange rates" />
+            </group>
         </menu>
     </item>
 
+    <item android:title="People">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_customers"
+                    android:icon="@drawable/customer_logo"
+                    android:title="Customers" />
+            </group>
+        </menu>
+    </item>
 
-    <item android:title="Settings">
-                <menu>
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/settings"
-            android:title="Settings" />
-
-
-                </menu>
-            </item>
-
+    <item android:title="App">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/nav_slideshow"
+                    android:icon="@drawable/settings"
+                    android:title="Settings" />
+            </group>
+        </menu>
+    </item>
 </menu>
-

@@ -32,8 +32,8 @@ public class Customers_Main extends Fragment {
 
         // Sample data
         List<CustomerTypes> rates = Arrays.asList(
-                new CustomerTypes(1, R.drawable.customers_image, "All Customers"),
-                new CustomerTypes(2, R.drawable.topcustomer_image, "Top Customers")
+                new CustomerTypes(1, R.drawable.customers_image, "All customers"),
+                new CustomerTypes(2, R.drawable.topcustomer_image, "Top customers")
 
         );
 

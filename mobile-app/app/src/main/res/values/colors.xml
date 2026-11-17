@@ -1,108 +1,146 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="selector_background">#FFFAFAFA</color> <!-- or #FFFFFFFF for white -->
-    <color name="primary">#1E88E5</color>
-    <color name="gray_600">#757575</color>
+    <!-- ===================================================================
+         FrankMpesa brand palette
+         Green = money / M-Pesa, navy = trust, warm gold = highlights.
+         Every screen reads these through the theme (themes.xml), so change
+         a value here and it changes everywhere.
+         =================================================================== -->
+
+    <!-- Light scheme -->
+    <color name="brand_green">#0B7A43</color>
+    <color name="brand_green_dark">#075C32</color>
+    <color name="brand_green_container">#D4F1E0</color>
+    <color name="brand_on_green_container">#002111</color>
+    <color name="brand_navy">#1F3A5F</color>
+    <color name="brand_navy_container">#DCE7F5</color>
+    <color name="brand_on_navy_container">#0A1C33</color>
+    <color name="brand_gold">#9A6700</color>
+    <color name="brand_gold_container">#FFE7B3</color>
+    <color name="brand_on_gold_container">#2B1B00</color>
+
+    <color name="neutral_background">#F3F5F7</color>
+    <color name="neutral_surface">#FFFFFF</color>
+    <color name="neutral_surface_variant">#E9EEF2</color>
+    <color name="neutral_on_surface">#17212B</color>
+    <color name="neutral_on_surface_variant">#566270</color>
+    <color name="neutral_outline">#C3CCD5</color>
+    <color name="neutral_outline_variant">#E0E6EB</color>
+
+    <color name="status_success">#1E8E3E</color>
+    <color name="status_warning">#B26A00</color>
+    <color name="status_error">#C62828</color>
+    <color name="status_error_container">#FDE3E3</color>
+    <color name="status_info">#1A6FD1</color>
+
+    <!-- Dark scheme -->
+    <color name="dark_brand_green">#62D394</color>
+    <color name="dark_brand_on_green">#00391B</color>
+    <color name="dark_brand_green_container">#0B5532</color>
+    <color name="dark_brand_on_green_container">#C9F4DA</color>
+    <color name="dark_brand_navy">#AECBEE</color>
+    <color name="dark_brand_on_navy">#0B2742</color>
+    <color name="dark_brand_navy_container">#26405F</color>
+    <color name="dark_brand_on_navy_container">#DCE7F5</color>
+    <color name="dark_brand_gold">#F0C060</color>
+    <color name="dark_brand_gold_container">#4D3800</color>
+    <color name="dark_brand_on_gold_container">#FFE7B3</color>
+
+    <color name="dark_neutral_background">#0E1317</color>
+    <color name="dark_neutral_surface">#161D23</color>
+    <color name="dark_neutral_surface_variant">#202931</color>
+    <color name="dark_neutral_on_surface">#E3E8EC</color>
+    <color name="dark_neutral_on_surface_variant">#A6B1BC</color>
+    <color name="dark_neutral_outline">#45525E</color>
+    <color name="dark_neutral_outline_variant">#2A343D</color>
+    <color name="dark_status_error">#FF8A80</color>
+    <color name="dark_status_error_container">#5C1A1A</color>
+
+    <!-- ===================================================================
+         Existing names used by layouts and code, now mapped onto the palette
+         =================================================================== -->
+
+    <color name="selector_background">#FFF3F5F7</color>
+    <color name="primary">#0B7A43</color>
+    <color name="gray_600">#566270</color>
     <color name="white">#FFFFFF</color>
-    <color name="secondary_background">#FFCDD2</color>
-    <color name="Safaricom_shade">#008000</color> <!-- Safaricom_shade -->
-    <color name="Equitel_shade">#E60C45</color> <!-- Equitel_shade -->
+    <color name="secondary_background">#FDE3E3</color>
+    <color name="Safaricom_shade">#0B7A43</color>
+    <color name="Equitel_shade">#A61C3C</color>
 
+    <!-- Profile tile tints -->
+    <color name="usercolor1">#E3EEFB</color>
+    <color name="usercolor2">#FBE7EF</color>
+    <color name="usercolor3">#E2F4EA</color>
+    <color name="usercolor4">#FFF0DC</color>
+    <color name="usercolor5">#EFE7F8</color>
+    <color name="usercolor6">#F2F5E1</color>
 
-    <color name="usercolor1">#E3F2FD</color> <!-- Light Blue -->
-    <color name="usercolor2">#FCE4EC</color> <!-- Light Pink -->
-    <color name="usercolor3">#E8F5E9</color> <!-- Light Green -->
-    <color name="usercolor4">#FFF3E0</color> <!-- Light Orange -->
-    <color name="usercolor5">#F3E5F5</color> <!-- Light Purple -->
-    <color name="usercolor6">#F9FBE7</color> <!-- Light Lime -->
+    <!-- Accent used for tabs, highlights and focused fields -->
+    <color name="light_Purple_persistentcolor">#0B7A43</color>
+    <color name="light_accent">#D4F1E0</color>
+    <color name="dark_accent">#26405F</color>
 
+    <color name="gray">#8A96A3</color>
+    <color name="equity_transaction_main_color">#A61C3C</color>
 
-
-
-
-
-
-    <color name="light_Purple_persistentcolor">#0CBC11</color>
-    <color name="light_accent">#F9FBE7</color>
-    <color name="dark_accent">#E3F2FD</color>curl -X GET \
-
-    <color name="gray">#A5ADB3</color>
-    <color name="equity_transaction_main_color">#7E19E0</color>
-
-    <color name="light_Primarycolor">#FF000000</color>
-    <color name="light_Primary_background">#FFFFFFFF</color>
-    <color name="light_toobar_backgroundcolor">#1C2A42</color>
-    <color name="light_textcolor">#FF000000</color>
-    <color name="light_recycler_backgroundcolor">#EFF0F6</color>
-    <color name="light_FloatingActionButton_backgroundcolor">#121769BC</color>
-    <color name="status_bar_light">#FFFFFF</color>
-    <color name="navigation_bar_light">#FFFFFF</color>
-    <color name="light_app_description_backgroundcolor">#1C2A42</color>
+    <color name="light_Primarycolor">#17212B</color>
+    <color name="light_Primary_background">#F3F5F7</color>
+    <color name="light_toobar_backgroundcolor">#0B7A43</color>
+    <color name="light_textcolor">#17212B</color>
+    <color name="light_recycler_backgroundcolor">#F3F5F7</color>
+    <color name="light_FloatingActionButton_backgroundcolor">#0B7A43</color>
+    <color name="status_bar_light">#075C32</color>
+    <color name="navigation_bar_light">#F3F5F7</color>
+    <color name="light_app_description_backgroundcolor">#0B7A43</color>
     <color name="light_app_description_color">#FFFFFFFF</color>
-    <color name="light_bottombtnsoptionsbackgroundcolor">#1C2A42</color>
-    <color name="light_Deletebutton">#E60C45</color>
-    <color name="light_editbtncolor">#9556D3</color>
+    <color name="light_bottombtnsoptionsbackgroundcolor">#FFFFFF</color>
+    <color name="light_Deletebutton">#C62828</color>
+    <color name="light_editbtncolor">#1F3A5F</color>
     <color name="light_rowbackground">#FFFFFFFF</color>
-    <color name="light_rowborder">#FF000000</color>
+    <color name="light_rowborder">#E0E6EB</color>
     <color name="light_background_menus">#FFFFFFFF</color>
-    <color name="light_customersrecyclerbackground">#E08F19</color>
-    <color name="light_customersheaderbackground">#3A0404</color>
-    <!-- res/values/colors.xml -->
-    <color name="light_kisenyi_summary_salesColor">#4CAF50</color>
-    <color name="light_kisenyi_summary_buysColor">#FFC107</color>
-    <color name="light_kisenyi_summary_expensesColor">#F44336</color>
-    <color name="light_kisenyi_summary_openingColor">#2196F3</color>
-    <color name="light_kisenyi_summary_expectedColor">#9C27B0</color>
-    <color name="light_kisenyi_summary_recordedColor">#1C2A42</color>
+    <color name="light_customersrecyclerbackground">#F3F5F7</color>
+    <color name="light_customersheaderbackground">#1F3A5F</color>
 
+    <!-- Shop summary chart colors -->
+    <color name="light_kisenyi_summary_salesColor">#1E8E3E</color>
+    <color name="light_kisenyi_summary_buysColor">#D98E04</color>
+    <color name="light_kisenyi_summary_expensesColor">#D93025</color>
+    <color name="light_kisenyi_summary_openingColor">#1A6FD1</color>
+    <color name="light_kisenyi_summary_expectedColor">#7B4FB3</color>
+    <color name="light_kisenyi_summary_recordedColor">#1F3A5F</color>
 
+    <color name="dark_Purple_persistentcolor">#62D394</color>
 
-
-    <color name="dark_Purple_persistentcolor">#4D5FC1</color>
-
-    <color name="dark_Primarycolor">#FFFFFFFF</color>
-    <color name="dark_Primary_background">#373D43</color>
-    <color name="dark_toobar_backgroundcolor">#FF000000</color>
-    <color name="dark_textcolor">#FFFFFFFF</color>
-    <color name="dark_recycler_backgroundcolor">#FF000000</color>
-    <color name="dark_FloatingActionButton_backgroundcolor">#FFFFFFFF</color>
-    <color name="status_bar_dark">#121212</color>
-    <color name="navigation_bar_dark">#121212</color>
-    <color name="dark_app_description_backgroundcolor">#0E141A</color>
+    <color name="dark_Primarycolor">#E3E8EC</color>
+    <color name="dark_Primary_background">#0E1317</color>
+    <color name="dark_toobar_backgroundcolor">#161D23</color>
+    <color name="dark_textcolor">#E3E8EC</color>
+    <color name="dark_recycler_backgroundcolor">#0E1317</color>
+    <color name="dark_FloatingActionButton_backgroundcolor">#62D394</color>
+    <color name="status_bar_dark">#161D23</color>
+    <color name="navigation_bar_dark">#0E1317</color>
+    <color name="dark_app_description_backgroundcolor">#0B5532</color>
     <color name="dark_app_description_color">#FFFFFFFF</color>
-    <color name="dark_bottombtnsoptionsbackgroundcolor">#FF000000</color>
-    <color name="dark_Deletebutton">#E60C45</color>
-    <color name="dark_editbtncolor">#9556D3</color>
-    <color name="dark_rowbackground">#373D43</color>
-    <color name="dark_rowborder">#FFFFFFFF</color>
-    <color name="dark_background_menus">#1B1B1B</color>
-    <color name="dark_customersrecyclerbackground">#E08F19</color>
-    <color name="dark_customersheaderbackground">#3A0404</color>
-    <!-- res/values-night/colors.xml  A12B2B35-->
-    <color name="dark_kisenyi_summary_salesColor">#81C784</color>
-    <color name="dark_kisenyi_summary_buysColor">#FFD54F</color>
-    <color name="dark_kisenyi_summary_expensesColor">#E57373</color>
-    <color name="dark_kisenyi_summary_openingColor">#64B5F6</color>
-    <color name="dark_kisenyi_summary_expectedColor">#BA68C8</color>
-    <color name="dark_kisenyi_summary_recordedColor">#1C2A42</color>
+    <color name="dark_bottombtnsoptionsbackgroundcolor">#161D23</color>
+    <color name="dark_Deletebutton">#FF8A80</color>
+    <color name="dark_editbtncolor">#AECBEE</color>
+    <color name="dark_rowbackground">#161D23</color>
+    <color name="dark_rowborder">#2A343D</color>
+    <color name="dark_background_menus">#161D23</color>
+    <color name="dark_customersrecyclerbackground">#0E1317</color>
+    <color name="dark_customersheaderbackground">#26405F</color>
 
-
-    <!-- lightslategrey -->
-
-
+    <color name="dark_kisenyi_summary_salesColor">#6DD58C</color>
+    <color name="dark_kisenyi_summary_buysColor">#F2B84B</color>
+    <color name="dark_kisenyi_summary_expensesColor">#F28B82</color>
+    <color name="dark_kisenyi_summary_openingColor">#8AB4F8</color>
+    <color name="dark_kisenyi_summary_expectedColor">#C3A6E8</color>
+    <color name="dark_kisenyi_summary_recordedColor">#AECBEE</color>
 
     <color name="popup_colorSurface">#FFFFFFFF</color>
-    <color name="popup_colorOnSurface">#FF000000</color>
-
-
-
-
-
+    <color name="popup_colorOnSurface">#FF17212B</color>
 
 </resources>
-    <!-- res/values/colors.xml -->
-
-
-
-

@@ -7,8 +7,7 @@
     android:layout_height="match_parent"
     android:layout_margin="8dp"
     app:cardCornerRadius="20dp"
-    app:cardElevation="8dp"
-    app:cardUseCompatPadding="true"
+    app:cardElevation="0dp"
     android:foreground="?attr/selectableItemBackground">
 
     <androidx.core.widget.NestedScrollView
@@ -26,7 +25,7 @@
                 android:id="@+id/accountCardTitle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="Prompt customer Equity Account.No → Equity Paybill"
+                android:text="Request payment from an Equity account"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:textStyle="bold"
                 android:textColor="@color/equity_transaction_main_color"
@@ -37,7 +36,6 @@
             <!-- Account Number -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAccountEquity"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -55,14 +53,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Customer Account Number"
-                    android:inputType="number"
-                    android:padding="12dp"/>
+                    android:inputType="number"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Amount -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilAmountEquityAccount"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -80,14 +76,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Amount"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Rate -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/tilRateEquityAccount"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
@@ -105,8 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Rate"
-                    android:inputType="numberDecimal"
-                    android:padding="12dp"/>
+                    android:inputType="numberDecimal"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Button + Progress -->
@@ -122,10 +115,8 @@
                     android:id="@+id/btnInitiateEquityAccount"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Initiate Payment"
-                    android:textAllCaps="false"
-                    app:cornerRadius="10dp"
-                    android:backgroundTint="@color/dark_recycler_backgroundcolor"
+                    android:text="Send payment request"
+                    android:backgroundTint="@color/equity_transaction_main_color"
                     android:textColor="@android:color/white"/>
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
@@ -134,7 +125,7 @@
                     android:layout_height="32dp"
                     android:visibility="gone"
                     android:layout_gravity="center"
-                    style="@style/Widget.MaterialComponents.CircularProgressIndicator"
+                    style="@style/Widget.Material3.CircularProgressIndicator"
                     app:indicatorSize="32dp"
                     app:trackThickness="4dp"/>
             </FrameLayout>

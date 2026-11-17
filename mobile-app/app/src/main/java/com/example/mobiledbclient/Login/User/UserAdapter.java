@@ -1,15 +1,23 @@
 package com.example.mobiledbclient.Login.User;
 
+import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.card.MaterialCardView;
+import com.google.android.material.color.MaterialColors;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import com.example.mobiledbclient.R;
 
@@ -52,32 +60,44 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     public void onBindViewHolder(@NonNull UserViewHolder holder, int position) {
         User user = users.get(position);
 
-        // Bind username
-        holder.username.setText(user.getUsername());
+        Context context = holder.itemView.getContext();
 
-        // Bind extra info (role or last login)
-        if (user.getLastLogin() != null && !user.getLastLogin().isEmpty()) {
-            holder.userInfo.setText("Last login: " + user.getLastLogin());
+        // Bind username and its initial
+        String name = user.getUsername() != null ? user.getUsername().trim() : "";
+        holder.username.setText(name);
+        holder.initial.setText(name.isEmpty() ? "?" : name.substring(0, 1).toUpperCase(Locale.getDefault()));
+
+        // Bind extra info (last login, shown as "2026-05-11 22:32")
+        String lastLogin = user.getLastLogin();
+        if (lastLogin != null && !lastLogin.isEmpty()) {
+            String readable = lastLogin.replace('T', ' ');
+            if (readable.length() > 16) readable = readable.substring(0, 16);
+            holder.userInfo.setText("Last login " + readable);
         } else {
-            holder.userInfo.setText("Log in for the first time"); // fallback
+            holder.userInfo.setText("New profile · first login");
         }
 
-        // Highlight selected user
-        if (user.getId() == highlightUserId) {
-            holder.itemView.setBackgroundResource(R.drawable.user_box_highlight_bg);
-        } else {
-            // Alternate background colors based on position
-            int[] colors = {
-                    holder.itemView.getContext().getResources().getColor(R.color.usercolor1),
-                    holder.itemView.getContext().getResources().getColor(R.color.usercolor2),
-                    holder.itemView.getContext().getResources().getColor(R.color.usercolor3),
-                    holder.itemView.getContext().getResources().getColor(R.color.usercolor4),
-                    holder.itemView.getContext().getResources().getColor(R.color.usercolor5),
-                    holder.itemView.getContext().getResources().getColor(R.color.usercolor6)
+        // Each profile gets its own soft avatar colour
+        int[] colors = {
+                ContextCompat.getColor(context, R.color.usercolor1),
+                ContextCompat.getColor(context, R.color.usercolor2),
+                ContextCompat.getColor(context, R.color.usercolor3),
+                ContextCompat.getColor(context, R.color.usercolor4),
+                ContextCompat.getColor(context, R.color.usercolor5),
+                ContextCompat.getColor(context, R.color.usercolor6)
+        };
+        ViewCompat.setBackgroundTintList(holder.initial,
+                ColorStateList.valueOf(colors[position % colors.length]));
 
-            };
-            int colorIndex = position % colors.length;
-            holder.itemView.setBackgroundColor(colors[colorIndex]);
+        // Outline the profile that was used last
+        if (holder.itemView instanceof MaterialCardView) {
+            MaterialCardView card = (MaterialCardView) holder.itemView;
+            boolean highlighted = user.getId() == highlightUserId;
+            float density = context.getResources().getDisplayMetrics().density;
+            card.setStrokeWidth(Math.round((highlighted ? 2 : 1) * density));
+            card.setStrokeColor(highlighted
+                    ? MaterialColors.getColor(card, androidx.appcompat.R.attr.colorPrimary)
+                    : MaterialColors.getColor(card, com.google.android.material.R.attr.colorOutlineVariant));
         }
 
         // Click listener
@@ -93,11 +113,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
     static class UserViewHolder extends RecyclerView.ViewHolder {
         TextView username;
         TextView userInfo;
+        TextView initial;
 
         UserViewHolder(View itemView) {
             super(itemView);
             username = itemView.findViewById(R.id.textUsername);
             userInfo = itemView.findViewById(R.id.textUserInfo);
+            initial = itemView.findViewById(R.id.textInitial);
         }
     }
 }

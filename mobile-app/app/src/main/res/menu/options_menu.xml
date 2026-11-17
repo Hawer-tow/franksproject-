@@ -1,51 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-
-    >
-
-        <item android:title="Record Openings and Closings">
-                <menu>
-                        <item
-                            android:id="@+id/OpenCloseCash"
-                            android:title="Open/closing Cash"
-                            android:icon="@drawable/opencash"
-
-                            />
-
-                </menu>
-</item>
-
-        <item android:title="Main Transactions Databases">
-                <menu>
-
-                        <item
-                            android:id="@+id/Sales_sls"
-                            android:title="Sales"
-                            android:icon="@drawable/sale"
-                            />
-
-                        <item
-                            android:id="@+id/Buys_bys"
-                            android:title="Buys"
-                            android:icon="@drawable/buys"
-                            />
-                </menu>
-</item>
-
-
-        <item android:title="Major Database for Expenses" >
+<!-- Kisenyi: which records table to show -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Daily cash">
         <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/OpenCloseCash"
+                    android:icon="@drawable/opencash"
+                    android:title="Opening &amp; closing cash" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="Transactions">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/Sales_sls"
+                    android:icon="@drawable/sale"
+                    android:title="Sales" />
+                <item
+                    android:id="@+id/Buys_bys"
+                    android:icon="@drawable/buys"
+                    android:title="Buys" />
+            </group>
+        </menu>
+    </item>
+    <item android:title="Running costs">
+        <menu>
+            <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/Expense_exps"
-                    android:title="Expenses"
                     android:icon="@drawable/expense"
-                    />
-
+                    android:title="Expenses" />
+            </group>
         </menu>
-</item>
-
-
-
-
-
+    </item>
 </menu>

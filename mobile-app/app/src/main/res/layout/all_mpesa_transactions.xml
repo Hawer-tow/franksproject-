@@ -20,7 +20,7 @@
         app:tabIndicatorHeight="3dp"
         app:tabIndicatorColor="@color/light_Purple_persistentcolor"
         app:tabSelectedTextColor="@color/light_Purple_persistentcolor"
-        app:tabTextColor="@android:color/darker_gray"
+        app:tabTextColor="?attr/colorOnSurfaceVariant"
         app:tabGravity="center"
         app:tabMode="fixed"
         app:layout_constraintTop_toTopOf="parent"
@@ -51,7 +51,7 @@
     <ImageView
         android:id="@+id/backgroundImage"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="140dp"
         android:src="@drawable/mpesa_image"
         android:scaleType="centerCrop"
         app:layout_constraintBottom_toBottomOf="parent"

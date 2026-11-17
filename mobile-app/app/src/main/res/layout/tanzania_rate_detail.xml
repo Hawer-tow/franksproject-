@@ -2,16 +2,11 @@
 <FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="?android:attr/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- Faint background image -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/tanzania_rates"
-        android:scaleType="centerCrop"
-        android:alpha="0.18" />
 
     <!-- Main scrollable content -->
     <androidx.core.widget.NestedScrollView
@@ -27,34 +22,87 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/rates_header_tz"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Exchange Rates"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textStyle="bold"
-                android:gravity="center"
-                android:paddingBottom="8dp"/>
+            <!-- Country header -->
 
-            <TextView
-                android:id="@+id/rates_subheader_tz"
+            <LinearLayout
+
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                android:text="Manage daily buy/sell rates and transaction limits"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
-                android:gravity="center"
-                android:textColor="@color/gray_600"
-                android:paddingBottom="16dp"/>
+
+                android:layout_marginBottom="16dp"
+
+                android:gravity="center_vertical"
+
+                android:orientation="horizontal">
+
+
+                <com.google.android.material.imageview.ShapeableImageView
+
+                    android:id="@+id/flagImage_tz"
+
+                    android:layout_width="52dp"
+
+                    android:layout_height="52dp"
+
+                    android:contentDescription="Tanzania"
+
+                    android:scaleType="centerCrop"
+
+                    android:src="@drawable/tanzania_rates"
+
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.App.RoundedImage" />
+
+
+                <LinearLayout
+
+                    android:layout_width="0dp"
+
+                    android:layout_height="wrap_content"
+
+                    android:layout_marginStart="14dp"
+
+                    android:layout_weight="1"
+
+                    android:orientation="vertical">
+
+
+                    <TextView
+
+                        android:id="@+id/rates_header_tz"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:text="Tanzania rates"
+
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.ScreenTitle" />
+
+
+                    <TextView
+
+                        android:id="@+id/rates_subheader_tz"
+
+                        android:layout_width="match_parent"
+
+                        android:layout_height="wrap_content"
+
+                        android:text="Set today's rate and the amount limits for each direction"
+
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.Caption" />
+
+                </LinearLayout>
+
+            </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_u2t"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                android:layout_marginBottom="16dp"
-                app:cardUseCompatPadding="true">
+                app:cardElevation="0dp"
+                android:layout_marginBottom="16dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -67,13 +115,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Uganda → Tanzania"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle"
                         android:textStyle="bold"
-                        android:textColor="@color/primary"/>
+                        android:textColor="?attr/colorPrimary"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilU2TDate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -85,13 +132,11 @@
                             android:hint="Date"
                             android:focusable="false"
                             android:clickable="true"
-                            android:inputType="none"
-                            android:padding="12dp"/>
+                            android:inputType="none"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilU2TRate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -101,8 +146,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Rate"
-                            android:inputType="numberDecimal"
-                            android:padding="12dp"/>
+                            android:inputType="numberDecimal"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
@@ -114,7 +158,6 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilU2TMin"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -125,13 +168,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Min amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilU2TMax"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -142,8 +183,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Max amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -152,10 +192,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Set U→T"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:backgroundTint="@color/primary"
+                        android:text="Save Uganda → Tanzania rate"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:textColor="@android:color/white"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -166,8 +204,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="12dp"
-                app:cardElevation="4dp"
-                app:cardUseCompatPadding="true">
+                app:cardElevation="0dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -180,13 +217,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Tanzania → Uganda"
-                        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                        android:textAppearance="@style/TextAppearance.FrankMpesa.CardTitle"
                         android:textStyle="bold"
-                        android:textColor="@color/primary"/>
+                        android:textColor="?attr/colorPrimary"/>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilT2UDate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -198,13 +234,11 @@
                             android:hint="Date"
                             android:focusable="false"
                             android:clickable="true"
-                            android:inputType="none"
-                            android:padding="12dp"/>
+                            android:inputType="none"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
                         android:id="@+id/tilT2URate"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp">
@@ -214,8 +248,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Rate"
-                            android:inputType="numberDecimal"
-                            android:padding="12dp"/>
+                            android:inputType="numberDecimal"/>
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <LinearLayout
@@ -227,7 +260,6 @@
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilT2UMin"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -238,13 +270,11 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Min amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/tilT2UMax"
-                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
@@ -255,8 +285,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:hint="Max amount"
-                                android:inputType="numberDecimal"
-                                android:padding="12dp"/>
+                                android:inputType="numberDecimal"/>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
 
@@ -265,10 +294,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
-                        android:text="Set T→U"
-                        android:textAllCaps="false"
-                        app:cornerRadius="8dp"
-                        android:backgroundTint="@color/primary"
+                        android:text="Save Tanzania → Uganda rate"
+                        android:backgroundTint="?attr/colorPrimary"
                         android:textColor="@android:color/white"/>
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -278,7 +305,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Changes are saved locally and pushed to server when available."
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textAppearance="@style/TextAppearance.Material3.BodySmall"
                 android:textColor="@color/gray_600"
                 android:gravity="center"
                 android:layout_marginTop="12dp"
@@ -287,16 +314,4 @@
     </androidx.core.widget.NestedScrollView>
 
     <!-- Top-right flag overlay -->
-    <ImageView
-        android:id="@+id/flagImage_tz"
-        android:layout_width="56dp"
-        android:layout_height="36dp"
-        android:layout_margin="12dp"
-        android:contentDescription="Tanzania"
-        android:src="@drawable/tanzania_rates"
-        android:scaleType="centerCrop"
-
-        android:padding="2dp"
-        android:elevation="8dp"
-        android:layout_gravity="top|end"/>
 </FrameLayout>
