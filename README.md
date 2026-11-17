@@ -49,6 +49,11 @@ then opens two windows: the **server** (`gradlew bootRun` in `server\`) and the 
 Close the two windows to stop. (Running `gradlew bootrun` from this top folder no longer works: the server
 project is in `server\`.)
 
+**Customer website:** double-click **`start-website.bat`**. It checks MySQL and port 3000, installs the
+website packages on first run, starts the portal server (`node server.js` in `customer-portalackend`) and
+opens <http://localhost:3000/customers.html>. Close its window to stop. The **Help Center** is a plain page:
+open `website\owner-help\helpcenter.html`. Desktop shortcuts: *Start FrankMpesa server*, *FrankMpesa website*.
+
 ## Running (Terminal → Run Task…)
 
 | Task | Does |
