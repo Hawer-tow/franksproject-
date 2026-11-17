@@ -41,6 +41,14 @@ Browser ──► customer-portal backend :3000 ──► MySQL: Customer
 4. **Node packages**: run the task **Customer portal: install packages**.
 5. **Android**: run the task **Mobile app: open in Android Studio**.
 
+## Quick start: the server the phone app needs
+
+Double-click **`start-frankmpesa.bat`** (in this folder). It checks MySQL is running and port 8080 is free,
+then opens two windows: the **server** (`gradlew bootRun` in `server\`) and the **ngrok tunnel**
+(`ngrok http 8080`). Wait for `Started MobileDbApplication`, then pull down the profile list in the app.
+Close the two windows to stop. (Running `gradlew bootrun` from this top folder no longer works: the server
+project is in `server\`.)
+
 ## Running (Terminal → Run Task…)
 
 | Task | Does |

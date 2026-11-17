@@ -78,7 +78,7 @@
 			{
 				"label": "Tunnel: ngrok for the app (port 8080)",
 				"type": "shell",
-				"command": "ngrok http --domain=geomagnetic-confessedly-juanita.ngrok-free.dev 8080",
+				"command": "ngrok http 8080",
 				"presentation": { "panel": "dedicated", "group": "servers" },
 				"problemMatcher": []
 			},
