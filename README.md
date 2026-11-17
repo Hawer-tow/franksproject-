@@ -47,6 +47,8 @@ Browser ──► customer-portal backend :3000 ──► MySQL: Customer
 |---|---|
 | MySQL: start service (asks for admin) | Starts `MySQL80` (it is set to Manual start). |
 | Main server: Spring Boot (port 8080) | `gradlew bootRun` in `server/`. |
+| Tunnel: ngrok for the app (port 8080) | Opens `https://geomagnetic-confessedly-juanita.ngrok-free.dev` → port 8080, the address the phone app uses. |
+| Start app backend (server + tunnel) | The two above together: what the phone app needs. |
 | Customer portal: backend (port 3000) | `node server.js`. Customer pages at <http://localhost:3000/customers.html>. |
 | Customer portal: React frontend (Vite) | `npm run dev`. |
 | Start everything | The three servers above, each in its own terminal. |

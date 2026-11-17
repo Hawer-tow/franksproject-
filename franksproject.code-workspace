@@ -76,6 +76,21 @@
 				"problemMatcher": []
 			},
 			{
+				"label": "Tunnel: ngrok for the app (port 8080)",
+				"type": "shell",
+				"command": "ngrok http --domain=geomagnetic-confessedly-juanita.ngrok-free.dev 8080",
+				"presentation": { "panel": "dedicated", "group": "servers" },
+				"problemMatcher": []
+			},
+			{
+				"label": "Start app backend (server + tunnel)",
+				"dependsOn": [
+					"Main server: Spring Boot (port 8080)",
+					"Tunnel: ngrok for the app (port 8080)"
+				],
+				"problemMatcher": []
+			},
+			{
 				"label": "Main server: build only",
 				"type": "shell",
 				"command": ".\\gradlew.bat build -x test",
